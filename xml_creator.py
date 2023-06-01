@@ -8,8 +8,8 @@ class Commands(Enum):
     REGISTR                  = 4 
     SET_FLAGS                = 5         
     CHANGE_FLAGS             = 32        
-    ANGEL_SPEED_KA           = 6    
-    ANGEL_SPEED              = 7       
+    ANGL_SPEED_KA            = 6    
+    ANGL_SPEED               = 7       
     DURATION_OF_ACCUMULATION = 8   
     SCREEN_GEOMETRI          = 9   
     FPY_FLAGS                = 10        

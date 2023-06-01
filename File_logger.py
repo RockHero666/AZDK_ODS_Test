@@ -22,7 +22,7 @@ class logger:
        
     def close(self):
         self.file.close()
-        #self.telebot.send_file(self.filename)
+        self.telebot.send_file(self.filename)
 
     def log(self, log, toBot = False):
 
@@ -32,8 +32,8 @@ class logger:
         _timestamp = datetime.datetime.now().strftime(r'%Y.%d.%m %H:%M:%S.%f')
         print(_timestamp + "; "+str(log), file = self.file)
 
-        #if toBot:
-            #self.telebot.message(str(log))
+        if toBot:
+            self.telebot.message(str(log))
 
        
    
