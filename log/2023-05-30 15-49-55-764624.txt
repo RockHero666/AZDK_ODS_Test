@@ -1,0 +1,27 @@
+open socket [<enum 'AzdkServerCommands'>]
+open socket [<enum 'PDSServerCommands'>]
+n1 [id=1], azdk2309.test1, 7 sent
+angle [id=2], 0.0, 0.0, 0.0 sent
+DEVICE_CMD [id=4], 49 sent
+n3 [id=3], 0.5, 0.5, 0.5, 0.5 sent
+DEVICE_CMD [id=4], 49 answered
+request time: 0.37299639999400824
+2023.30.05 15:49:58.065507; AZDK_Command ; Id=0, Code=49, b''
+DEVICE_CMD [id=5], 7, 1, 1, 1 sent
+DEVICE_CMD [id=5], 7 answered
+request time: 0.10846200003288686
+2023.30.05 15:49:58.174584; AZDK_Command ; Id=1, Code=7 [1, 1, 1], b''
+DEVICE_CMD [id=6], 7, 0, 0, 0 sent
+DEVICE_CMD [id=6], 7 answered
+request time: 0.10898699995595962
+2023.30.05 15:49:58.284290; AZDK_Command ; Id=2, Code=7 [0, 0, 0], b''
+DEVICE_CMD [id=7], 48 sent
+DEVICE_CMD [id=7], 48 answered
+request time: 0.1414000999648124
+2023.30.05 15:49:58.426096; AZDK_Command ; Id=3, Code=48, b''
+DEVICE_CMD [id=8], 18 sent
+DEVICE_CMD [id=8], 18, 00 00 00 00 00 00 00 00 00 00 00 00 32 62 e6 04 93 00 e7 07 answered
+request time: 0.10933249990921468
+2023.30.05 15:49:58.535772; AZDK_Command ; Id=4, Code=18, answer=00 00 00 00 00 00 00 00 00 00 00 00 32 62 E6 04 93 00 E7 07
+socket was closed
+socket was closed

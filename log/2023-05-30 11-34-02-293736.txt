@@ -1,0 +1,83 @@
+AzdkServer - open socket [<enum 'AzdkServerCommands'>]
+PDSServer - open socket [<enum 'PDSServerCommands'>]
+PDSServer - angle [id=2], 0.0, 0.0, 0.0 sent
+AzdkServer - n1 [id=1], azdk2309.test1, 7 sent
+PDSServer - angle [id=2], Неверный формат, 2023-05-30 11:34:04.864000 answered
+PDSServer - n3 [id=3], 0.5, 0.5, 0.5, 0.5 sent
+AzdkServer - DEVICE_CMD [id=4], 49 sent
+PDSServer - n3 [id=3], Неверный формат, 2023-05-30 11:34:04.954000 answered
+AzdkServer - DEVICE_CMD [id=4], 49 answered
+AzdkCmd - request time: 0.3245591999730095
+AzdkCmd - Id=0, Code=49, b''
+AzdkServer - DEVICE_CMD [id=5], 7, 1, 1, 1 sent
+AzdkServer - DEVICE_CMD [id=5], 7 answered
+AzdkCmd - request time: 0.10607119998894632
+AzdkCmd - Id=1, Code=7 [1, 1, 1], b''
+AzdkServer - DEVICE_CMD [id=6], 7, 0, 0, 0 sent
+AzdkServer - DEVICE_CMD [id=6], 7 answered
+AzdkCmd - request time: 0.10439630004111677
+AzdkCmd - Id=2, Code=7 [0, 0, 0], b''
+AzdkServer - DEVICE_CMD [id=7], 48 sent
+AzdkServer - DEVICE_CMD [id=7], 48 answered
+AzdkCmd - request time: 0.25298190000467
+AzdkCmd - Id=3, Code=48, b''
+AzdkServer - DEVICE_CMD [id=8], 18 sent
+AzdkServer - DEVICE_CMD [id=8], 18, 00 00 00 00 00 00 00 00 00 00 00 00 32 62 e6 04 93 00 e7 07 answered
+AzdkCmd - request time: 0.11595110001508147
+AzdkCmd - Id=4, Code=18, answer=00 00 00 00 00 00 00 00 00 00 00 00 32 62 E6 04 93 00 E7 07
+PDSServer - socket was closed
+AzdkServer - socket was closed
+AzdkServer - open socket [<enum 'AzdkServerCommands'>]
+PDSServer - open socket [<enum 'PDSServerCommands'>]
+AzdkServer - n1 [id=9], azdk2309.test1, 7 sent
+PDSServer - angle [id=10], 0.0, 0.0, 0.0 sent
+AzdkServer - DEVICE_CMD [id=12], 49 sent
+PDSServer - n3 [id=11], 0.5, 0.5, 0.5, 0.5 sent
+AzdkServer - DEVICE_CMD [id=12], 49 answered
+AzdkCmd - request time: 0.3379792000632733
+AzdkCmd - Id=5, Code=49, b''
+AzdkServer - DEVICE_CMD [id=13], 7, 1, 1, 1 sent
+AzdkServer - DEVICE_CMD [id=13], 7 answered
+AzdkCmd - request time: 0.10454329999629408
+AzdkCmd - Id=6, Code=7 [1, 1, 1], b''
+AzdkServer - DEVICE_CMD [id=14], 7, 0, 0, 0 sent
+AzdkServer - DEVICE_CMD [id=14], 7 answered
+AzdkCmd - request time: 0.24237100000027567
+AzdkCmd - Id=7, Code=7 [0, 0, 0], b''
+AzdkServer - DEVICE_CMD [id=15], 48 sent
+AzdkServer - DEVICE_CMD [id=15], 48 answered
+AzdkCmd - request time: 0.269527499913238
+AzdkCmd - Id=8, Code=48, b''
+AzdkServer - DEVICE_CMD [id=16], 18 sent
+AzdkServer - DEVICE_CMD [id=16], 18, 00 00 00 00 00 00 00 00 00 00 00 00 32 62 e6 04 93 00 e7 07 answered
+AzdkCmd - request time: 0.24059920001309365
+AzdkCmd - Id=9, Code=18, answer=00 00 00 00 00 00 00 00 00 00 00 00 32 62 E6 04 93 00 E7 07
+PDSServer - socket was closed
+AzdkServer - socket was closed
+AzdkServer - open socket [<enum 'AzdkServerCommands'>]
+PDSServer - open socket [<enum 'PDSServerCommands'>]
+PDSServer - angle [id=18], 0.0, 0.0, 0.0 sent
+AzdkServer - n1 [id=17], azdk2309.test1, 7 sent
+AzdkServer - DEVICE_CMD [id=20], 49 sent
+PDSServer - n3 [id=19], 0.5, 0.5, 0.5, 0.5 sent
+AzdkServer - DEVICE_CMD [id=20], 49 answered
+AzdkCmd - request time: 0.37408149999100715
+AzdkCmd - Id=10, Code=49, b''
+AzdkServer - DEVICE_CMD [id=21], 7, 1, 1, 1 sent
+AzdkServer - DEVICE_CMD [id=21], 7 answered
+AzdkCmd - request time: 0.11610879993531853
+AzdkCmd - Id=11, Code=7 [1, 1, 1], b''
+AzdkServer - DEVICE_CMD [id=22], 7, 0, 0, 0 sent
+AzdkServer - DEVICE_CMD [id=22], 7 answered
+AzdkCmd - request time: 0.11439310002606362
+AzdkCmd - Id=12, Code=7 [0, 0, 0], b''
+AzdkServer - DEVICE_CMD [id=23], 48 sent
+AzdkServer - DEVICE_CMD [id=23], 48 answered
+AzdkCmd - request time: 0.11461270006839186
+AzdkCmd - Id=13, Code=48, b''
+AzdkServer - DEVICE_CMD [id=24], 18 sent
+AzdkServer - DEVICE_CMD [id=24], 18, 00 00 00 00 00 00 00 00 00 00 00 00 32 62 e6 04 93 00 e7 07 answered
+AzdkCmd - request time: 0.2527225000085309
+AzdkCmd - Id=14, Code=18, answer=00 00 00 00 00 00 00 00 00 00 00 00 32 62 E6 04 93 00 E7 07
+PDSServer - socket was closed
+AzdkServer - socket was closed

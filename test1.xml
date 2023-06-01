@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<scenariofile>
+    <config>
+    </config>
+	<scenario name="test1">
+		<azdkservercmd descr="n1" code="22" timeout="0.1" >
+			<par name="name">azdk2309.test1</par>
+			<par type="type">7</par>
+		</azdkservercmd>
+    <pressetcmd type="0" duration_cycle="300" count_cycle="10">
+    </pressetcmd>
+		<azdkcmd descr="n2" code="49" timeout="0.1"/>
+		<pdscmd descr="angle" code="10" timeout="0.1">
+			<par type="130">0.0, 0.0, 0.0</par>
+		</pdscmd>
+		<pdscmd descr="n3" code="6" timeout="0.1">
+			<par type="129">0.5, 0.5, 0.5, 0.5</par>
+		</pdscmd>
+		<azdkcmd descr="n4" code="7" timeout="0.1" non_critical="true">
+			<par >1</par>
+      <par >1</par>
+			<par >1</par>
+    </azdkcmd>
+    <azdkcmd descr="n4" code="7" timeout="0.1">
+      <par >0</par>
+      <par >0</par>
+      <par >0</par>
+    </azdkcmd>
+    <azdkcmd descr="n5" code="48" timeout="0.1"/>
+    <azdkcmd descr="n6" code="18" timeout="0.1"/>
+	</scenario>
+  
+  
+</scenariofile>

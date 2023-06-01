@@ -1,0 +1,1 @@
+open socket [<enum 'AzdkServerCommands'>]open socket [<enum 'PDSServerCommands'>]n1 [id=1], azdk2309.test1, 7 sentangle [id=2], 0.0, 0.0, 0.0 sentDEVICE_CMD [id=4], 49 sentn3 [id=3], 0.5, 0.5, 0.5, 0.5 sentDEVICE_CMD [id=4], 49 answeredrequest time: 0.350654499954544

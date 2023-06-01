@@ -1,0 +1,41 @@
+{
+    "folders": [
+        {
+            "path": "TestCode"
+        },
+        {
+            "path": "ui"
+        },
+        {
+            "path": "azdk"
+        },
+        {
+            "path": "."
+        }
+    ],
+    "settings": {
+        "C_Cpp.default.includePath": [
+            "${workspaceFolder:azdk}",
+            "${workspaceFolder:ui}",
+            "${workspaceFolder:TestCode}"
+            
+        ],
+        "C_Cpp.experimentalFeatures": "Enabled",
+        "files.associations": {
+            "map": "cpp",
+            "chrono": "cpp",
+            "qscreen": "cpp",
+            "qjsonobject": "cpp",
+            "qopenglfunctions": "cpp",
+            "qopenglbuffer": "cpp"
+        },
+        "files.exclude": {
+            "**/Debug*": true,
+            "**/x64": true,
+            "**/*.aps": true,
+            "**/*.bak": true,
+            "**/GeneratedFiles": true,
+            "**/Release*": true
+        }
+    }
+}

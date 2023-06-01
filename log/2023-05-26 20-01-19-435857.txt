@@ -1,0 +1,27 @@
+AzdkServer - open socket [<enum 'AzdkServerCommands'>]
+PDSServer - open socket [<enum 'PDSServerCommands'>]
+AzdkServer - n1 [id=1], azdk2309.test1, 7 sent
+PDSServer - angle [id=2], 0.0, 0.0, 0.0 sent
+AzdkServer - DEVICE_CMD [id=4], 49 sent
+PDSServer - n3 [id=3], 0.5, 0.5, 0.5, 0.5 sent
+AzdkServer - DEVICE_CMD [id=4], 49 answered
+ AzdkCmd - request time: 0.6017931000096723
+ AzdkCmd - Id=0, Code=49, b''
+AzdkServer - DEVICE_CMD [id=5], 7, 1, 1, 1 sent
+AzdkServer - DEVICE_CMD [id=5], 7 answered
+ AzdkCmd - request time: 0.37296569999307394
+ AzdkCmd - Id=1, Code=7 [1, 1, 1], b''
+AzdkServer - DEVICE_CMD [id=6], 7, 0, 0, 0 sent
+AzdkServer - DEVICE_CMD [id=6], 7 answered
+ AzdkCmd - request time: 0.11600969999562949
+ AzdkCmd - Id=2, Code=7 [0, 0, 0], b''
+AzdkServer - DEVICE_CMD [id=7], 48 sent
+AzdkServer - DEVICE_CMD [id=7], 48 answered
+ AzdkCmd - request time: 0.27607999998144805
+ AzdkCmd - Id=3, Code=48, b''
+AzdkServer - DEVICE_CMD [id=8], 18 sent
+AzdkServer - DEVICE_CMD [id=8], 18, 00 00 00 00 00 00 00 00 00 00 00 00 11 20 e0 00 90 00 e7 07 answered
+ AzdkCmd - request time: 0.12054849998094141
+ AzdkCmd - Id=4, Code=18, answer=00 00 00 00 00 00 00 00 00 00 00 00 11 20 E0 00 90 00 E7 07
+PDSServer - socket was closed
+AzdkServer - socket was closed

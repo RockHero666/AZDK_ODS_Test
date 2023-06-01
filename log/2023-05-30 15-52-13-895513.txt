@@ -1,0 +1,27 @@
+2023.30.05 15:52:15.716935; AzdkServerCommands; open socket [<enum 'AzdkServerCommands'>]
+2023.30.05 15:52:15.838641; PDSServerCommands; open socket [<enum 'PDSServerCommands'>]
+2023.30.05 15:52:15.979233; AzdkServerCommands; n1 [id=1], azdk2309.test1, 7 sent
+2023.30.05 15:52:15.994193; PDSServerCommands; angle [id=2], 0.0, 0.0, 0.0 sent
+2023.30.05 15:52:16.085226; AzdkServerCommands; DEVICE_CMD [id=4], 49 sent
+2023.30.05 15:52:16.101155; PDSServerCommands; n3 [id=3], 0.5, 0.5, 0.5, 0.5 sent
+2023.30.05 15:52:16.312681; AzdkServerCommands; DEVICE_CMD [id=4], 49 answered
+2023.30.05 15:52:16.318664; AzdkServerCommands; request time: 0.33896359999198467
+2023.30.05 15:52:16.318664; AZDK_Command ; Id=0, Code=49, b''
+2023.30.05 15:52:16.336618; AzdkServerCommands; DEVICE_CMD [id=5], 7, 1, 1, 1 sent
+2023.30.05 15:52:16.423381; AzdkServerCommands; DEVICE_CMD [id=5], 7 answered
+2023.30.05 15:52:16.428372; AzdkServerCommands; request time: 0.10925199999473989
+2023.30.05 15:52:16.428372; AZDK_Command ; Id=1, Code=7 [1, 1, 1], b''
+2023.30.05 15:52:16.445325; AzdkServerCommands; DEVICE_CMD [id=6], 7, 0, 0, 0 sent
+2023.30.05 15:52:16.535085; AzdkServerCommands; DEVICE_CMD [id=6], 7 answered
+2023.30.05 15:52:16.538080; AzdkServerCommands; request time: 0.10931960004381835
+2023.30.05 15:52:16.538080; AZDK_Command ; Id=2, Code=7 [0, 0, 0], b''
+2023.30.05 15:52:16.554034; AzdkServerCommands; DEVICE_CMD [id=7], 48 sent
+2023.30.05 15:52:16.781988; AzdkServerCommands; DEVICE_CMD [id=7], 48 answered
+2023.30.05 15:52:16.789967; AzdkServerCommands; request time: 0.2514988000039011
+2023.30.05 15:52:16.789967; AZDK_Command ; Id=3, Code=48, b''
+2023.30.05 15:52:16.805896; AzdkServerCommands; DEVICE_CMD [id=8], 18 sent
+2023.30.05 15:52:16.893689; AzdkServerCommands; DEVICE_CMD [id=8], 18, 00 00 00 00 00 00 00 00 00 00 00 00 32 62 e6 04 93 00 e7 07 answered
+2023.30.05 15:52:16.899674; AzdkServerCommands; request time: 0.10928010009229183
+2023.30.05 15:52:16.899674; AZDK_Command ; Id=4, Code=18, answer=00 00 00 00 00 00 00 00 00 00 00 00 32 62 E6 04 93 00 E7 07
+2023.30.05 15:52:16.915627; PDSServerCommands; socket was closed
+2023.30.05 15:52:16.930590; AzdkServerCommands; socket was closed
