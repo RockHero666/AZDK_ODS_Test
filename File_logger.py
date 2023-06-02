@@ -8,6 +8,8 @@ class logger:
 
         self.telebot = TeleBot("5811298447:AAF0--61uBVvKgFvMeYs76fB1QjmhaihU-Y", -822387173)
 
+        
+
         if not filename:
             create_time = datetime.datetime.now()
             self.filename = f"log/{create_time:%Y-%m-%d %H-%M-%S-%f}.txt"
@@ -22,7 +24,7 @@ class logger:
        
     def close(self):
         self.file.close()
-        self.telebot.send_file(self.filename)
+        #self.telebot.send_file(self.filename)
 
     def log(self, log, toBot = False):
 
@@ -32,8 +34,8 @@ class logger:
         _timestamp = datetime.datetime.now().strftime(r'%Y.%d.%m %H:%M:%S.%f')
         print(_timestamp + "; "+str(log), file = self.file)
 
-        if toBot:
-            self.telebot.message(str(log))
+       # if toBot:
+           # self.telebot.message(str(log))
 
        
    

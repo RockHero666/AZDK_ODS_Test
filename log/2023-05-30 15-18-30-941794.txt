@@ -1,5 +1,0 @@
-AzdkCmd - Id=0, Code=49, b''
-AzdkCmd - Id=1, Code=7 [1, 1, 1], b''
-AzdkCmd - Id=2, Code=7 [0, 0, 0], b''
-AzdkCmd - Id=3, Code=48, b''
-AzdkCmd - Id=4, Code=18, answer=00 00 00 00 00 00 00 00 00 00 00 00 32 62 E6 04 93 00 E7 07

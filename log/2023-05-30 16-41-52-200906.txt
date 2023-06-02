@@ -1,5 +1,0 @@
-2023.30.05 16:41:52.210896; AzdkServerCommands; open socket [<enum 'AzdkServerCommands'>]
-2023.30.05 16:42:02.412605; PDSServerCommands; open socket [<enum 'PDSServerCommands'>]
-2023.30.05 16:42:02.988752; AzdkServerCommands; n1 [id=1], azdk2309.test1, 7 sent
-2023.30.05 16:42:03.160752; AzdkServerCommands; DEVICE_CMD [id=4], 49 sent
-2023.30.05 16:42:03.424940; PDSServerCommands; angle [id=2], 0.0, 0.0, 0.0 sent

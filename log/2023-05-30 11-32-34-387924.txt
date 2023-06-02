@@ -1,2 +1,0 @@
-AzdkServer - open socket [<enum 'AzdkServerCommands'>]
-AzdkServer - Error: cannot connect to server ('25.33.41.224', 52349)

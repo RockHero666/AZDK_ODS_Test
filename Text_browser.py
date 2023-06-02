@@ -16,9 +16,12 @@ class Text_browser(QWidget):
         super().__init__()
         uic.loadUi('ui/Text_browser.ui', self) 
 
-        self.table.setRowCount(4)
+        self.setWindowTitle('Log')
+
+        self.table.setRowCount(0)
         self.table.setColumnCount(4)
         self.table.setHorizontalHeaderLabels(['Код', 'Команда', "Устройство", "Ответ"])
+        self.file = open("html.html","a")
 
      def add_text(self, texts, color):
         row_count = self.table.rowCount()
@@ -29,10 +32,27 @@ class Text_browser(QWidget):
                     for i in range(4):
                         self.table.setItem(row, i, QTableWidgetItem(texts[i]))
                         self.table.item(row, i).setForeground(color)
+                        self.table.resizeColumnsToContents()
                     return
 
         self.table.insertRow(row_count)
         for i in range(4):
             self.table.setItem(row_count, i, QTableWidgetItem(texts[i]))
-            self.table.item(row_count, i).setForeground(color)  
+            self.table.item(row_count, i).setForeground(color)
+        self.table.resizeColumnsToContents()
+            
+     def to_html(self):
+         html = "<html><table border=\"1\">"
+         for row in range(self.table.rowCount()):
+            html += "<tr>"
+            for column in range(self.table.columnCount()):
+                item = self.table.item(row, column)
+                if item is not None:
+                    html += "<td>{}</td>".format(item.text())
+                else:
+                    html += "<td></td>"
+            html += "</tr>"
+         html += "</table></html>"
+         self.file.write(html)
+         self.file.close()
        

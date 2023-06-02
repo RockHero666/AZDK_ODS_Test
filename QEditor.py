@@ -45,6 +45,7 @@ class Editor(QWidget):
 
 class T_hread(Thread,QWidget):
     send_text = pyqtSignal(list,QColor)
+    end_test = pyqtSignal()
     connect_AZDK = [str,int];
     connect_ODS = [str,int];
 
@@ -67,6 +68,19 @@ class T_hread(Thread,QWidget):
          print("Script is stoped")
          self.logger.log("Script is stoped")
 
+    def true_answer(self,server,command):
+
+        while True:
+            answer = server.waitforanswer(timeout=0.1)
+            
+            if answer != None:
+                if isinstance(command,AzdkServerCmd):
+                    if answer.code == command.code :
+                        return str(answer)
+                if isinstance(command,PDSServerCmd):
+                    return str(answer)
+
+
     def run(self) -> None:
         
         self.logger.log("Старт испытаний.",True)
@@ -78,7 +92,7 @@ class T_hread(Thread,QWidget):
         azs = AzdkSocket(self.connect_AZDK[0], self.connect_AZDK[1], AzdkServerCommands,
                                                 True, "AzdkServerCommands", self.logger)
         if not azs.waitUntilStart():
-            self.send_text.emit("Ошибка подключения AzdkServer")
+            self.send_text.emit(["","","","Ошибка подключения AzdkServer"],Color.Red)
             self.logger.log("Ошибка подключения AzdkServer",True)
             print("Ошибка подключения AzdkServer")
             return
@@ -87,7 +101,7 @@ class T_hread(Thread,QWidget):
         pds = AzdkSocket(self.connect_ODS[0], self.connect_ODS[1], PDSServerCommands,
                                               True, "PDSServerCommands", self.logger)
         if not pds.waitUntilStart():
-            self.send_text.emit("Ошибка подключения AzdkServer")
+            self.send_text.emit(["","","","Ошибка подключения AzdkServer"],Color.Red)
             self.logger.log("Ошибка подключения AzdkServer",True)
             print("Ошибка подключения AzdkServer")
             return
@@ -99,18 +113,26 @@ class T_hread(Thread,QWidget):
 
             if isinstance(command[0],AzdkServerCmd) and self.running:
                 azs.enqueue(command[0])
-                self.send_text.emit( [str(command[0].code),AzdkServerCommands.getname(command[0].code),"AzdkServerCmd",str("") ],Color.Black )
+                self.send_text.emit( [str(command[0].code),
+                                     AzdkServerCommands.getname(command[0].code),
+                                     "AzdkServerCmd",
+                                     self.true_answer(azs,command[0]) ],
+                                     Color.Black )
 
             if isinstance(command[0],PDSServerCmd) and self.running:
                 pds.enqueue(command[0])
-                self.send_text.emit( [str(command[0].code),PDSServerCommands.getname(command[0].code),"PDSServerCmd",str("") ],Color.Black )
+                self.send_text.emit( [str(command[0].code),
+                                     PDSServerCommands.getname(command[0].code),
+                                     "PDSServerCmd",
+                                     self.true_answer(pds,command[0]) ],
+                                     Color.Black )
 
             if isinstance(command[0],AzdkCmd) and self.running:
             
                 if command[1]:
                     if not call_azdk_cmd(azs, command[0], global_timeout):
                         self.logger.log("Критическая команда не дала ответ, тест остановлен",True)
-                        self.send_text.emit("Критическая команда не дала ответ, тест остановлен")
+                        self.send_text.emit(["","","","Критическая команда не дала ответ, тест остановлен"],Color.Red)
                         print("Критическая команда не дала ответ, тест остановлен")
                         pds.stop()
                         azs.stop()
@@ -119,7 +141,6 @@ class T_hread(Thread,QWidget):
                 else:
                     call_azdk_cmd(azs, command[0], global_timeout)
 
-                #self.send_text.emit(str(command[0]))
                 self.send_text.emit( [str(command[0].code),Commands.findname(command[0].code),"AzdkCmd",str(command[0].answer) ],Color.Black)
 
             if isinstance(command[0], PressetCmd):                         #Прессет код
@@ -129,6 +150,7 @@ class T_hread(Thread,QWidget):
         pds.stop()
         azs.stop()
         self.logger.log("Конец испытаний.",True)
+        self.end_test.emit()
         if self.logger:
             self.logger.close()
         self.scenario.commands.clear()

@@ -1,8 +1,0 @@
-2023.31.05 14:18:08.720413; AzdkServerCommands; open socket [<enum 'AzdkServerCommands'>]
-2023.31.05 14:18:08.849423; AzdkServerCommands; SET_CONN_NAME [id=14], AzdkOdsTestApp sent
-2023.31.05 14:18:09.058777; AzdkServerCommands; SET_CONN_NAME [id=14] answered
-2023.31.05 14:18:09.187187; PDSServerCommands; open socket [<enum 'PDSServerCommands'>]
-2023.31.05 14:18:09.391973; PDSServerCommands; SET_CONN_NAME [id=15], AzdkOdsTestApp sent
-2023.31.05 14:18:09.558048; PDSServerCommands; SET_CONN_NAME [id=15] answered
-2023.31.05 14:18:09.687279; PDSServerCommands; socket was closed
-2023.31.05 14:18:09.702542; AzdkServerCommands; socket was closed

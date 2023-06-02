@@ -59,6 +59,7 @@ class TestApp(QMainWindow):
         toolbar.addAction(stop_button)
         toolbar.addAction(log_button)
 
+
         self.setGeometry(int(GetSystemMetrics(0)/2-650/2), int(GetSystemMetrics(1)/2-550/2), 650, 550)
         self.setWindowTitle('Исполнитель сценариев АЗДК и МЗД')
         self.show()
@@ -68,6 +69,7 @@ class TestApp(QMainWindow):
         if active_window is not None:
             widget = active_window.widget()
             widget.thread.send_text[list,QColor].connect(self.text_browser.add_text)
+            widget.thread.end_test.connect(self.end_test)
 
     def add_script(self):
         sub_window = QMdiSubWindow()
@@ -81,6 +83,9 @@ class TestApp(QMainWindow):
         
         self.mdi.addSubWindow(sub_window)
         sub_window.show()
+
+    def end_test(self):
+        self.text_browser.to_html()
 
     def connect_show(self):
         self.connect_widget.show()

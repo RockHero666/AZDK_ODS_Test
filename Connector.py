@@ -12,6 +12,8 @@ class Connector(QWidget):
         uic.loadUi('ui/Connector.ui', self) 
         self.init_ui()
 
+        self.setWindowTitle('Настройка ip')
+
         self.button_accept.clicked.connect(self.send_data)
         self.button_close.clicked.connect(self.close)
 
@@ -20,8 +22,8 @@ class Connector(QWidget):
 
         self.ip_azdk.setText(self.settings.value('Ip_azdk'))
         self.ip_ods.setText(self.settings.value('Ip_ods'))
-        self.port_azdk.setText(self.settings.value('Port_azdk'))
-        self.port_ods.setText(self.settings.value('Port_ods'))
+        self.port_azdk.setValue(int(self.settings.value('Port_azdk')))
+        self.port_ods.setValue(int(self.settings.value('Port_ods')))
         self.indicator.setPixmap(QPixmap("resource/indicator_def.png"))
 
 
