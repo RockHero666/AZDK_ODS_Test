@@ -1,0 +1,5 @@
+scenario
+azdkservercmd template SET_LOG_TEMPLATE azdk2309.test1:7 0.1
+pdscmd angle SET_ANGVEL 0.2:0.2:0.2 0.1
+azdkcmd aspeed ANGL_SPEED 1:1:1 0.1 non_crit
+azdkcmd raspeed REED_ANGLE_SPEED

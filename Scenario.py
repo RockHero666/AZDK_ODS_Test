@@ -12,21 +12,24 @@ class PressetCmd:
         self.count_cycle = count_cycle
 
 class Scenario(QThread):
+     all_commands = []
      commands = []
 
-     def parse(self,filepath=""):
+     def parse(self,xml_file=None):
         try:
-            fl = open(filepath, 'rt', encoding='UTF-8')
-        except FileNotFoundError:
-            print(f'File {filepath} not found')
-            return False
-        tree = ET.parse(fl)
-        subtree = './/'
+            fl = open(xml_file, 'rt', encoding='UTF-8')
+            tree = ET.parse(fl)
+        except Exception:
+            if xml_file:
+                tree = ET.fromstring(xml_file)
+            else:
+                return False
+
         db = AzdkDB('AZDKHost.xml')
 
-        for root in tree.iterfind(subtree+"scenario"):
+        for root in tree.iterfind("scenario"):
 
-             for branch in root.iterfind(subtree+"azdkservercmd"):
+             for branch in root.iterfind("azdkservercmd"):
                  code = int(branch.get("code"))
                  timeout = float(branch.get("timeout"))
                  cmd = AzdkServerCmd(AzdkServerCommands(code), [], None, timeout)
@@ -36,7 +39,7 @@ class Scenario(QThread):
                  critical_cmd = True
                  critical_cmd = not bool(branch.get("non_critical"))
 
-                 for leaf in branch.iterfind(subtree+"par"):
+                 for leaf in branch.iterfind("par"):
                     params.append(leaf.text)
 
                  if(len(params) > 0):
@@ -44,7 +47,7 @@ class Scenario(QThread):
 
                  self.commands.append([cmd, critical_cmd])
 
-             for branch in root.iterfind(subtree+"pdscmd"):
+             for branch in root.iterfind("pdscmd"):
                  code = int(branch.get("code"))
                  timeout = float(branch.get("timeout"))
                  cmd = PDSServerCmd(PDSServerCommands(code), [], None, timeout)
@@ -54,7 +57,7 @@ class Scenario(QThread):
                  critical_cmd = True
                  critical_cmd = not bool(branch.get("non_critical"))
 
-                 for leaf in branch.iterfind(subtree+"par"):
+                 for leaf in branch.iterfind("par"):
                     match code:
                         case PDSServerCommands.SET_RANDOM_MODE.value:
                             params.append(float(leaf.text))
@@ -76,7 +79,7 @@ class Scenario(QThread):
 
                  self.commands.append([cmd, critical_cmd])
 
-             for branch in root.iterfind(subtree+"azdkcmd"):
+             for branch in root.iterfind("azdkcmd"):
                  code = int(branch.get("code"))
                  timeout = float(branch.get("timeout"))
                  cmd = db.createcmd(code)
@@ -87,7 +90,7 @@ class Scenario(QThread):
                  critical_cmd = True
                  critical_cmd = not bool(branch.get("non_critical"))
 
-                 for leaf in branch.iterfind(subtree+"par"):
+                 for leaf in branch.iterfind("par"):
                      params.append(leaf.text)
 
                  if(len(params) > 0):
@@ -95,11 +98,16 @@ class Scenario(QThread):
                  
                  self.commands.append([cmd, critical_cmd])
 
-             for branch in root.iterfind(subtree+"pressetcmd"):
+             for branch in root.iterfind("pressetcmd"):
                  cmd = PressetCmd(branch.get("duration_cycle"), branch.get("count_cycle"), int(branch.get("type")))
                  critical_cmd = True
                  critical_cmd = not bool(branch.get("non_critical"))
 
                  self.commands.append([cmd, critical_cmd])
+             
+             self.all_commands.append(self.commands)
+             self.commands = []
+
+        
 
         return True

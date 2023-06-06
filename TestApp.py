@@ -5,7 +5,7 @@ from PyQt5.QtCore import QSize
 from PyQt5.QtWidgets import QMainWindow, QAction, QApplication, QMdiArea, QMdiSubWindow
 from PyQt5.QtGui import QIcon, QColor
 from win32api import GetSystemMetrics
-from Text_browser import Text_browser, Color
+from Text_browser import Text_browser
 
 
 

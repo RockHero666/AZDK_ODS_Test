@@ -41,6 +41,7 @@
     <Compile Include="Presset_tests.py" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Presets.txt" />
     <Content Include="azdk\__pycache__\azdkdb.cpython-311.pyc" />
     <Content Include="azdk\__pycache__\azdksocket.cpython-311.pyc" />
     <Content Include="azdk\__pycache__\linalg.cpython-311.pyc" />

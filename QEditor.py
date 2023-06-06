@@ -11,6 +11,7 @@ from File_logger import logger
 from azdk.pds_utils import Test
 from Text_browser import  Color
 from xml_creator import Commands
+from xml_creator import str_to_xml
 
 
 class Editor(QWidget):
@@ -29,7 +30,7 @@ class Editor(QWidget):
          pass # код для работы с псевдокодом в виджете и проброса в ран
 
      def start(self):
-        self.thread = T_hread(self.scenario, self.connect_AZDK, self.connect_ODS)
+        self.thread = T_hread(self.scenario, self.connect_AZDK, self.connect_ODS,self.code_editor)
         self.thread.setName("Scenario")
         self.start_s.emit()
         self.thread.start()
@@ -49,7 +50,7 @@ class T_hread(Thread,QWidget):
     connect_AZDK = [str,int];
     connect_ODS = [str,int];
 
-    def __init__(self, scenario, connect_AZDK, connect_ODS):
+    def __init__(self, scenario, connect_AZDK, connect_ODS,code_editor):
         
         Thread.__init__(self)
         QWidget.__init__(self)
@@ -59,7 +60,7 @@ class T_hread(Thread,QWidget):
         self.connect_ODS = connect_ODS;
         self.running = True
         self.presset_switcher = Presset_switcher()
-
+        self.code_editor = code_editor
         self.scenario = scenario
 
     def stop(self):
@@ -67,6 +68,7 @@ class T_hread(Thread,QWidget):
          self.presset_switcher.stop()
          print("Script is stoped")
          self.logger.log("Script is stoped")
+         self.send_text.emit(["","","","Тест был остановлен"],Color.Red)
 
     def true_answer(self,server,command):
 
@@ -83,75 +85,94 @@ class T_hread(Thread,QWidget):
 
     def run(self) -> None:
         
+        psevdocode = self.code_editor.toPlainText()
+        xml_file = None#"test1.xml"
+        global_timeout = 0.5
+
         self.logger.log("Старт испытаний.",True)
 
-        self.scenario.parse("test1.xml")
+        if xml_file:
+            self.scenario.parse(xml_file)
+        elif psevdocode:
+            self.scenario.parse(str_to_xml(psevdocode))
+        else:
+            print("error")
+            return
 
         db = AzdkDB('AZDKHost.xml')
 
-        azs = AzdkSocket(self.connect_AZDK[0], self.connect_AZDK[1], AzdkServerCommands,
-                                                True, "AzdkServerCommands", self.logger)
-        if not azs.waitUntilStart():
-            self.send_text.emit(["","","","Ошибка подключения AzdkServer"],Color.Red)
-            self.logger.log("Ошибка подключения AzdkServer",True)
-            print("Ошибка подключения AzdkServer")
-            return
-        azs.setConnectionName("AzdkOdsTestApp")
+        for commands in self.scenario.all_commands:
 
-        pds = AzdkSocket(self.connect_ODS[0], self.connect_ODS[1], PDSServerCommands,
-                                              True, "PDSServerCommands", self.logger)
-        if not pds.waitUntilStart():
-            self.send_text.emit(["","","","Ошибка подключения AzdkServer"],Color.Red)
-            self.logger.log("Ошибка подключения AzdkServer",True)
-            print("Ошибка подключения AzdkServer")
-            return
-        pds.setConnectionName("AzdkOdsTestApp")
+            self.send_text.emit(["","","","Начало тестирования"],Color.Green)
 
-        global_timeout = 0.5
+            azs = AzdkSocket(self.connect_AZDK[0], self.connect_AZDK[1], AzdkServerCommands,
+                                                    True, "AzdkServerCommands", self.logger)
+            if not azs.waitUntilStart():
+                self.send_text.emit(["","","","Ошибка подключения AzdkServer"],Color.Red)
+                self.logger.log("Ошибка подключения AzdkServer",True)
+                print("Ошибка подключения AzdkServer")
+                return
+            azs.setConnectionName("AzdkOdsTestApp")
 
-        for command in self.scenario.commands:
+            pds = AzdkSocket(self.connect_ODS[0], self.connect_ODS[1], PDSServerCommands,
+                                                  True, "PDSServerCommands", self.logger)
+            if not pds.waitUntilStart():
+                self.send_text.emit(["","","","Ошибка подключения AzdkServer"],Color.Red)
+                self.logger.log("Ошибка подключения AzdkServer",True)
+                print("Ошибка подключения AzdkServer")
+                return
+            pds.setConnectionName("AzdkOdsTestApp")
 
-            if isinstance(command[0],AzdkServerCmd) and self.running:
-                azs.enqueue(command[0])
-                self.send_text.emit( [str(command[0].code),
-                                     AzdkServerCommands.getname(command[0].code),
-                                     "AzdkServerCmd",
-                                     self.true_answer(azs,command[0]) ],
-                                     Color.Black )
-
-            if isinstance(command[0],PDSServerCmd) and self.running:
-                pds.enqueue(command[0])
-                self.send_text.emit( [str(command[0].code),
-                                     PDSServerCommands.getname(command[0].code),
-                                     "PDSServerCmd",
-                                     self.true_answer(pds,command[0]) ],
-                                     Color.Black )
-
-            if isinstance(command[0],AzdkCmd) and self.running:
             
-                if command[1]:
-                    if not call_azdk_cmd(azs, command[0], global_timeout):
-                        self.logger.log("Критическая команда не дала ответ, тест остановлен",True)
-                        self.send_text.emit(["","","","Критическая команда не дала ответ, тест остановлен"],Color.Red)
-                        print("Критическая команда не дала ответ, тест остановлен")
-                        pds.stop()
-                        azs.stop()
-                        self.scenario.commands.clear()
-                        break
-                else:
-                    call_azdk_cmd(azs, command[0], global_timeout)
 
-                self.send_text.emit( [str(command[0].code),Commands.findname(command[0].code),"AzdkCmd",str(command[0].answer) ],Color.Black)
+            for command in commands:
 
-            if isinstance(command[0], PressetCmd):                         #Прессет код
-                self.presset_switcher.add_presset(1, Test())
-                #self.presset_switcher.exec_presset(1)
+                if isinstance(command[0],AzdkServerCmd) and self.running:
+                    azs.enqueue(command[0])
+                    self.send_text.emit( [str(command[0].code),
+                                         AzdkServerCommands.getname(command[0].code),
+                                         "AzdkServerCmd",
+                                         self.true_answer(azs,command[0]) ],
+                                         Color.Black )
 
-        pds.stop()
-        azs.stop()
-        self.logger.log("Конец испытаний.",True)
-        self.end_test.emit()
-        if self.logger:
-            self.logger.close()
-        self.scenario.commands.clear()
-        self.running = True
+                if isinstance(command[0],PDSServerCmd) and self.running:
+                    pds.enqueue(command[0])
+                    self.send_text.emit( [str(command[0].code),
+                                         PDSServerCommands.getname(command[0].code),
+                                         "PDSServerCmd",
+                                         self.true_answer(pds,command[0]) ],
+                                         Color.Black )
+
+                if isinstance(command[0],AzdkCmd) and self.running:
+                
+                    if command[1]:
+                        if not call_azdk_cmd(azs, command[0], global_timeout):
+                            self.logger.log("Критическая команда не дала ответ, тест остановлен",True)
+                            self.send_text.emit(["","","","Критическая команда не дала ответ, тест остановлен"],Color.Red)
+                            print("Критическая команда не дала ответ, тест остановлен")
+                            pds.stop()
+                            azs.stop()
+                            self.scenario.commands.clear()
+                            break
+                    else:
+                        call_azdk_cmd(azs, command[0], global_timeout)
+
+                    self.send_text.emit( [str(command[0].code),
+                                         Commands.getname(command[0].code),
+                                         "AzdkCmd",
+                                         str(command[0].answer) ],
+                                         Color.Black)
+
+                if isinstance(command[0], PressetCmd):                         #Прессет код
+                    self.presset_switcher.add_presset(1, Test())
+                    #self.presset_switcher.exec_presset(1)
+
+            pds.stop()
+            azs.stop()
+            self.logger.log("Конец испытаний.",True)
+            self.send_text.emit(["","","","Конец тестирования"],Color.Green)
+            self.end_test.emit()
+            if self.logger:
+                self.logger.close()
+            self.scenario.all_commands.clear()
+            self.running = True

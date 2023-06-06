@@ -7,7 +7,7 @@ class Color():
     White = QColor(255, 255, 255)
     Black = QColor(0, 0, 0)
     Red = QColor(255, 0, 0)
-    Green = QColor(0, 255, 0)
+    Green = QColor(30,89,69)
     Blue = QColor(0, 0, 255)
 
 class Text_browser(QWidget):
@@ -21,7 +21,7 @@ class Text_browser(QWidget):
         self.table.setRowCount(0)
         self.table.setColumnCount(4)
         self.table.setHorizontalHeaderLabels(['Код', 'Команда', "Устройство", "Ответ"])
-        self.file = open("html.html","a")
+        self.file = None
 
      def add_text(self, texts, color):
         row_count = self.table.rowCount()
@@ -42,17 +42,25 @@ class Text_browser(QWidget):
         self.table.resizeColumnsToContents()
             
      def to_html(self):
+         self.file = open("html.html", "w")
+
          html = "<html><table border=\"1\">"
+
+# Создание заголовка таблицы
+         html += "<tr><th></th><th>Код</th><th>Команда</th><th>Устройство</th><th>Ответ</th></tr>"
+
          for row in range(self.table.rowCount()):
-            html += "<tr>"
-            for column in range(self.table.columnCount()):
-                item = self.table.item(row, column)
-                if item is not None:
-                    html += "<td>{}</td>".format(item.text())
-                else:
-                    html += "<td></td>"
-            html += "</tr>"
+             html += "<tr><td>{}</td>".format(row+1) # Добавление нумерации строк
+             for column in range(self.table.columnCount()):
+                 item = self.table.item(row, column)
+                 if item is not None:
+                     html += "<td>{}</td>".format(item.text())
+                 else:
+                     html += "<td></td>"
+             html += "</tr>"
+         
          html += "</table></html>"
+         
          self.file.write(html)
          self.file.close()
        
