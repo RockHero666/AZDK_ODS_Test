@@ -1,24 +1,13 @@
 {
     "folders": [
         {
-            "path": "TestCode"
-        },
-        {
-            "path": "ui"
-        },
-        {
-            "path": "azdk"
-        },
-        {
             "path": "."
         }
     ],
     "settings": {
         "C_Cpp.default.includePath": [
             "${workspaceFolder:azdk}",
-            "${workspaceFolder:ui}",
-            "${workspaceFolder:TestCode}"
-            
+            "${workspaceFolder:ui}"
         ],
         "C_Cpp.experimentalFeatures": "Enabled",
         "files.associations": {
@@ -35,7 +24,13 @@
             "**/*.aps": true,
             "**/*.bak": true,
             "**/GeneratedFiles": true,
-            "**/Release*": true
+            "**/Release*": true,
+            "**/*.html" :true,
+            "**/__pycache__*": true,
+            "**/.vscode*": true,
+            "**/resource*": true,
+            "**/*.pyproj" : true
+
         }
     }
 }

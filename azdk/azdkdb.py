@@ -32,8 +32,8 @@ def angvelntime_from_bytes(d : bytes):
     if len(d) < 20: return (None, None)
     elif len(d) > 20: d = d[:20]
     s = struct.unpack('3iI2H', d)
-    v = Vector(s[0], s[1], s[2])
-    v.normalize()
+    v = Vector(s[0], s[1], s[2])*(2**-30)
+    #v.normalize()
     if s[5] == 0:
         t = None
     else:

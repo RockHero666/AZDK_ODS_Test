@@ -56,12 +56,13 @@ class T_hread(Thread,QWidget):
         QWidget.__init__(self)
        
         self.logger = logger()
-        self.connect_AZDK = connect_AZDK;
-        self.connect_ODS = connect_ODS;
+        self.connect_AZDK = connect_AZDK
+        self.connect_ODS = connect_ODS
         self.running = True
         self.presset_switcher = Presset_switcher()
         self.code_editor = code_editor
         self.scenario = scenario
+        self.db = AzdkDB('AZDKHost.xml')
 
     def stop(self):
          self.running = False
@@ -78,28 +79,51 @@ class T_hread(Thread,QWidget):
             if answer != None:
                 if isinstance(command,AzdkServerCmd):
                     if answer.code == command.code :
+                        print(" ANSWER "+str(answer))
                         return str(answer)
                 if isinstance(command,PDSServerCmd):
-                    return str(answer)
+                    if answer.code == command.code :
+                        print(" ANSWER "+str(answer))
+                        return str(answer)
 
+
+    def azdk_answer(self,answer):
+
+
+        if isinstance(answer,str):
+            return answer
+        elif isinstance(answer,bytes):
+            return str(answer)
+        else :
+            try:
+                iter(answer)
+                answ = []
+                for it in answer:
+                    answ.append(str(it))
+                return str(answ)
+            except:
+                return "123"
+
+    def rus(self,answer):
+        return str(answer)
 
     def run(self) -> None:
         
         psevdocode = self.code_editor.toPlainText()
-        xml_file = None#"test1.xml"
-        global_timeout = 0.5
+        xml_file = "test1.xml"
+        global_timeout = 999
 
         self.logger.log("Старт испытаний.",True)
 
-        if xml_file:
-            self.scenario.parse(xml_file)
-        elif psevdocode:
+        if psevdocode:
             self.scenario.parse(str_to_xml(psevdocode))
+        elif xml_file:
+            self.scenario.parse(xml_file)
         else:
             print("error")
             return
 
-        db = AzdkDB('AZDKHost.xml')
+        
 
         for commands in self.scenario.all_commands:
 
@@ -125,45 +149,49 @@ class T_hread(Thread,QWidget):
 
             
 
-            for command in commands:
+            for command, critical in commands:
 
-                if isinstance(command[0],AzdkServerCmd) and self.running:
-                    azs.enqueue(command[0])
-                    self.send_text.emit( [str(command[0].code),
-                                         AzdkServerCommands.getname(command[0].code),
+                if isinstance(command,AzdkServerCmd) and self.running:
+                    azs.enqueue(command)
+                    answer = azs.waitforanswer(command)
+                    self.send_text.emit( [str(command.code),
+                                         AzdkServerCommands.getname(command.code),
                                          "AzdkServerCmd",
-                                         self.true_answer(azs,command[0]) ],
+                                         self.rus(answer) ],
                                          Color.Black )
 
-                if isinstance(command[0],PDSServerCmd) and self.running:
-                    pds.enqueue(command[0])
-                    self.send_text.emit( [str(command[0].code),
-                                         PDSServerCommands.getname(command[0].code),
+                if isinstance(command,PDSServerCmd) and self.running:
+                    pds.enqueue(command)
+                    answer = pds.waitforanswer(command)
+                    self.send_text.emit( [str(command.code),
+                                         PDSServerCommands.getname(command.code),
                                          "PDSServerCmd",
-                                         self.true_answer(pds,command[0]) ],
+                                         self.rus(answer) ],
                                          Color.Black )
 
-                if isinstance(command[0],AzdkCmd) and self.running:
+                if isinstance(command,AzdkCmd) and self.running:
                 
-                    if command[1]:
-                        if not call_azdk_cmd(azs, command[0], global_timeout):
+                    if critical:
+                        if not call_azdk_cmd(azs, command, global_timeout):
                             self.logger.log("Критическая команда не дала ответ, тест остановлен",True)
                             self.send_text.emit(["","","","Критическая команда не дала ответ, тест остановлен"],Color.Red)
                             print("Критическая команда не дала ответ, тест остановлен")
                             pds.stop()
                             azs.stop()
-                            self.scenario.commands.clear()
+                            self.scenario.all_commands.clear()
                             break
                     else:
-                        call_azdk_cmd(azs, command[0], global_timeout)
+                        call_azdk_cmd(azs, command, global_timeout)
+                       
 
-                    self.send_text.emit( [str(command[0].code),
-                                         Commands.getname(command[0].code),
+                    
+                    self.send_text.emit( [str(command.code),
+                                         Commands.getname(command.code),
                                          "AzdkCmd",
-                                         str(command[0].answer) ],
+                                         self.azdk_answer(self.db.answer(command.code,command.answer)) ],
                                          Color.Black)
 
-                if isinstance(command[0], PressetCmd):                         #Прессет код
+                if isinstance(command, PressetCmd):                         #Прессет код
                     self.presset_switcher.add_presset(1, Test())
                     #self.presset_switcher.exec_presset(1)
 

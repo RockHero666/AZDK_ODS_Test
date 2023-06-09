@@ -3,6 +3,18 @@ import xml.etree.ElementTree as ET
 from azdk.azdksocket import AzdkServerCmd, PDSServerCmd, PDSServerCommands, AzdkServerCommands
 from azdk.azdkdb import AzdkDB
 from azdk.linalg import Quaternion, Vector
+import numpy as np 
+
+def is_float(string):
+    try:
+        int(string)
+        return False
+    except:
+        try:
+            float(string)
+            return True
+        except ValueError:
+            return False
 
 class PressetCmd:
 
@@ -80,21 +92,34 @@ class Scenario(QThread):
                  self.commands.append([cmd, critical_cmd])
 
              for branch in root.iterfind("azdkcmd"):
-                 code = int(branch.get("code"))
-                 timeout = float(branch.get("timeout"))
-                 cmd = db.createcmd(code)
-                 cmd.name = branch.get("descr")
-                 cmd.timeout = timeout
+                 
                  params = []
 
                  critical_cmd = True
                  critical_cmd = not bool(branch.get("non_critical"))
+                 code = int(branch.get("code"))
+                 
 
                  for leaf in branch.iterfind("par"):
-                     params.append(leaf.text)
+                     if code == 13 or code == 7:
+                        if is_float(leaf.text) :
+                            result = np.int32(float(leaf.text)*2**30)
+                            params.append(result)
+                        else:
+                            params.append(np.int32(leaf.text)) 
+                     else:    
+                        params.append(leaf.text)
 
-                 if(len(params) > 0):
-                    cmd.params = params
+
+
+                 
+                 timeout = float(branch.get("timeout"))
+                 cmd = db.createcmd(code,params)
+                 cmd.name = branch.get("descr")
+                 cmd.timeout = timeout
+
+
+                 
                  
                  self.commands.append([cmd, critical_cmd])
 

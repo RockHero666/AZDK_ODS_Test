@@ -425,7 +425,7 @@ class AzdkSocket(AzdkThread):
                 pass
             if len(buf) > 0:
                 cmd, idx = ServerCmd.getcmd(buf)
-                if cmd: buf = buf[idx:]
+                if cmd:buf = buf[idx:]
             bufTimer = time.perf_counter()
             if bufTimer > clearBufTimer:
                 clearBufTimer = time.perf_counter() + clearBufTimeout
