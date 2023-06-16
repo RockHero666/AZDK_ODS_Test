@@ -2,7 +2,7 @@ from enum import Enum
 import xml.etree.ElementTree as ET
 from azdk.azdksocket import PDSServerCommands, AzdkServerCommands
 
-class Commands(Enum):
+class AzdkCommands(Enum):
     RESTART                  = 1           
     RESET                    = 2          
     DATE                     = 3            
@@ -12,7 +12,7 @@ class Commands(Enum):
     ANGL_SPEED_KA            = 6    
     ANGL_SPEED               = 7       
     DURATION_OF_ACCUMULATION = 8   
-    SCREEN_GEOMETRI          = 9   
+    SCREEN_GEOMETRY          = 9   
     FPY_FLAGS                = 10        
     SET_PARAMS               = 11
     SET_SK_KA                = 13
@@ -28,13 +28,13 @@ class Commands(Enum):
     REED_FRAME               = 23
     REED_SUBSCREEN           = 24
     REED_WINDOWS             = 25
-    STATISTIC                = 26
+    STATISTICS               = 26
     REED_PARAMS              = 27
     REED_FOCUS_OBJECT        = 28
     REED_LIST_NON_STARS      = 29
     SET_SPEED_RS485          = 30
     SET_SPEED_CAN            = 31
-    STEND_BY_MODE            = 48
+    STANDBY_MODE             = 48
     AUTO_MODE                = 49
     COMMAND_MODE             = 50
     CALIB_DARK_CURRENT_MOD   = 51
@@ -42,7 +42,7 @@ class Commands(Enum):
     REED_RAW_FRAME_MODE      = 53
     FRAME_AVERAGE_MODE       = 57
     SAVE_ALL_DATA_FLASH      = 64
-    SAVE_PROPERTES_FLASH     = 67
+    SAVE_PROPERTIES_FLASH    = 67
     REED_DATA                = 68
     SAVE_DATA                = 69
     REED_SOFT_VERSION        = 70
@@ -50,7 +50,7 @@ class Commands(Enum):
     SET_NUMBER_AZDK          = 72
     OVERWRITING_SOFT         = 73
     RETURN_TO_LOADER         = 75
-    PROPERTES_NOTIFICATION   = 76
+    PROPERTIES_NOTIFICATION  = 76
 
     
     @classmethod
@@ -121,7 +121,7 @@ def str_to_xml(psevdocode):
         
 
         if split_text[0] == "azdkcmd":
-            code = str(Commands.findname(split_text[2]))
+            code = str(AzdkCommands.findname(split_text[2]))
         elif split_text[0] == "azdkservercmd":
             code = str(AzdkServerCommands.findname(split_text[2]))
         elif split_text[0] == "pdscmd":

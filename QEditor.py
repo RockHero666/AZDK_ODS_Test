@@ -10,15 +10,15 @@ from PyQt5.QtGui import  QColor
 from File_logger import logger
 from azdk.pds_utils import Test
 from Text_browser import  Color
-from xml_creator import Commands
+from xml_creator import AzdkCommands
 from xml_creator import str_to_xml
-
+import time
 
 class Editor(QWidget):
      start_s = pyqtSignal()
      scenario = Scenario()
-     connect_AZDK = [str,int];
-     connect_ODS = [str,int];
+     connect_AZDK = [str,int]
+     connect_ODS = [str,int]
 
      def __init__(self):
         super().__init__()
@@ -40,15 +40,14 @@ class Editor(QWidget):
             self.thread.stop()
 
      def init_ODS_AZDK(self,ip_azdk,port_azdk,ip_ods,port_ods):
-
         self.connect_AZDK = [ip_azdk,port_azdk]
         self.connect_ODS = [ip_ods,port_ods]
 
 class T_hread(Thread,QWidget):
     send_text = pyqtSignal(list,QColor)
     end_test = pyqtSignal()
-    connect_AZDK = [str,int];
-    connect_ODS = [str,int];
+    connect_AZDK = [str,int]
+    connect_ODS = [str,int]
 
     def __init__(self, scenario, connect_AZDK, connect_ODS,code_editor):
         
@@ -102,7 +101,7 @@ class T_hread(Thread,QWidget):
                     answ.append(str(it))
                 return str(answ)
             except:
-                return "123"
+                return str(answer)
 
     def rus(self,answer):
         return str(answer)
@@ -110,7 +109,7 @@ class T_hread(Thread,QWidget):
     def run(self) -> None:
         
         psevdocode = self.code_editor.toPlainText()
-        xml_file = "test1.xml"
+        xml_file = "test2.xml"
         global_timeout = 999
 
         self.logger.log("Старт испытаний.",True)
@@ -143,7 +142,7 @@ class T_hread(Thread,QWidget):
             if not pds.waitUntilStart():
                 self.send_text.emit(["","","","Ошибка подключения AzdkServer"],Color.Red)
                 self.logger.log("Ошибка подключения AzdkServer",True)
-                print("Ошибка подключения AzdkServer")
+                print("Ошибка подключения ODSServer")
                 return
             pds.setConnectionName("AzdkOdsTestApp")
 
@@ -184,9 +183,12 @@ class T_hread(Thread,QWidget):
                         call_azdk_cmd(azs, command, global_timeout)
                        
 
-                    
+                    if command.code == 1 or command.code == 23 or command.code == 24 or command.code == 25:
+                        time.sleep(1)
+
+
                     self.send_text.emit( [str(command.code),
-                                         Commands.getname(command.code),
+                                         AzdkCommands.getname(command.code),
                                          "AzdkCmd",
                                          self.azdk_answer(self.db.answer(command.code,command.answer)) ],
                                          Color.Black)

@@ -16,8 +16,8 @@
 		<pdscmd descr="n3" code="6" timeout="0.1">
 			<par type="129">0.5, 0.5, 0.5, 0.5</par>
 		</pdscmd>
-    <azdkcmd code="14" descr="14" timeout="0.1"/>
-    <azdkcmd code="1" descr="1" timeout="0.1"/>
+   
+    	<azdkcmd code="1" descr="1" timeout="0.1"/>
 		<azdkcmd code="3" descr="3" timeout="0.1"/>
 		<azdkcmd code="4" descr="4" timeout="0.1"/>
 		<azdkcmd code="5" descr="5" timeout="0.1"/>
@@ -29,22 +29,25 @@
 		<azdkcmd code="10" descr="10" timeout="0.1"/>
 		<azdkcmd code="11" descr="11" timeout="0.1"/>
 		<azdkcmd code="13" descr="13" timeout="0.1"/>
-		
 		<azdkcmd code="15" descr="15" timeout="0.1"/>
 		<azdkcmd code="16" descr="16" timeout="0.1"/>
 		<azdkcmd code="17" descr="17" timeout="0.1"/>
 		<azdkcmd code="18" descr="18" timeout="0.1"/>
 		<azdkcmd code="19" descr="19" timeout="0.1"/>
+		<!--
 		<azdkcmd code="20" descr="20" timeout="0.1"/>
-		
+		<azdkcmd code="21" descr="21" timeout="0.1"/>
 		<azdkcmd code="22" descr="22" timeout="0.1"/>
+		 
 		<azdkcmd code="23" descr="23" timeout="0.1"/>
 		<azdkcmd code="24" descr="24" timeout="0.1"/>
 		<azdkcmd code="25" descr="25" timeout="0.1"/>
+		
 		<azdkcmd code="26" descr="26" timeout="0.1"/>
 		<azdkcmd code="27" descr="27" timeout="0.1"/>
 		<azdkcmd code="28" descr="28" timeout="0.1"/>
 		<azdkcmd code="29" descr="29" timeout="0.1"/>
+		-->
 		<azdkcmd code="30" descr="30" timeout="0.1"/>
 		<azdkcmd code="31" descr="31" timeout="0.1"/>
 		<azdkcmd code="48" descr="48" timeout="0.1"/>

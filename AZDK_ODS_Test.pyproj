@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>dcc31e69-4986-4014-b486-0a5d0bb1bd1b</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>TestApp.py</StartupFile>
+    <StartupFile>Russifier.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -33,6 +33,7 @@
     <Compile Include="azdk\pds_utils.py" />
     <Compile Include="File_logger.py" />
     <Compile Include="QEditor.py" />
+    <Compile Include="Russifier.py" />
     <Compile Include="telebot.py" />
     <Compile Include="TestApp.py" />
     <Compile Include="Scenario.py" />

@@ -33,7 +33,7 @@ class Connector(QWidget):
         azs.setName("AzdkOdsTest test connect")
         azs.setConnectionName("AzdkOdsTest test connect")
         if not azs.waitUntilStart():
-            print("Ошибка подключения PDSServer")
+            print("Ошибка подключения AzdkServer")
             self.indicator.setPixmap(QPixmap("resource/indicator_off.png"))
             return
 
@@ -52,7 +52,7 @@ class Connector(QWidget):
             self.settings.setValue('Port_azdk', str(self.port_azdk.text()))
             self.settings.setValue('Port_ods', str(self.port_ods.text()))
 
-            self.connect_data.emit(self.ip_azdk.text(), self.port_azdk.text(),self.ip_ods.text(), self.port_ods.text())
+            self.connect_data.emit(self.ip_azdk.text(), self.port_azdk.value(),self.ip_ods.text(), self.port_ods.value())
             self.indicator.setPixmap(QPixmap("resource/indicator_on.png"))
 
             pds.stop()
@@ -63,5 +63,5 @@ class Connector(QWidget):
          self.button_close.clicked.connect(self.close)
 
      def send_data(self):
-        self.connect_data.emit(self.ip_azdk.text(), int(self.port_azdk.text()),self.ip_ods.text(), int(self.port_ods.text()))
+        self.connect_data.emit(self.ip_azdk.text(), int(self.port_azdk.value()),self.ip_ods.text(), int(self.port_ods.value()))
         self.close()

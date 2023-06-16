@@ -461,12 +461,12 @@ class AzdkDB:
             case  1: return struct.unpack('B', answer)[0]
             case 10: return quatntime_from_bytes(answer)
             case 16: return angvelntime_from_bytes(answer)
-            case 12: return np.frombuffer(answer, np.int)
+            case 12: return np.frombuffer(answer, np.int32)
             case  7:
-                d = np.frombuffer(answer, np.int)
+                d = np.frombuffer(answer, np.int32)
                 if len(d) == 4: return Quaternion(d*(2**-30))
             case 6:
-                d = np.frombuffer(answer, np.int)
+                d = np.frombuffer(answer, np.int32)
                 if len(d) == 3: return Vector(d*(2**-30))
         return answer
 

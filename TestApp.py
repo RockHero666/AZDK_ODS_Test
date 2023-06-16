@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import QMainWindow, QAction, QApplication, QMdiArea, QMdiSu
 from PyQt5.QtGui import QIcon, QColor
 from win32api import GetSystemMetrics
 from Text_browser import Text_browser
-
+from Warden import warden
 
 
 class TestApp(QMainWindow):
@@ -22,6 +22,10 @@ class TestApp(QMainWindow):
         self.setCentralWidget( self.mdi)
         self.text_browser = Text_browser()
         self.connect_widget = Connector()
+        self.warden = warden()
+
+        self.connect_widget.connect_data[str,int,str,int].connect(warden.init_ODS_AZDK)
+        self.warden.start()
 
         add = QAction(QIcon('resource/add.png'), 'Добавить скрипт', self)
         add.setShortcut('Ctrl+A')
@@ -51,7 +55,7 @@ class TestApp(QMainWindow):
         self.statusBar()
 
         toolbar = self.addToolBar('Tool')
-        toolbar.setFixedHeight(50);
+        toolbar.setFixedHeight(50)
         toolbar.setIconSize(QSize(45, 45))
         toolbar.addAction(add)
         toolbar.addAction(connect)
@@ -59,10 +63,12 @@ class TestApp(QMainWindow):
         toolbar.addAction(stop_button)
         toolbar.addAction(log_button)
 
+        
 
         self.setGeometry(int(GetSystemMetrics(0)/2-650/2), int(GetSystemMetrics(1)/2-550/2), 650, 550)
         self.setWindowTitle('Исполнитель сценариев АЗДК и МЗД')
         self.show()
+
 
     def reconnect_widget(self): #привязка каждого нового сценария к логеру (из за потоков_)
         active_window = self.mdi.currentSubWindow()
@@ -106,6 +112,14 @@ class TestApp(QMainWindow):
 
     def show_log(self):
         self.text_browser.show()
+
+
+    
+
+              
+
+
+            
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
