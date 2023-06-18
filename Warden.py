@@ -1,8 +1,9 @@
 from azdk.azdksocket import AzdkSocket, PDSServerCommands, AzdkServerCommands, AzdkServerCmd, PDSServerCmd
-from PyQt5.QtCore import QProcess
 from threading import Thread
 from PyQt5.QtCore import QSettings
-
+import os
+import win32gui
+import time
 
 class warden(Thread):
 
@@ -10,32 +11,47 @@ class warden(Thread):
     connect_ODS = [str,int]
     azdk_state_cmd = AzdkServerCmd(AzdkServerCommands(23), [], None, 5)
     ods_state_cmd = PDSServerCmd(PDSServerCommands(3), [], None, 5)
+
+    
      
     def __init__(self):
+
+        current_file = os.path.abspath(__file__)
+        self.directory = os.path.dirname(current_file)
+
         super().__init__()
         self.azs = AzdkSocket()
         self.ods = AzdkSocket()
-        self.settings = QSettings('Ip_config.ini', QSettings.IniFormat)
-        self.settings = QSettings('Ip_config.ini', QSettings.IniFormat)
+        self.settings = QSettings(self.directory+'/Ip_config.ini', QSettings.IniFormat)
+        self.settings = QSettings(self.directory+'/Ip_config.ini', QSettings.IniFormat)
         self.connect_AZDK = [str(self.settings.value('Ip_azdk')),int(self.settings.value('Port_azdk'))]
         self.connect_ODS = [str(self.settings.value('Ip_ods')),int(self.settings.value('Port_ods'))]
         self.azs_answer = False
         self.ods_answer = False
-        
+        self.processes = {"azdkserver.exe" : None, "PDSServer_nogui.exe" : None}
 
-    def init_ODS_AZDK(self,ip_azdk,port_azdk,ip_ods,port_ods):
+    def init_ODS_AZDK(self, ip_azdk, port_azdk, ip_ods, port_ods):
         self.connect_AZDK = [ip_azdk,port_azdk]
         self.connect_ODS = [ip_ods,port_ods]
 
     def servers_start(self): #включаем серваки
-        process_names = ['AzdkServer', 'PdsServer_nogui']
-        processes = {}
+        process_names = ['azdkserver.exe', 'PDSServer_nogui.exe']
+        path = self.settings.value('Path_servers')
 
         for process_name in process_names:
-            if process_name not in processes or processes[process_name].state() == QProcess.NotRunning:
-                process = QProcess()
-                process.start(f'{process_name}.exe')
-                processes[process_name] = process
+            process_path = path + process_name      
+            if not win32gui.FindWindow(None, process_path) and not win32gui.IsWindow(self.processes[process_name]): # полу костыль изз за выбрать в cmd
+
+                os.chdir(path)
+                os.startfile(process_path)
+                time.sleep(0.1)
+                os.chdir(self.directory)
+                hwnd = win32gui.FindWindow(None, process_path)
+                self.processes[process_name] = hwnd
+
+
+        
+       
 
     def activity_server(self): # подключаем серваки
 

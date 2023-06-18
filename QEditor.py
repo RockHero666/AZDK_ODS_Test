@@ -13,6 +13,7 @@ from Text_browser import  Color
 from xml_creator import AzdkCommands
 from xml_creator import str_to_xml
 import time
+import os
 
 class Editor(QWidget):
      start_s = pyqtSignal()
@@ -22,7 +23,9 @@ class Editor(QWidget):
 
      def __init__(self):
         super().__init__()
-        uic.loadUi('ui/Editor.ui', self) 
+        current_file = os.path.abspath(__file__)
+        directory = os.path.dirname(current_file)
+        uic.loadUi(directory + "/ui/Editor.ui", self) 
         self.setWindowTitle('Редактор сценария')
         self.thread = None
 
@@ -39,7 +42,7 @@ class Editor(QWidget):
          if self.thread:
             self.thread.stop()
 
-     def init_ODS_AZDK(self,ip_azdk,port_azdk,ip_ods,port_ods):
+     def init_ODS_AZDK(self, ip_azdk, port_azdk, ip_ods, port_ods):
         self.connect_AZDK = [ip_azdk,port_azdk]
         self.connect_ODS = [ip_ods,port_ods]
 
@@ -49,11 +52,13 @@ class T_hread(Thread,QWidget):
     connect_AZDK = [str,int]
     connect_ODS = [str,int]
 
-    def __init__(self, scenario, connect_AZDK, connect_ODS,code_editor):
+    def __init__(self, scenario, connect_AZDK, connect_ODS, code_editor):
         
         Thread.__init__(self)
         QWidget.__init__(self)
        
+        current_file = os.path.abspath(__file__)
+        self.directory = os.path.dirname(current_file)
         self.logger = logger()
         self.connect_AZDK = connect_AZDK
         self.connect_ODS = connect_ODS
@@ -109,7 +114,7 @@ class T_hread(Thread,QWidget):
     def run(self) -> None:
         
         psevdocode = self.code_editor.toPlainText()
-        xml_file = "test2.xml"
+        xml_file = self.directory +"/test1.xml"
         global_timeout = 999
 
         self.logger.log("Старт испытаний.",True)

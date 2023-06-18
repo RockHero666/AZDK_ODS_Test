@@ -3,13 +3,16 @@ from PyQt5.QtWidgets import QWidget
 from PyQt5.QtCore import pyqtSignal, QSettings
 from azdk.azdksocket import AzdkSocket, PDSServerCommands, AzdkServerCommands
 from PyQt5.QtGui import QPixmap
+import os
 
 class Connector(QWidget):
      connect_data = pyqtSignal(str, int,str,int)
 
      def __init__(self):
         super().__init__()
-        uic.loadUi('ui/Connector.ui', self) 
+        current_file = os.path.abspath(__file__)
+        directory = os.path.dirname(current_file)
+        uic.loadUi(directory + "/ui/Connector.ui", self) 
         self.init_ui()
 
         self.setWindowTitle('Настройка ip')
@@ -18,7 +21,7 @@ class Connector(QWidget):
         self.button_close.clicked.connect(self.close)
 
         self.connect_button.clicked.connect(self.connect_to_server)
-        self.settings = QSettings('Ip_config.ini', QSettings.IniFormat)
+        self.settings = QSettings(directory+'/Ip_config.ini', QSettings.IniFormat)
 
         self.ip_azdk.setText(self.settings.value('Ip_azdk'))
         self.ip_ods.setText(self.settings.value('Ip_ods'))
@@ -63,5 +66,5 @@ class Connector(QWidget):
          self.button_close.clicked.connect(self.close)
 
      def send_data(self):
-        self.connect_data.emit(self.ip_azdk.text(), int(self.port_azdk.value()),self.ip_ods.text(), int(self.port_ods.value()))
+        self.connect_data.emit(self.ip_azdk.text(), self.port_azdk.value(),self.ip_ods.text(), self.port_ods.value())
         self.close()

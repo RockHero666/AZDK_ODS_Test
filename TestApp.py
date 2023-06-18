@@ -7,6 +7,7 @@ from PyQt5.QtGui import QIcon, QColor
 from win32api import GetSystemMetrics
 from Text_browser import Text_browser
 from Warden import warden
+import os
 
 
 class TestApp(QMainWindow):
@@ -17,6 +18,9 @@ class TestApp(QMainWindow):
         self.initUI()
 
     def initUI(self):
+        
+        current_file = os.path.abspath(__file__)
+        directory = os.path.dirname(current_file)
     
         self.mdi = QMdiArea()
         self.setCentralWidget( self.mdi)
@@ -24,30 +28,30 @@ class TestApp(QMainWindow):
         self.connect_widget = Connector()
         self.warden = warden()
 
-        self.connect_widget.connect_data[str,int,str,int].connect(warden.init_ODS_AZDK)
+        self.connect_widget.connect_data[str,int,str,int].connect(self.warden.init_ODS_AZDK)
         self.warden.start()
 
-        add = QAction(QIcon('resource/add.png'), 'Добавить скрипт', self)
+        add = QAction(QIcon(directory+'/resource/add.png'), 'Добавить скрипт', self)
         add.setShortcut('Ctrl+A')
         add.setStatusTip('Добавить скрипт в центральное поле')
         add.triggered.connect(self.add_script)
 
-        connect = QAction(QIcon('resource/connect.png'), 'Настройки подключения', self)
+        connect = QAction(QIcon(directory+'/resource/connect.png'), 'Настройки подключения', self)
         connect.setShortcut('Ctrl+Shift+C')
         connect.setStatusTip('Настройка ip адресов и портов для AZDK Server и ODS Server')
         connect.triggered.connect(self.connect_show)
 
-        start_button = QAction(QIcon('resource/play.png'), 'Запуск активного скрипта', self)
+        start_button = QAction(QIcon(directory+'/resource/play.png'), 'Запуск активного скрипта', self)
         start_button.setShortcut('Ctrl+P')
         start_button.setStatusTip('Запуск активного скрипта')
         start_button.triggered.connect(self.start_active_script)
 
-        stop_button = QAction(QIcon('resource/stop.png'), 'Остановка активного скрипта', self)
+        stop_button = QAction(QIcon(directory+'/resource/stop.png'), 'Остановка активного скрипта', self)
         stop_button.setShortcut('Ctrl+Shift+P')
         stop_button.setStatusTip('Остановка активного скрипта')
         stop_button.triggered.connect(self.stop_active_script)
 
-        log_button = QAction(QIcon('resource/log.png'), 'Показать Лог', self)
+        log_button = QAction(QIcon(directory+'/resource/log.png'), 'Показать Лог', self)
         log_button.setShortcut('Ctrl+L')
         log_button.setStatusTip('Показать Лог')
         log_button.triggered.connect(self.show_log)

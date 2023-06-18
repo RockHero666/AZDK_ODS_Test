@@ -1,6 +1,8 @@
 from PyQt5 import uic
 from PyQt5.QtWidgets import QWidget,QTableWidgetItem
 from PyQt5.QtGui import QColor
+import os
+import sys
 
 class Color():
 
@@ -14,7 +16,9 @@ class Text_browser(QWidget):
 
      def __init__(self):
         super().__init__()
-        uic.loadUi('ui/Text_browser.ui', self) 
+        current_file = os.path.abspath(__file__)
+        directory = os.path.dirname(current_file)   
+        uic.loadUi(directory +"/ui/Text_browser.ui" , self) 
 
         self.setWindowTitle('Log')
 
