@@ -1,7 +1,7 @@
 import sys
 from QEditor import Editor
 from Connector import Connector
-from PyQt5.QtCore import QSize
+from PyQt5.QtCore import QSize, QCoreApplication
 from PyQt5.QtWidgets import QMainWindow, QAction, QApplication, QMdiArea, QMdiSubWindow
 from PyQt5.QtGui import QIcon, QColor
 from win32api import GetSystemMetrics
@@ -116,6 +116,12 @@ class TestApp(QMainWindow):
 
     def show_log(self):
         self.text_browser.show()
+
+    def closeEvent(self, event):
+        if self.warden.is_runing:
+            self.warden.is_runing = False
+
+        QCoreApplication.quit()
 
 
     

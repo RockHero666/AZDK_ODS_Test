@@ -66,7 +66,7 @@ class T_hread(Thread,QWidget):
         self.presset_switcher = Presset_switcher()
         self.code_editor = code_editor
         self.scenario = scenario
-        self.db = AzdkDB('AZDKHost.xml')
+        self.db = AzdkDB(self.directory + '/AZDKHost.xml')
 
     def stop(self):
          self.running = False

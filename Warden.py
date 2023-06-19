@@ -1,16 +1,17 @@
-from azdk.azdksocket import AzdkSocket, PDSServerCommands, AzdkServerCommands, AzdkServerCmd, PDSServerCmd
+from azdk.azdksocket import AzdkSocket, PDSServerCommands, AzdkServerCommands, AzdkServerCmd, PDSServerCmd , call_azdk_cmd
 from threading import Thread
 from PyQt5.QtCore import QSettings
 import os
 import win32gui
 import time
+from azdk.azdkdb import AzdkDB
+from AzdkCommands import AzdkCommands
 
 class warden(Thread):
 
     connect_AZDK = [str,int]
     connect_ODS = [str,int]
-    azdk_state_cmd = AzdkServerCmd(AzdkServerCommands(23), [], None, 5)
-    ods_state_cmd = PDSServerCmd(PDSServerCommands(3), [], None, 5)
+    
 
     
      
@@ -20,6 +21,7 @@ class warden(Thread):
         self.directory = os.path.dirname(current_file)
 
         super().__init__()
+        self.setName("Warden")
         self.azs = AzdkSocket()
         self.ods = AzdkSocket()
         self.settings = QSettings(self.directory+'/Ip_config.ini', QSettings.IniFormat)
@@ -29,6 +31,13 @@ class warden(Thread):
         self.azs_answer = False
         self.ods_answer = False
         self.processes = {"azdkserver.exe" : None, "PDSServer_nogui.exe" : None}
+        self.db = AzdkDB(self.directory + '/AZDKHost.xml')
+        self.is_runing = True
+
+        self.azdk_server_state_cmd = AzdkServerCmd(AzdkServerCommands(23), None, None, 5)
+        self.ods_server_state_cmd = PDSServerCmd(PDSServerCommands(3), None, None, 5)
+        self.azdk_state_cmd = self.db.createcmd(AzdkCommands(70), None, timeout=5)
+        #self.ods_state_cmd = PDSServerCmd("GET_DISPLAY", [], None, 5)  нужно доделать
 
     def init_ODS_AZDK(self, ip_azdk, port_azdk, ip_ods, port_ods):
         self.connect_AZDK = [ip_azdk,port_azdk]
@@ -59,38 +68,47 @@ class warden(Thread):
             self.azs = AzdkSocket(self.connect_AZDK[0], self.connect_AZDK[1], AzdkServerCommands, threadName="Warden_azdk")
             if not self.azs.waitUntilStart():
                 print("Ошибка подключения AzdkServer")
-                #return # исключение в будующем
             self.azs.setConnectionName("Warden")
 
         if not self.ods.is_alive():
             self.ods = AzdkSocket(self.connect_ODS[0], self.connect_ODS[1], PDSServerCommands, threadName="Warden_ods")
             if not self.ods.waitUntilStart():
                 print("Ошибка подключения ODSServer")
-               # return # исключение в будующем
             self.ods.setConnectionName("Warden")
 
         self.servers_state()
 
 
     def servers_state(self):
-        self.azs.enqueue(self.azdk_state_cmd)
-        azs_answer = self.azs.waitforanswer(self.azdk_state_cmd)
+        self.azs.enqueue(self.azdk_server_state_cmd)
+        azs_answer = self.azs.waitforanswer(self.azdk_server_state_cmd)
         if azs_answer:
             self.azs_answer = True
         else:
             self.azs_answer = False
 
-        self.ods.enqueue(self.ods_state_cmd)
-        ods_answer = self.ods.waitforanswer(self.ods_state_cmd)
+        self.ods.enqueue(self.ods_server_state_cmd)
+        ods_answer = self.ods.waitforanswer(self.ods_server_state_cmd)
         if ods_answer:
             self.ods_answer = True
         else:
             self.ods_answer = False
 
+    def azdk_ods_state(self):
+        if self.ods.is_alive() and self.azs.is_alive():
+            call_azdk_cmd(self.azs ,self.azdk_state_cmd)
+            self.db.answer(self.azdk_state_cmd.code,self.azdk_state_cmd.answer) # как сравнивать? оценивать?
+            # одс код
+        else:
+            self.ods_answer = False
+            self.azs_answer = False
 
     def run(self) -> None:
-        while True:
+        while self.is_runing:
             while not self.azs_answer or not self.ods_answer:
+                if not self.is_runing:
+                    return
                 self.servers_start()
                 self.activity_server()
             self.servers_state()
+            self.azdk_ods_state()

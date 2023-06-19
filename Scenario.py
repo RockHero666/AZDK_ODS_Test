@@ -4,6 +4,7 @@ from azdk.azdksocket import AzdkServerCmd, PDSServerCmd, PDSServerCommands, Azdk
 from azdk.azdkdb import AzdkDB
 from azdk.linalg import Quaternion, Vector
 import numpy as np 
+import os
 
 def is_float(string):
     try:
@@ -37,7 +38,10 @@ class Scenario(QThread):
             else:
                 return False
 
-        db = AzdkDB('AZDKHost.xml')
+
+        current_file = os.path.abspath(__file__)
+        directory = os.path.dirname(current_file)
+        db = AzdkDB(directory+'/AZDKHost.xml')
 
         for root in tree.iterfind("scenario"):
 
