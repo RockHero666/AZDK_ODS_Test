@@ -53,7 +53,7 @@ class warden(Thread):
 
                 os.chdir(path)
                 os.startfile(process_path)
-                time.sleep(0.1)
+                ##time.sleep(0.1)
                 os.chdir(self.directory)
                 hwnd = win32gui.FindWindow(None, process_path)
                 self.processes[process_name] = hwnd

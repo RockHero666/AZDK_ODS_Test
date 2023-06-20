@@ -17,7 +17,7 @@ class AzdkCommands(Enum):
     CURTAIN                  = 14
     PELTIER                  = 15
     STATE                    = 16
-    AZDK_REGISTR             = 17
+    REED_AZDK_REGISTR        = 17
     REED_ANGLE_SPEED         = 18
     REED_ANGLE_SPEED_MODEL   = 19
     REED_LAST_QUAT           = 20
