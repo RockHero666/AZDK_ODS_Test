@@ -1,9 +1,9 @@
-from azdk.azdkdb import AzdkDB, AzdkCmd
-from azdk.azdksocket import AzdkSocket, PDSServerCmd, AzdkServerCmd, call_azdk_cmd , PDSServerCommands, AzdkServerCommands
+from azdk.azdkdb import AzdkCmd
+from azdk.azdksocket import PDSServerCommands, AzdkServerCommands
 from AzdkCommands import AzdkCommands
 
 
-def Russifier(command):
+def Russifier_call(command):
 
     if isinstance(command, AzdkCmd):
         match command.code:
@@ -103,4 +103,74 @@ def Russifier(command):
                 return "Возвращение к загручику"
             case AzdkCommands.PROPERTIES_NOTIFICATION.value:
                 return "Настройка оповещений"
+    elif isinstance(command.cmdclass, AzdkServerCommands):
+        match command.code:
+            case AzdkServerCommands.SCMD_HELP.value:
+                return "Cписок команд"
+            case AzdkServerCommands.DEVICE_CMD.value:
+                return "Отправка команды АЗДК-1 с параметрами"
+            case AzdkServerCommands.SET_MODE.value:
+                return "Переключает разные режимы отображения и рассылки информации"
+            case AzdkServerCommands.GET_SERIALPORT_LIST.value:
+                return "Получение списка последовательных портов"
+            case AzdkServerCommands.GET_RS_PORT.value:
+                return "Номер порта для RS485"
+            case AzdkServerCommands.GET_CAN_PORT.value:
+                return "Номер порта для CAN"
+            case AzdkServerCommands.GET_TRACE_PARAM.value:
+                return "Значение отслеживаемого параметра"
+            case AzdkServerCommands.GET_TP_LIST.value:
+                return "Список параметров отслеживания"
+            case AzdkServerCommands.GET_DEVICE_INFO.value:
+                return "Данные об устройстве"
+            case AzdkServerCommands.SET_LOG_TEMPLATE.value:
+                return "Изменение шаблона имени файла журнала"
+            case AzdkServerCommands.GET_VERSION.value:
+                return "Получить версию программы"
+    elif isinstance(command.cmdclass, PDSServerCommands):
+        match command.code:
+            case PDSServerCommands.SET_VERSION.value:
+                return "Получить версию приложения"
+            case PDSServerCommands.GET_FRAME.value:
+                return "Получить кадр буфера экрана"
+            case PDSServerCommands.SET_RANDOM_MODE.value:
+                return "Установить случайных изменений ориентации и угловой скорости"
+            case PDSServerCommands.GET_STATE.value:
+                return "Получить состояние"
+            case PDSServerCommands.SET_STATE.value:
+                return "Установить состояние"
+            case PDSServerCommands.GET_ORIENT.value:
+                return "Получить ориентацию (GCRS)"
+            case PDSServerCommands.SET_ORIENT.value:
+                return "Установить ориентацию (GCRS)"
+            case PDSServerCommands.GET_POS.value:
+                return "Получить положение аппарата (GCRS)"
+            case PDSServerCommands.SET_POS.value:
+                return "Установить положение аппарата (GCRS)"
+            case PDSServerCommands.GET_ANGVEL.value:
+                return "Получить угловую скорость (GCRS)"
+            case PDSServerCommands.SET_ANGVEL.value:
+                return "Установить угловую скорость (GCRS)"
+            case PDSServerCommands.GET_POINT_SETTINGS.value:
+                return "Получить настройки точек"
+            case PDSServerCommands.SET_POINT_SETTINGS.value:
+                return "Задать настройки для точек"
+            case PDSServerCommands.GET_BACKGROUNDS.value:
+                return "Получить описание фоновой засветки"
+            case PDSServerCommands.SET_BACKGROUND.value:
+                return "Установить фоновую засветку"
+            case PDSServerCommands.GET_TEO_POS.value:
+                return "Получить описание фоновой засветки"
+            case PDSServerCommands.SET_TEO_POS.value:
+                return "Установить фоновую засветку"
+            case PDSServerCommands.GET_FOCUS.value:
+                return "Получить фокус (масштабный фактор)"
+            case PDSServerCommands.SET_FOCUS.value:
+                return "Установить фокус (масштабный фактор)"
+            case PDSServerCommands.SET_CONN_NAME.value:
+                return "Поименовать соединение"
     return ""
+
+
+def Russifier_answer(command):
+    pass

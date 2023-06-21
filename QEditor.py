@@ -10,7 +10,7 @@ from PyQt5.QtGui import  QColor
 from File_logger import logger
 from azdk.pds_utils import Test
 from Text_browser import  Color
-from xml_creator import AzdkCommands
+from AzdkCommands import AzdkCommands
 from xml_creator import str_to_xml
 import time
 import os
