@@ -1,0 +1,24 @@
+2023.03.07 15:47:59.126553; Старт испытаний.
+2023.03.07 15:48:15.201417; AzdkServerCommands; open socket [<enum 'AzdkServerCommands'>]
+2023.03.07 15:48:15.373801; AzdkServerCommands; Поименовать соединение [id=4], P0=AzdkOdsTestApp sent
+2023.03.07 15:48:15.585256; AzdkServerCommands; Поименовать соединение [id=4], P0=AzdkOdsTestApp answered
+2023.03.07 15:48:15.613682; PDSServerCommands; open socket [<enum 'PDSServerCommands'>]
+2023.03.07 15:48:15.746593; PDSServerCommands; Поименовать соединение [id=5], P0=AzdkOdsTestApp sent
+2023.03.07 15:48:15.976768; PDSServerCommands; Поименовать соединение [id=5], P0=AzdkOdsTestApp answered
+2023.03.07 15:48:15.995803; AzdkServerCommands; Изменение шаблона имени файла журнала [id=1], P0=azdk2333.test1, P1=7 sent
+2023.03.07 15:48:16.171386; AzdkServerCommands; Изменение шаблона имени файла журнала [id=1], P0=azdk2333.test1, P1=7 answered
+2023.03.07 15:48:16.776638; AzdkServerCommands; Отправка команды АЗДК-1 [id=6], P0=49 sent
+2023.03.07 15:48:16.920358; AzdkServerCommands; request time: 0.16079580003861338
+2023.03.07 15:48:16.931290; PDSServerCommands; Установить ориентацию (GCRS) [id=2], P0={ 1.000000,  0.000000,  0.000000,  1.000000} sent
+2023.03.07 15:48:17.041037; PDSServerCommands; Установить ориентацию (GCRS) [id=2], P0={ 1.000000,  0.000000,  0.000000,  1.000000}, Texec=2023-07-03 15:48:15.110000 answered
+2023.03.07 15:48:17.087349; PDSServerCommands; Установить угловую скорость (GCRS) [id=3], P0={  0.500000,   1.000000,   1.000000} sent
+2023.03.07 15:48:17.350070; PDSServerCommands; Установить угловую скорость (GCRS) [id=3], P0={  0.500000,   1.000000,   1.000000}, Texec=2023-07-03 15:48:15.265000 answered
+2023.03.07 15:48:18.010202; AzdkServerCommands; Отправка команды АЗДК-1 [id=7], P0=7, P1=1, P2=1, P3=1 sent
+2023.03.07 15:48:18.148689; AzdkServerCommands; request time: 0.13840260007418692
+2023.03.07 15:48:18.775073; AzdkServerCommands; Отправка команды АЗДК-1 [id=8], P0=48 sent
+2023.03.07 15:48:18.913198; AzdkServerCommands; request time: 0.13990249997004867
+2023.03.07 15:48:19.378026; AzdkServerCommands; Отправка команды АЗДК-1 [id=9], P0=18 sent
+2023.03.07 15:48:19.512533; AzdkServerCommands; request time: 0.13741369999479502
+2023.03.07 15:48:19.513556; PDSServerCommands; socket was closed
+2023.03.07 15:48:19.529586; AzdkServerCommands; socket was closed
+2023.03.07 15:48:19.529586; Конец испытаний.

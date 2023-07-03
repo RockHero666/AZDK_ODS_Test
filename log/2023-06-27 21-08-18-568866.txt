@@ -1,0 +1,15 @@
+2023.27.06 21:08:18.573854; Старт испытаний.
+2023.27.06 21:08:18.582876; AzdkServerCommands; open socket [<enum 'AzdkServerCommands'>]
+2023.27.06 21:08:18.698079; AzdkServerCommands; Поименовать соединение [id=4], P0=AzdkOdsTestApp sent
+2023.27.06 21:08:18.873715; AzdkServerCommands; Поименовать соединение [id=4], P0=AzdkOdsTestApp answered
+2023.27.06 21:08:18.886677; PDSServerCommands; open socket [<enum 'PDSServerCommands'>]
+2023.27.06 21:08:19.011700; PDSServerCommands; Поименовать соединение [id=5], P0=AzdkOdsTestApp sent
+2023.27.06 21:08:19.209717; PDSServerCommands; Поименовать соединение [id=5], P0=AzdkOdsTestApp answered
+2023.27.06 21:08:19.260328; AzdkServerCommands; n1 [id=1], P0=azdk2309.test1, P1=7 sent
+2023.27.06 21:08:19.351220; AzdkServerCommands; n1 [id=1], P0=azdk2309.test1, P1=7 answered
+2023.27.06 21:08:19.415601; AzdkServerCommands; Отправка команды АЗДК-1 [id=6], P0=7, P1=1, P2=1, P3=1 sent
+2023.27.06 21:08:29.416088; AzdkServerCommands; Отправка команды АЗДК-1 [id=7], P0=7, P1=0, P2=214748364, P3=1 sent
+2023.27.06 21:08:39.419973; Критическая команда не дала ответ, тест остановлен
+2023.27.06 21:08:39.423663; PDSServerCommands; socket was closed
+2023.27.06 21:08:39.438627; AzdkServerCommands; socket was closed
+2023.27.06 21:08:39.438627; Конец испытаний.

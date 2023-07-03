@@ -1,94 +1,137 @@
 
+import re
 import xml.etree.ElementTree as ET
 from azdk.azdksocket import PDSServerCommands, AzdkServerCommands
-from AzdkCommands import AzdkCommands
+from AzdkCommands import AzdkCommands , get_scenario_dict
+import xml.dom.minidom
 
-
+def parse_command_string(command_string):
+    command_name = ""
+    parameters = []
+    timeout = 0
+    critical = True
+    
+    # Извлекаем данные внутри фигурных скобок
+    pattern = r"\{([^}]*)\}"  
+    
+    
+    matches = re.search(pattern, command_string)
+    
+    if matches:
+        parameters_str = matches.group(1)
+        parameters = [x for x in parameters_str.split(",")] if "," in parameters_str else []
+    
+    
+    timeout_match = re.search(r"timeout=([\d.]+)", command_string)
+    if timeout_match:
+        timeout = float(timeout_match.group(1))
+    else:
+        timeout = 0.1
+        
+    critical_match = re.search(r"critical=(\w+)", command_string)
+    if critical_match:
+        if critical_match.group(1).lower() == 'true' or critical_match.group(1).lower() == 'True':
+            critical = True
+        elif critical_match.group(1).lower() == 'false' or critical_match.group(1).lower() == 'False':
+            critical = False
+    
+    
+    # Извлекаем имя команды из строки
+    command_name_match = re.search(r"([a-zA-Z_|a-zA-Z]+)\(", command_string)
+    if command_name_match:
+        command_name = command_name_match.group(1)
+    
+    return command_name, parameters, timeout, critical
 
 
 def str_to_xml(psevdocode):
 
-    scenariofile = ET.Element("scenariofile")
+    scenariofile = xml.dom.minidom.Document()
+    scen = scenariofile.createElement("scenariofile")
+    scenariofile.appendChild(scen)
+
+    _dict = get_scenario_dict()
 
     lines_text = psevdocode.splitlines()
+    
+    scen_elem = scenariofile.createElement("scenario")
+    scen.appendChild(scen_elem)
 
     for elems in lines_text:
 
-        if elems == "scenario":
-            scen = ET.Element("scenario")
-            scenariofile.append(scen)
-            continue
-            
-        split_text = elems.split()
+        command_name, parameters, timeout, critical = parse_command_string(elems)
 
-        while len(split_text) < 5: #создаем пустые ячейки что бы не багал аут оф ренж
-            split_text.append(None)
+        split_command_name = command_name.split("_")
+        real_command_name = None
 
-        if split_text[3]:
-            params = split_text[3].split(":")
-            params_list = []
-            for param in params:
-                if split_text[0] == "azdkservercmd" and split_text[2] == "SET_LOG_TEMPLATE" :
-                    param_element = ET.Element("par",attrib={'name': 'name'})
-                    param_element.text = params[0]
-                    params_list.append(param_element)
-                    param_element = ET.Element("par",attrib={'type': 'type'})
-                    param_element.text = params[1]
-                    params_list.append(param_element)
-                    break
-                elif split_text[0] == "pdscmd":
-                    param_element = ET.Element("par")
-                    param_pack = ""
-                    for pdsparam in params:
-                        param_pack += str(pdsparam) + ", "
-                    param_element.text = param_pack
-                    params_list.append(param_element)
-                    break
-                    
-
-                else:
-                    param_element = ET.Element("par")
-                    param_element.text = param
-                    params_list.append(param_element)
+        if split_command_name[0] == "azs":
+            real_command_name = "azdkservercmd"
+        elif split_command_name[0] == "pds":
+            real_command_name = "pdscmd"
+        elif split_command_name[0] == "azdk":
+            real_command_name = "azdkcmd"
         else:
-            params_list = []
-            param_element = ET.Element("none")
-            param_element.text = "none"
-            params_list.append(param_element)
-
-        if not split_text[4]:
-            split_text[4] = str(0.1)
-        
-
-        if split_text[0] == "azdkcmd":
-            code = str(AzdkCommands.findname(split_text[2]))
-        elif split_text[0] == "azdkservercmd":
-            code = str(AzdkServerCommands.findname(split_text[2]))
-        elif split_text[0] == "pdscmd":
-            code = str(PDSServerCommands.findname(split_text[2]))
-        else:
-            print("error psevdo")
+            print("Неверный синтаксис команды")
             return
 
-
-        cmd_attrs = {"descr": split_text[1], "code": code, "timeout": split_text[4]}
         
-        for elem in split_text:
-            if elem == "non_crit":
-                cmd_attrs["non_critical"] = "true"
-        
-        command = ET.Element(split_text[0], cmd_attrs)
-        for param_element in params_list:
-            command.append(param_element)
 
-        scen.append(command)
-    
+        code = str(_dict[command_name].code)
 
-    xml = ET.tostring(scenariofile, encoding="unicode")
-    
-    #with open("user.xml","w") as f:
-    #    f.write(xml)
-    return xml
+        cmd_attrs = {"descr": _dict[command_name].descr, "code": code, "timeout": str(timeout)}
+
+        if critical:
+            cmd_attrs["critical"] = "true"
+        else:
+            cmd_attrs["critical"] = "false"
+
+        command = scenariofile.createElement(real_command_name)
+        for attr_name, attr_value in cmd_attrs.items():
+            command.setAttribute(attr_name, attr_value)
+
+        if not real_command_name == "pdscmd":
+
+            if parameters:
+                for param in parameters:
+                    param_element = scenariofile.createElement("par")
+                    param_element.appendChild(scenariofile.createTextNode(str(param)))
+                    command.appendChild(param_element)
+            else:
+                param_element = scenariofile.createElement("none")
+                param_element.appendChild(scenariofile.createTextNode("none"))
+                command.appendChild(param_element)
+        else:
+            par=""
+            for index, param in enumerate(parameters):
+                if index == 0:
+                    par +=  param 
+                else:
+                    par += ", " + param 
+            
+            if parameters:
+                
+                param_element = scenariofile.createElement("par")
+                param_element.appendChild(scenariofile.createTextNode(str(par)))
+                command.appendChild(param_element)
+            else:
+                param_element = scenariofile.createElement("none")
+                param_element.appendChild(scenariofile.createTextNode("none"))
+                command.appendChild(param_element)
+            
+
+
+
+        scen_elem.appendChild(command)
+
+    xml_str = scenariofile.toprettyxml(indent="\t")
+
+    with open("last_create_scen.xml", "w", encoding="utf-8") as f:
+        f.write(xml_str)
+
+    return xml_str
+
 
 if __name__ == '__main__':
-    str_to_xml("s")
+    command_string = 'azs_set_log_template({azdk_test,7}, critical=false,timeout=5)'
+    xml = str_to_xml("azs_set_log_template({azdk_test,7}, critical=false,timeout=5)\n azs_set_log_template({azdk_test,7}, critical=false,timeout=5)\n")
+    print(xml)  

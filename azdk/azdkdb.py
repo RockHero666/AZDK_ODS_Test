@@ -22,10 +22,8 @@ def quatntime_from_bytes(d : bytes):
     s = struct.unpack('4iI2H', d)
     q = Quaternion(s[0], s[1], s[2], s[3])
     q.normalize()
-    if s[6] == 0:
-        t = None
-    else:
-        t = datetime(s[6], 1, 1) + timedelta(s[5]) + timedelta(milliseconds=s[4])
+    if s[6] == 0: t = None
+    else: t = datetime(s[6], 1, 1) + timedelta(s[5]) + timedelta(milliseconds=s[4])
     return (q, t)
 
 def angvelntime_from_bytes(d : bytes):
@@ -34,10 +32,8 @@ def angvelntime_from_bytes(d : bytes):
     s = struct.unpack('3iI2H', d)
     v = Vector(s[0], s[1], s[2])*(2**-30)
     #v.normalize()
-    if s[5] == 0:
-        t = None
-    else:
-        t = datetime(s[5], 1, 1) + timedelta(s[4]) + timedelta(milliseconds=s[3])
+    if s[5] == 0: t = None
+    else: t = datetime(s[5], 1, 1) + timedelta(s[4]) + timedelta(milliseconds=s[3])
     return (v, t)
 
 def azdk_curtime():
@@ -171,7 +167,6 @@ class AzdkCRC:
 class AzdkCmd:
     _idcounter = 0
     _codemask = 0x7F
-    critical_cmd = True
 
     def __init__(self, _code=0, *, _timeout=0.1) -> None:
         self.code = np.uint8(_code)
@@ -206,7 +201,8 @@ class AzdkCmd:
             if isinstance(x, bytes) and len(x) > 0:
                 s += ', answer=' + self.answer.hex(' ').upper()
             else:
-                s += ', ' + str(x)
+                x = str(x)
+                if len(x) > 0: s += ', ' + x
         np = len(self.data)
         if np > 0:
             s += f', data of {np} bytes'
@@ -269,53 +265,61 @@ class AzdkDB:
             self.loadxml(xmlpath)
 
     def _loadcommand(self, elem):
-        CODE = elem.get(self.CODE)
-        TYPE = elem.get(self.TYPE) or '0'
-        if not TYPE or not CODE: return
-        CODE = int(CODE)
-        TYPE = int(TYPE)
-        PARS = []
+        _code = elem.get(self.CODE)
+        _type = elem.get(self.TYPE) or '0'
+        if not _type or not _code: return
+        _code = int(_code)
+        _type = int(_type)
+        _pars = []
         for par in elem.iterfind(self.PAR):
-            SIZE = par.get(self.SIZE)
-            if not SIZE: continue
-            SIZE = int(SIZE)
-            VAL = par.get(self.VAL)
-            VAL = int(VAL) if VAL else 0
-            FLAGS = []
+            _psize = par.get(self.SIZE)
+            _ptype = par.get(self.TYPE)
+            if not _psize: continue
+            try:
+                match int(_ptype):
+                    case 15: _ptype = float
+                    case _: _ptype = int
+            except (ValueError, TypeError):
+                _ptype = int
+            _psize = int(_psize)
+            _val = par.get(self.VAL)
+            _val = int(_val) if _val else 0
+            _flags = []
             for flag in par.iterfind(self.FLAG):
-                BIT = flag.get(self.BIT)
-                if BIT is None: continue
-                BIT = int(BIT) if BIT else 0
+                _bit = flag.get(self.BIT)
+                if _bit is None: continue
+                _bit = int(_bit) if _bit else 0
                 _fval = flag.get(self.VAL)
                 _fval = int(_fval) if _fval else 0
                 FLAG = {\
                     self.NAME: flag.get(self.NAME), \
-                    self.BIT: BIT}
-                FLAGS.append(FLAG)
-                VAL += _fval << BIT
-            PAR = { \
+                    self.BIT: _bit}
+                _flags.append(FLAG)
+                _val += _fval << _bit
+            param = { \
                 self.NAME: par.get(self.NAME), \
-                self.SIZE: SIZE,
-                self.VAL: VAL}
-            if len(FLAGS) > 0:
-                PAR[self.FLAGS] = FLAGS
-            PARS.append(PAR)
+                self.SIZE: _psize,
+                self.TYPE: _ptype,
+                self.VAL: _val}
+            if len(_flags) > 0:
+                param[self.FLAGS] = _flags
+            _pars.append(param)
 
-        RTYPE = elem.get(self.RTYPE)
-        RTYPE = int(RTYPE) if RTYPE else -1
+        _rtype = elem.get(self.RTYPE)
+        _rtype = int(_rtype) if _rtype else -1
 
-        COLOR = elem.get(self.COLOR)
+        _color = elem.get(self.COLOR)
 
-        self.commands[CODE] = {self.NAME: elem.get(self.NAME), self.TYPE: TYPE}
-        DESCR = elem.get(self.DESCR)
-        if COLOR:
-            self.commands[CODE][self.COLOR] = COLOR
+        self.commands[_code] = {self.NAME: elem.get(self.NAME), self.TYPE: _type}
+        _descr = elem.get(self.DESCR)
+        if _color:
+            self.commands[_code][self.COLOR] = _color
         #if RTYPE >= 0:
-        self.commands[CODE][self.RTYPE] = RTYPE
-        if DESCR:
-            self.commands[CODE][self.DESCR] = DESCR
-        if len(PARS) > 0:
-            self.commands[CODE][self.PARS] = PARS
+        self.commands[_code][self.RTYPE] = _rtype
+        if _descr:
+            self.commands[_code][self.DESCR] = _descr
+        if len(_pars) > 0:
+            self.commands[_code][self.PARS] = _pars
 
     def loadxml(self, filepath) -> bool:
         try:
@@ -473,7 +477,7 @@ class AzdkDB:
     def answer_str(self, cmd: AzdkCmd) -> str:
         answer = self.answer(cmd.code, cmd.answer)
         if isinstance(answer, tuple) or isinstance(answer, np.ndarray):
-            return ', '.join(answer)
+            return ', '.join(str(x) for x in answer)
         if isinstance(answer, bytes):
             return cmd.answer.hex(' ').upper()
         return str(answer)
@@ -958,4 +962,5 @@ def azdkdbtest3(xmlpath: str):
     db.tojson(wdir + filename + '.json')
 
 if __name__ == "__main__":
-    azdkdbtest1('d:/Users/Simae/Work/2019/PDStand/Win32/Release/AZDKHost.xml')
+    db = AzdkDB('AZDKHost.xml')
+    print(2)

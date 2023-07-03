@@ -30,14 +30,17 @@ class ServerCmd:
 
     def __init__(self, code = 0, params: list = None, cmdid = None, timeout=None) -> None:
         if isinstance(code, Enum):
-            self.code = code.value
-            self.name = code.name
+            self.code = code.code
+            self.name = code.descr
         else:
             self.code = code
             self.name = None
-        if isinstance(params, tuple):
+        self.answer = []
+        if params is None:
+            self.params = []
+        elif isinstance(params, tuple):
             self.params = list(params)
-        elif isinstance(params, list) or params is None:
+        elif isinstance(params, list):
             self.params = params
         else:
             self.params = [params]
@@ -171,84 +174,132 @@ class ServerCmd:
                 p.append(packer.unpack(pdata)[0])
             dIdx += psize
 
-        cmd = cls(code, p, cmdid)
+        cmd = cls(code, None, cmdid)
+        cmd.answer = p
         cmd.time_ex = time_ex
         cmd.flags = flags
         return cmd, hIdx + dIdx
 
     def __str__(self) -> str:
         s = f'{self.name} [id={self.id}]'
-        for p in self.params:
+        for k, p in enumerate(self.params):
             if isinstance(p, bytes):
-                sp = p.hex(' ')
+                sp = "'" + p.hex(' ') + "'"
             else:
                 sp = str(p)
             if len(sp) > 0:
-                s += ', ' + sp
+                s += f', P{k}=' + sp
+        for k, p in enumerate(self.answer):
+            if isinstance(p, bytes):
+                sp = "'" + p.hex(' ') + "'"
+            else:
+                sp = str(p)
+            if len(sp) > 0:
+                s += f', A{k}=' + sp
         if self.time_ex is not None:
-            s += ', ' + str(self.time_ex)
+            s += ', Texec=' + str(self.time_ex)
         return s
 
 class PDSServerCommands(Enum):
-    SET_VERSION = 0         # Получить версию приложения
-    GET_FRAME = 1           # Получить кадр буфера экрана
-    SET_RANDOM_MODE = 2     # Установить случайных изменений ориентации и угловой скорости
-    GET_STATE = 3           # Получить состояние
-    SET_STATE = 4           # Установить состояние
-    GET_ORIENT = 5          # Получить ориентацию (GCRS)
-    SET_ORIENT = 6          # Установить ориентацию (GCRS)
-    GET_POS = 7             # Получить положение аппарата (GCRS)
-    SET_POS = 8             # Установить положение аппарата (GCRS)
-    GET_ANGVEL = 9          # Получить угловую скорость (GCRS)
-    SET_ANGVEL = 10         # Установить угловую скорость (GCRS)
-    GET_POINT_SETTINGS = 11 # Получить настройки точек
-    SET_POINT_SETTINGS = 12 # Задать настройки для точек
-    GET_BACKGROUNDS = 13    # Получить описание фоновой засветки
-    SET_BACKGROUND = 14     # Установить фоновую засветку
-    GET_TEO_POS  = 15       # Получить описание фоновой засветки
-    SET_TEO_POS  = 16       # Установить фоновую засветку
-    GET_FOCUS  = 17         # Получить фокус (масштабный фактор)
-    SET_FOCUS  = 18         # Установить фокус (масштабный фактор)
-    SET_CONN_NAME = 0xF0    # Поименовать соединение
+    GET_VERSION = (0 , 'Получить версию приложения')
+    GET_FRAME = (1 , 'Получить кадр буфера экрана')
+    SET_RANDOM_MODE = (2 , 'Установить случайных изменений ориентации и угловой скорости')
+    GET_STATE = (3 , 'Получить состояние')
+    SET_STATE = (4 , 'Установить состояние')
+    GET_ORIENT = (5 , 'Получить ориентацию (GCRS)')
+    SET_ORIENT = (6 , 'Установить ориентацию (GCRS)')
+    GET_POS = (7 , 'Получить положение аппарата (GCRS)')
+    SET_POS = (8 , 'Установить положение аппарата (GCRS)')
+    GET_ANGVEL = (9 , 'Получить угловую скорость (GCRS)')
+    SET_ANGVEL = (10 , 'Установить угловую скорость (GCRS)')
+    GET_POINT_SETTINGS = (11 , 'Получить настройки точек')
+    SET_POINT_SETTINGS = (12 , 'Задать настройки для точек')
+    GET_BACKGROUNDS = (13 , 'Получить описание фоновой засветки')
+    SET_BACKGROUND = (14 , 'Установить фоновую засветку')
+    GET_TEO_POS  = (15 , 'Получить описание фоновой засветки')
+    SET_TEO_POS  = (16 , 'Установить фоновую засветку')
+    GET_FOCUS  = (17 , 'Получить фокус (масштабный фактор)')
+    SET_FOCUS  = (18 , 'Установить фокус (масштабный фактор)')
+    SET_LOG_TEMPLATE = (19 , 'Установить шаблон имени файла журнала')
+    GET_DISPLAY = (20 , 'Получить информацию об экране')
+    SET_DISPLAY = (21 , 'Установить экран')
+    SET_CONN_NAME = (0xF0 , 'Поименовать соединение')
+
+    STATE_ROTATION_ON = 256
+    STATE_SHOW_ON = 512
+    STATE_NOTIFICATIONS_ON= 1024
+    STATE_ORBITAL_ON = 2048
 
     @classmethod
     def getname(cls, code: int):
         for _name, _value in cls.__members__.items():
-            if _value.value == code:
+            if _value.value[0] == code:
                 return _name
         return None
+    
+    @classmethod
+    def getdescr(cls, code: int):
+        for _name, _value in cls.__members__.items():
+            if _value.value[0] == code:
+                return _value.value[1]
+        return None
 
+    @property
+    def code(self) -> int:
+        return super().value[0]
+
+    @property
+    def descr(self) -> str:
+        return super().value[1]
+    
     @classmethod
     def findname(cls, name: str):
-        return cls.__members__[name].value
+        return cls.__members__[name].code  
+    
+
 
 class AzdkServerCommands(Enum):
-    SCMD_HELP = 1           # Cписок команд
-    DEVICE_CMD = 3          # Отправка команды АЗДК-1 с параметрами
-    SET_MODE = 4            # Переключает разные режимы отображения и рассылки информации
-    GET_SERIALPORT_LIST = 7 # Получение списка последовательных портов
-    GET_RS_PORT = 8         # Номер порта для RS485
-    GET_CAN_PORT = 9        # Номер порта для CAN
-    GET_TRACE_PARAM = 13    # Значение отслеживаемого параметра
-    GET_TP_LIST = 14        # Список параметров отслеживания
-    GET_DEVICE_INFO = 15    # Данные об устройстве
-    SET_LOG_TEMPLATE = 22   # Изменение шаблона имени файла журнала
-    GET_VERSION = 23        # Получить версию программы
+    SCMD_HELP = (1, 'Cписок команд')
+    DEVICE_CMD = (3, 'Отправка команды АЗДК-1')
+    SET_MODE = (4, 'Переключение режимов')
+    GET_SERIALPORT_LIST = (7, 'Получение списка портов')
+    GET_RS_PORT = (8, 'Номер порта RS485')
+    GET_CAN_PORT = (9, 'Номер порта CAN')
+    GET_TRACE_PARAM = (13, 'Отслеживаемый параметр')
+    GET_TP_LIST = (14, 'Список параметров отслеживания')
+    GET_DEVICE_INFO = (15, 'Данные об устройстве')
+    SET_LOG_TEMPLATE = (22, 'Изменение шаблона имени файла журнала')
+    GET_VERSION = (23, 'Версия программы')
 
     @classmethod
     def getname(cls, code: int):
         for _name, _value in cls.__members__.items():
-            if _value.value == code:
+            if _value.value[0] == code:
                 return _name
         return None
+    
+    @classmethod
+    def getdescr(cls, code: int):
+        for _name, _value in cls.__members__.items():
+            if _value.value[0] == code:
+                return _value.value[1]
+        return None
 
+    @property
+    def code(self) -> int:
+        return super().value[0]
+
+    @property
+    def descr(self) -> str:
+        return super().value[1]
+    
     @classmethod
     def findname(cls, name: str):
-        return cls.__members__[name].value
+        return cls.__members__[name].code  
 
 class PDSServerCmd(ServerCmd):
     _pdscmdcounter = 0
-    def __init__(self, code : PDSServerCommands, params: list = None, cmdid=None, timeout=None):
+    def __init__(self, code : PDSServerCommands, params: list = None, cmdid=None, timeout=0.1):
         if cmdid is None:
             PDSServerCmd._pdscmdcounter += 1
             self.id = PDSServerCmd._pdscmdcounter
@@ -257,7 +308,7 @@ class PDSServerCmd(ServerCmd):
 class AzdkServerCmd(ServerCmd):
     _azdkcmdcounter = 0
 
-    def __init__(self, code : AzdkServerCommands, params: list = None, cmdid=None, timeout=None):
+    def __init__(self, code : AzdkServerCommands, params: list = None, cmdid=None, timeout=0.1):
         if isinstance(code, AzdkCmd):
             if params is None:
                 params = code.params
@@ -326,6 +377,7 @@ class AzdkSocket(AzdkThread):
     def enqueue(self, cmd: ServerCmd):
         if not isinstance(cmd, ServerCmd): return
         cmd.time_ex = None
+        cmd.answer = []
         self._mutex.acquire()
         self.cmdqueue.append(cmd)
         self._mutex.release()
@@ -375,8 +427,8 @@ class AzdkSocket(AzdkThread):
         self._mutex.acquire()
         for cmd in self.notifications:
             if codeCheck and cmd.code != codeCheck: continue
-            if pNum > len(cmd.params): continue
-            if cmd.params[pNum] != pVal: continue
+            if pNum > len(cmd.answer): continue
+            if cmd.answer[pNum] != pVal: continue
             self.notifications.remove(cmd)
             break
         else:
@@ -384,7 +436,7 @@ class AzdkSocket(AzdkThread):
         self._mutex.release()
         return cmd
 
-    def getNotification(self):
+    def getNotification(self) -> None | ServerCmd:
         if len(self.notifications) == 0: return None
         self._mutex.acquire()
         cmd = self.notifications.pop(0)
@@ -425,7 +477,7 @@ class AzdkSocket(AzdkThread):
                 pass
             if len(buf) > 0:
                 cmd, idx = ServerCmd.getcmd(buf)
-                if cmd:buf = buf[idx:]
+                if cmd: buf = buf[idx:]
             bufTimer = time.perf_counter()
             if bufTimer > clearBufTimer:
                 clearBufTimer = time.perf_counter() + clearBufTimeout
@@ -434,7 +486,7 @@ class AzdkSocket(AzdkThread):
             if self.cmdsent:
                 if cmd and cmd.code == self.cmdsent.code and cmd.id == self.cmdsent.id:
                     self._mutex.acquire()
-                    self.cmdsent.params = cmd.params
+                    self.cmdsent.answer = cmd.answer
                     self.cmdsent.time_ex = cmd.time_ex
                     self.cmdsent, cmd = None, self.cmdsent
                     self.cmdready.append(cmd)
@@ -483,11 +535,13 @@ class AzdkSocket(AzdkThread):
 
     def execute(self, cmd : ServerCmd, timeout : float = None):
         self.enqueue(cmd)
-        return self.waitforanswer(cmd, timeout) == cmd
+        answer = self.waitforanswer(cmd, timeout)
+        return answer == cmd
 
 def call_azdk_cmd(s : AzdkSocket, cmd : AzdkCmd, timeout=np.inf, clearNotif=True):
     scmd = AzdkServerCmd(cmd)
     if clearNotif: s.clearNotifications()
+    cmd.answer = None
     s.enqueue(scmd)
     tStart = time.perf_counter()
     if timeout is None: timeout = np.inf
@@ -496,45 +550,44 @@ def call_azdk_cmd(s : AzdkSocket, cmd : AzdkCmd, timeout=np.inf, clearNotif=True
         dt = time.perf_counter() - tStart
         if dt > timeout: return False
         if s.isCmdReady(scmd):
-            cmd.answer = scmd.params[1]
+            cmd.answer = scmd.answer[1]
             if s.verbose: s.log(f'request time: {dt}')
             return True
         if len(s.notifications) == 0: continue
-        acmd = s.getNotificationByParam(0, cmd.code, AzdkServerCommands.DEVICE_CMD.value)
+        acmd = s.getNotificationByParam(0, cmd.code, AzdkServerCommands.DEVICE_CMD.code)
         if clearNotif: s.clearNotifications()
         if acmd is None: continue
-        cmd.answer = acmd.params[1]
+        cmd.answer = acmd.answer[1]
         if s.verbose: s.log(f'request time: {dt}')
         return True
 
 def pdssocket_test():
-    pds = AzdkSocket('127.0.0.1', 55555, PDSServerCommands)
-    pds.verbose = True
-    pds.start()
-    if not pds.waitStarted(): return
-    pds.setConnectionName('teo_testing')
-    pdsSetStateCmd = ServerCmd(PDSServerCommands.SET_STATE, [np.uint32(512)])
-    pds.enqueue(pdsSetStateCmd)
-    pds.waitforanswer(pdsSetStateCmd)
+    with AzdkSocket('25.21.118.38', 55555, PDSServerCommands, verbose=True) as pds:
+        pds.setConnectionName('teo_testing')
+        #pdsSetStateCmd = ServerCmd(PDSServerCommands.SET_STATE, [np.uint32(512)])
+        pdsGetStateCmd = ServerCmd(PDSServerCommands.GET_STATE)
+        #pdsGetOrient = ServerCmd(PDSServerCommands.GET_ORIENT)
 
-    quatChangeTimeout = 1.0
-    quatChangeTimer = time.perf_counter() + quatChangeTimeout
+        pds.enqueue(pdsGetStateCmd)
+        ans = pds.waitforanswer(pdsGetStateCmd, 1.0)
+        print(ans)
 
-    while pds.is_alive():
-        t = time.perf_counter()
-        if t > quatChangeTimer:
-            quatChangeTimer += quatChangeTimeout
-            cmd = ServerCmd(PDSServerCommands.SET_ORIENT, [Quaternion.random()])
-            pds.enqueue(cmd)
-            pds.waitforanswer(cmd)
-        cmdok = pds.getNotification()
-        if cmdok:
-            print(cmdok)
-            #if cmdok.flags[15]: s.clear_notifications(cmdok.code)
-        if keyboard and keyboard.is_pressed('q'):
-            break
+        quatChangeTimeout = 1.0
+        quatChangeTimer = time.perf_counter() + quatChangeTimeout
 
-    pds.stop()
+        while pds.is_alive():
+            t = time.perf_counter()
+            if t > quatChangeTimer:
+                quatChangeTimer += quatChangeTimeout
+                cmd = ServerCmd(PDSServerCommands.SET_ORIENT, [Quaternion.random()])
+                pds.enqueue(cmd)
+                pds.waitforanswer(cmd)
+            cmdok = pds.getNotification()
+            if cmdok:
+                print(cmdok)
+                #if cmdok.flags[15]: s.clear_notifications(cmdok.code)
+            if keyboard and keyboard.is_pressed('q'):
+                break
 
 def pdssocket_test_q():
     s = AzdkSocket('127.0.0.1', 55513)
@@ -594,12 +647,18 @@ def azdksocket_test():
     if AzdkDB is None:
         raise ImportError('azdkdb module not installed')
     db = AzdkDB('d:/Users/Simae/Work/2019/PDStand/Win32/Release/AZDKHost.xml')
-    s = AzdkSocket('127.0.0.1', 53512, AzdkServerCommands)
-    s.start()
+    s = AzdkSocket('25.21.118.38', 56001, AzdkServerCommands, verbose=True)
+    if not s.waitUntilStart(): return
 
     #cmdGetAngVel = ServerCmd(AzdkServerCommands.DEVICE_CMD, [18])
     qsTimer = time.perf_counter()
     qsTimeout = 5.0
+
+    cmd = db.createcmd(70)
+    num = None
+    if call_azdk_cmd(s, cmd, 0.2):
+        num = cmd.answer[1]*100 + cmd.answer[0]
+    print(num)
 
     while s.is_alive():
         curTime = time.perf_counter()
@@ -610,7 +669,7 @@ def azdksocket_test():
         cmdok = s.waitforanswer(timeout=0.1)
         if cmdok:
             if cmdok.code == AzdkServerCommands.DEVICE_CMD:
-                qcmd = db.createcmd(cmdok.params[0], cmdok.params[1:])
+                qcmd = db.createcmd(cmdok.answer[0], cmdok.answer[1:])
                 print(db.cmdinfo(qcmd))
             else:
                 print(cmdok)
@@ -619,6 +678,5 @@ def azdksocket_test():
             break
 
 if __name__ == "__main__":
-    pdssocket_test()
-    #azdksocket_test()
-    #pdssocket_test_te_object()
+    #pdssocket_test()
+    azdksocket_test()

@@ -1,0 +1,66 @@
+2023.27.06 15:09:04.872063; Старт испытаний.
+2023.27.06 15:09:04.878047; AzdkServerCommands; open socket [<enum 'AzdkServerCommands'>]
+2023.27.06 15:09:05.036184; AzdkServerCommands; SET_CONN_NAME [id=4], P0=AzdkOdsTestApp sent
+2023.27.06 15:09:05.199490; AzdkServerCommands; SET_CONN_NAME [id=4], P0=AzdkOdsTestApp answered
+2023.27.06 15:09:05.225333; PDSServerCommands; open socket [<enum 'PDSServerCommands'>]
+2023.27.06 15:09:05.359338; PDSServerCommands; SET_CONN_NAME [id=5], P0=AzdkOdsTestApp sent
+2023.27.06 15:09:05.539113; PDSServerCommands; SET_CONN_NAME [id=5], P0=AzdkOdsTestApp answered
+2023.27.06 15:09:05.561615; AzdkServerCommands; n1 [id=1], P0=azdk2309.test1, P1=7 sent
+2023.27.06 15:09:05.654034; AzdkServerCommands; n1 [id=1], P0=azdk2309.test1, P1=7 answered
+2023.27.06 15:09:05.701131; PDSServerCommands; angle [id=2], P0={  0.000000,   0.000000,   0.000000} sent
+2023.27.06 15:09:05.794244; PDSServerCommands; angle [id=2], P0={  0.000000,   0.000000,   0.000000}, Texec=2023-06-27 15:09:07.048000 answered
+2023.27.06 15:09:05.809226; PDSServerCommands; n3 [id=3], P0={ 0.500000,  0.500000,  0.500000,  0.500000} sent
+2023.27.06 15:09:05.899788; PDSServerCommands; n3 [id=3], P0={ 0.500000,  0.500000,  0.500000,  0.500000}, Texec=2023-06-27 15:09:07.154000 answered
+2023.27.06 15:09:05.917020; AzdkServerCommands; DEVICE_CMD [id=6], P0=3, P1=0, P2=0, P3=0 sent
+2023.27.06 15:09:06.042058; AzdkServerCommands; request time: 0.13986319999821717
+2023.27.06 15:09:06.057034; AzdkServerCommands; DEVICE_CMD [id=7], P0=4, P1=0, P2=0 sent
+2023.27.06 15:09:06.162402; AzdkServerCommands; DEVICE_CMD [id=7], P0=4, P1=0, P2=0, A0=4, A1=неверный номер регистра answered
+2023.27.06 15:09:06.171623; AzdkServerCommands; request time: 0.129003099995316
+2023.27.06 15:09:06.182156; AzdkServerCommands; DEVICE_CMD [id=8], P0=5, P1=0, P2=0 sent
+2023.27.06 15:09:06.417111; AzdkServerCommands; request time: 0.2452601999975741
+2023.27.06 15:09:06.432912; AzdkServerCommands; DEVICE_CMD [id=9], P0=32, P1=0, P2=0, P3=0, P4=0 sent
+2023.27.06 15:09:06.528338; AzdkServerCommands; DEVICE_CMD [id=9], P0=32, P1=0, P2=0, P3=0, P4=0, A0=32, A1='00 00' answered
+2023.27.06 15:09:06.534326; AzdkServerCommands; request time: 0.11560350000218023
+2023.27.06 15:09:06.541336; AzdkServerCommands; DEVICE_CMD [id=10], P0=6, P1=0, P2=0, P3=0 sent
+2023.27.06 15:09:06.642205; AzdkServerCommands; DEVICE_CMD [id=10], P0=6, P1=0, P2=0, P3=0, A0=6, A1='' answered
+2023.27.06 15:09:06.652209; AzdkServerCommands; request time: 0.11745639999571722
+2023.27.06 15:09:06.665283; AzdkServerCommands; DEVICE_CMD [id=11], P0=7, P1=0, P2=0, P3=0 sent
+2023.27.06 15:09:06.898255; AzdkServerCommands; request time: 0.2455818000016734
+2023.27.06 15:09:06.912634; AzdkServerCommands; DEVICE_CMD [id=12], P0=8, P1=0 sent
+2023.27.06 15:09:07.025762; AzdkServerCommands; request time: 0.12698969999473775
+2023.27.06 15:09:07.037798; AzdkServerCommands; DEVICE_CMD [id=13], P0=9, P1=0, P2=0, P3=0, P4=0 sent
+2023.27.06 15:09:07.135474; AzdkServerCommands; DEVICE_CMD [id=13], P0=9, P1=0, P2=0, P3=0, P4=0, A0=9, A1='' answered
+2023.27.06 15:09:07.141450; AzdkServerCommands; request time: 0.11523080000188202
+2023.27.06 15:09:07.146450; AzdkServerCommands; DEVICE_CMD [id=14], P0=10, P1=0 sent
+2023.27.06 15:09:07.376042; AzdkServerCommands; request time: 0.23423969999566907
+2023.27.06 15:09:07.395745; AzdkServerCommands; DEVICE_CMD [id=15], P0=11, P1=0, P2=0, P3=0, P4=0, P5=0, P6=0, P7=0, P8=0, P9=0, P10=0, P11=0, P12=0, P13=0, P14=0, P15=0, P16=0 sent
+2023.27.06 15:09:07.526857; AzdkServerCommands; request time: 0.1501535999996122
+2023.27.06 15:09:07.534570; AzdkServerCommands; DEVICE_CMD [id=16], P0=13, P1=0, P2=0, P3=0, P4=0 sent
+2023.27.06 15:09:07.629462; AzdkServerCommands; DEVICE_CMD [id=16], P0=13, P1=0, P2=0, P3=0, P4=0, A0=13, A1='' answered
+2023.27.06 15:09:07.635337; AzdkServerCommands; request time: 0.10797420000017155
+2023.27.06 15:09:07.643305; AzdkServerCommands; DEVICE_CMD [id=17], P0=15 sent
+2023.27.06 15:09:07.894199; AzdkServerCommands; request time: 0.25836249999701977
+2023.27.06 15:09:07.908382; AzdkServerCommands; DEVICE_CMD [id=18], P0=16 sent
+2023.27.06 15:09:08.011049; AzdkServerCommands; DEVICE_CMD [id=18], P0=16, A0=16, A1='1e 0e 00 00 0f 85 81 c1 03 00 00 00 32 0c 59 01' answered
+2023.27.06 15:09:08.021846; AzdkServerCommands; request time: 0.1270617999980459
+2023.27.06 15:09:08.032821; AzdkServerCommands; DEVICE_CMD [id=19], P0=17, P1=0 sent
+2023.27.06 15:09:08.140279; AzdkServerCommands; DEVICE_CMD [id=19], P0=17, P1=0, A0=17, A1='11 00 00 00' answered
+2023.27.06 15:09:08.140279; AzdkServerCommands; request time: 0.11801330000162125
+2023.27.06 15:09:08.156663; AzdkServerCommands; DEVICE_CMD [id=20], P0=18 sent
+2023.27.06 15:09:08.397080; AzdkServerCommands; request time: 0.25594270000146935
+2023.27.06 15:09:08.406249; AzdkServerCommands; DEVICE_CMD [id=21], P0=19 sent
+2023.27.06 15:09:08.526354; AzdkServerCommands; request time: 0.128650499995274
+2023.27.06 15:09:08.546933; AzdkServerCommands; DEVICE_CMD [id=22], P0=51 sent
+2023.27.06 15:09:08.651264; AzdkServerCommands; DEVICE_CMD [id=22], P0=51, A0=51, A1='' answered
+2023.27.06 15:09:08.655250; AzdkServerCommands; request time: 0.12842739999905461
+2023.27.06 15:09:08.668175; AzdkServerCommands; DEVICE_CMD [id=23], P0=52 sent
+2023.27.06 15:09:08.920391; AzdkServerCommands; request time: 0.26449110000248766
+2023.27.06 15:09:08.934368; AzdkServerCommands; DEVICE_CMD [id=24], P0=53 sent
+2023.27.06 15:09:09.033192; AzdkServerCommands; DEVICE_CMD [id=24], P0=53, A0=53, A1='' answered
+2023.27.06 15:09:09.037181; AzdkServerCommands; request time: 0.1162393000049633
+2023.27.06 15:09:09.044162; AzdkServerCommands; DEVICE_CMD [id=25], P0=57, P1=0 sent
+2023.27.06 15:09:09.143300; AzdkServerCommands; DEVICE_CMD [id=25], P0=57, P1=0, A0=57, A1='' answered
+2023.27.06 15:09:09.153406; AzdkServerCommands; request time: 0.11575050000101328
+2023.27.06 15:09:09.155401; PDSServerCommands; socket was closed
+2023.27.06 15:09:09.170495; AzdkServerCommands; socket was closed
+2023.27.06 15:09:09.170495; Конец испытаний.

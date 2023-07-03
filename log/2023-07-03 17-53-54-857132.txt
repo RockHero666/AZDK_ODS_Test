@@ -1,0 +1,22 @@
+2023.03.07 17:53:54.861122; Старт испытаний.
+2023.03.07 17:53:54.870097; AzdkServerCommands; open socket [<enum 'AzdkServerCommands'>]
+2023.03.07 17:53:55.007332; AzdkServerCommands; Поименовать соединение [id=13], P0=AzdkOdsTestApp sent
+2023.03.07 17:53:55.218035; AzdkServerCommands; Поименовать соединение [id=13], P0=AzdkOdsTestApp answered
+2023.03.07 17:53:55.246074; PDSServerCommands; open socket [<enum 'PDSServerCommands'>]
+2023.03.07 17:53:55.414736; PDSServerCommands; Поименовать соединение [id=14], P0=AzdkOdsTestApp sent
+2023.03.07 17:53:55.611379; PDSServerCommands; Поименовать соединение [id=14], P0=AzdkOdsTestApp answered
+2023.03.07 17:53:55.662000; AzdkServerCommands; Изменение шаблона имени файла журнала [id=10], P0=azdk2333.test1, P1=7 sent
+2023.03.07 17:53:55.773717; AzdkServerCommands; Изменение шаблона имени файла журнала [id=10], P0=azdk2333.test1, P1=7 answered
+2023.03.07 17:53:55.804582; AzdkServerCommands; Отправка команды АЗДК-1 [id=15], P0=49 sent
+2023.03.07 17:53:55.940508; AzdkServerCommands; request time: 0.1382558000041172
+2023.03.07 17:53:55.956475; PDSServerCommands; Установить ориентацию (GCRS) [id=11], P0={ 1.000000,  0.000000,  0.000000,  1.000000} sent
+2023.03.07 17:53:56.064968; PDSServerCommands; Установить ориентацию (GCRS) [id=11], P0={ 1.000000,  0.000000,  0.000000,  1.000000}, Texec=2023-07-03 17:53:54.187000 answered
+2023.03.07 17:53:56.094028; PDSServerCommands; Установить угловую скорость (GCRS) [id=12], P0={  0.500000,   1.000000,   1.000000} sent
+2023.03.07 17:53:56.353836; PDSServerCommands; Установить угловую скорость (GCRS) [id=12], P0={  0.500000,   1.000000,   1.000000}, Texec=2023-07-03 17:53:54.325000 answered
+2023.03.07 17:53:56.406906; AzdkServerCommands; Отправка команды АЗДК-1 [id=16], P0=7, P1=1, P2=1, P3=1 sent
+2023.03.07 17:53:56.541201; AzdkServerCommands; request time: 0.14562199998181313
+2023.03.07 17:53:56.560714; AzdkServerCommands; Отправка команды АЗДК-1 [id=17], P0=48 sent
+2023.03.07 17:54:01.544161; Критическая команда не дала ответ, тест остановлен
+2023.03.07 17:54:01.547045; PDSServerCommands; socket was closed
+2023.03.07 17:54:01.561712; AzdkServerCommands; socket was closed
+2023.03.07 17:54:01.561712; Конец испытаний.

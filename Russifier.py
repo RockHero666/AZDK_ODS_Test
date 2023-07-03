@@ -1,5 +1,5 @@
 from azdk.azdkdb import AzdkCmd
-from azdk.azdksocket import PDSServerCommands, AzdkServerCommands
+from azdk.azdksocket import PDSServerCommands, AzdkServerCommands, AzdkServerCmd, PDSServerCmd
 from AzdkCommands import AzdkCommands
 
 
@@ -39,31 +39,31 @@ def Russifier_call(command):
                 return "Переключить Пельтье"
             case AzdkCommands.STATE.value:
                 return "Запрос слова состояния"
-            case AzdkCommands.REED_AZDK_REGISTR.value:
+            case AzdkCommands.GET_AZDK_REGISTR.value:
                 return "Чтение регистра АЗДК"
-            case AzdkCommands.REED_ANGLE_SPEED.value:
+            case AzdkCommands.GET_ANGLE_SPEED.value:
                 return "Чтение угл.скор."
-            case AzdkCommands.REED_ANGLE_SPEED_MODEL.value:
+            case AzdkCommands.GET_ANGLE_SPEED_MODEL.value:
                 return "Чтение угл.ск.модели"
-            case AzdkCommands.REED_LAST_QUAT.value:
+            case AzdkCommands.GET_LAST_QUAT.value:
                 return "Чтение послед. кватер."
-            case AzdkCommands.REED_DATE_TIME.value:
+            case AzdkCommands.GET_DATE_TIME.value:
                 return "Чтение времени и даты"
-            case AzdkCommands.REED_LIST_FOTO.value:
+            case AzdkCommands.GET_LIST_FOTO.value:
                 return "Чтение списка фотоц."
-            case AzdkCommands.REED_FRAME.value:
+            case AzdkCommands.GET_FRAME.value:
                 return "Чтение кадра"
-            case AzdkCommands.REED_SUBSCREEN.value:
+            case AzdkCommands.GET_SUBSCREEN.value:
                 return "Чтение субкадра"
-            case AzdkCommands.REED_WINDOWS.value:
+            case AzdkCommands.GET_WINDOWS.value:
                 return "Чтение окон"
             case AzdkCommands.STATISTICS.value:
                 return "Статистика"
-            case AzdkCommands.REED_PARAMS.value:
+            case AzdkCommands.GET_PARAMS.value:
                 return "Чтение параметров"
-            case AzdkCommands.REED_FOCUS_OBJECT.value:
+            case AzdkCommands.GET_FOCUS_OBJECT.value:
                 return "Чтение целевого объекта"
-            case AzdkCommands.REED_LIST_NON_STARS.value:
+            case AzdkCommands.GET_LIST_NON_STARS.value:
                 return "Чтение списка не-звезд"
             case AzdkCommands.SET_SPEED_RS485.value:
                 return "Установка скорости RS485"
@@ -79,7 +79,7 @@ def Russifier_call(command):
                 return "Режим калибровки темнового тока"
             case AzdkCommands.CALIB_MEMS_GIRO_MOD.value:
                 return "Режим калибровки MEMS-гироскопа"
-            case AzdkCommands.REED_RAW_FRAME_MODE.value:
+            case AzdkCommands.GET_RAW_FRAME_MODE.value:
                 return "Режим чтения сырых кадров"
             case AzdkCommands.FRAME_AVERAGE_MODE.value:
                 return "Режим усреднения кадра"
@@ -87,11 +87,11 @@ def Russifier_call(command):
                 return "Запись всех данных в FLASH"
             case AzdkCommands.SAVE_PROPERTIES_FLASH.value:
                 return "Сохранение настроек в FLASH"
-            case AzdkCommands.REED_DATA.value:
+            case AzdkCommands.GET_DATA.value:
                 return "Чтение данных"
             case AzdkCommands.SAVE_DATA.value:
                 return "Запись данных"
-            case AzdkCommands.REED_SOFT_VERSION.value:
+            case AzdkCommands.GET_FW_VERSION.value:
                 return "Чтение версии ПО"
             case AzdkCommands.UPDATE_SOFT.value:
                 return "Обновление ПО"
@@ -103,7 +103,7 @@ def Russifier_call(command):
                 return "Возвращение к загручику"
             case AzdkCommands.PROPERTIES_NOTIFICATION.value:
                 return "Настройка оповещений"
-    elif isinstance(command.cmdclass, AzdkServerCommands):
+    elif isinstance(command, AzdkServerCmd):
         match command.code:
             case AzdkServerCommands.SCMD_HELP.value:
                 return "Cписок команд"
@@ -127,9 +127,9 @@ def Russifier_call(command):
                 return "Изменение шаблона имени файла журнала"
             case AzdkServerCommands.GET_VERSION.value:
                 return "Получить версию программы"
-    elif isinstance(command.cmdclass, PDSServerCommands):
+    elif isinstance(command, PDSServerCmd):
         match command.code:
-            case PDSServerCommands.SET_VERSION.value:
+            case PDSServerCommands.GET_VERSION.value:
                 return "Получить версию приложения"
             case PDSServerCommands.GET_FRAME.value:
                 return "Получить кадр буфера экрана"

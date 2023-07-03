@@ -1,0 +1,16 @@
+2023.26.06 14:44:56.320864; Старт испытаний.
+2023.26.06 14:44:56.326222; AzdkServerCommands; open socket [<enum 'AzdkServerCommands'>]
+2023.26.06 14:44:56.438484; AzdkServerCommands; SET_CONN_NAME [id=37], P0=AzdkOdsTestApp sent
+2023.26.06 14:44:56.601939; AzdkServerCommands; SET_CONN_NAME [id=37], P0=AzdkOdsTestApp answered
+2023.26.06 14:44:56.629679; PDSServerCommands; open socket [<enum 'PDSServerCommands'>]
+2023.26.06 14:44:56.762870; PDSServerCommands; SET_CONN_NAME [id=38], P0=AzdkOdsTestApp sent
+2023.26.06 14:44:56.922270; PDSServerCommands; SET_CONN_NAME [id=38], P0=AzdkOdsTestApp answered
+2023.26.06 14:44:56.966394; AzdkServerCommands; template [id=34], P0=azdk2309.test1, P1=7 sent
+2023.26.06 14:44:57.105657; PDSServerCommands; orient [id=35], P0={ 1.000000,  0.000000,  0.000000,  1.000000} sent
+2023.26.06 14:44:57.206949; PDSServerCommands; orient [id=35], P0={ 1.000000,  0.000000,  0.000000,  1.000000}, Texec=2023-06-26 14:44:58.385000 answered
+2023.26.06 14:44:57.261071; PDSServerCommands; angle [id=36], P0={  0.500000,   0.500000,   0.500000} sent
+2023.26.06 14:44:57.416859; AzdkServerCommands; DEVICE_CMD [id=39], P0=49 sent
+2023.26.06 14:45:07.413233; Критическая команда не дала ответ, тест остановлен
+2023.26.06 14:45:07.428072; PDSServerCommands; socket was closed
+2023.26.06 14:45:07.443045; AzdkServerCommands; socket was closed
+2023.26.06 14:45:07.443045; Конец испытаний.

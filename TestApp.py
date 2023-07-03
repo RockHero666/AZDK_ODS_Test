@@ -6,7 +6,6 @@ from PyQt5.QtWidgets import QMainWindow, QAction, QApplication, QMdiArea, QMdiSu
 from PyQt5.QtGui import QIcon, QColor
 from win32api import GetSystemMetrics
 from Text_browser import Text_browser
-from Warden import warden
 import os
 
 
@@ -26,10 +25,6 @@ class TestApp(QMainWindow):
         self.setCentralWidget( self.mdi)
         self.text_browser = Text_browser()
         self.connect_widget = Connector()
-        self.warden = warden()
-
-        self.connect_widget.connect_data[str,int,str,int].connect(self.warden.init_ODS_AZDK)
-        self.warden.start()
 
         add = QAction(QIcon(directory+'/resource/add.png'), 'Добавить скрипт', self)
         add.setShortcut('Ctrl+A')
@@ -118,9 +113,6 @@ class TestApp(QMainWindow):
         self.text_browser.show()
 
     def closeEvent(self, event):
-        if self.warden.is_runing:
-            self.warden.is_runing = False
-
         QCoreApplication.quit()
 
 

@@ -1,0 +1,28 @@
+2023.26.06 14:36:11.124226; Старт испытаний.
+2023.26.06 14:36:11.130002; AzdkServerCommands; open socket [<enum 'AzdkServerCommands'>]
+2023.26.06 14:36:11.242017; AzdkServerCommands; SET_CONN_NAME [id=4], P0=AzdkOdsTestApp sent
+2023.26.06 14:36:11.445671; AzdkServerCommands; SET_CONN_NAME [id=4], P0=AzdkOdsTestApp answered
+2023.26.06 14:36:11.484012; PDSServerCommands; open socket [<enum 'PDSServerCommands'>]
+2023.26.06 14:36:11.629318; PDSServerCommands; SET_CONN_NAME [id=5], P0=AzdkOdsTestApp sent
+2023.26.06 14:36:11.803996; PDSServerCommands; SET_CONN_NAME [id=5], P0=AzdkOdsTestApp answered
+2023.26.06 14:36:11.832062; AzdkServerCommands; n1 [id=1], P0=azdk2309.test1, P1=7 sent
+2023.26.06 14:36:11.993219; AzdkServerCommands; n1 [id=1], P0=azdk2309.test1, P1=7 answered
+2023.26.06 14:36:12.032905; PDSServerCommands; angle [id=2], P0={  1.000000,   0.000000,   0.000000} sent
+2023.26.06 14:36:12.115412; PDSServerCommands; angle [id=2], P0={  1.000000,   0.000000,   0.000000}, Texec=2023-06-26 14:36:13.309000 answered
+2023.26.06 14:36:12.140215; PDSServerCommands; n3 [id=3], P0={ 0.500000,  0.500000,  0.500000,  0.500000} sent
+2023.26.06 14:36:12.221860; PDSServerCommands; n3 [id=3], P0={ 0.500000,  0.500000,  0.500000,  0.500000}, Texec=2023-06-26 14:36:13.415000 answered
+2023.26.06 14:36:12.232133; AzdkServerCommands; DEVICE_CMD [id=6], P0=49 sent
+2023.26.06 14:36:12.417177; AzdkServerCommands; request time: 0.1931408999953419
+2023.26.06 14:36:12.433144; AzdkServerCommands; DEVICE_CMD [id=7], P0=7, P1=1, P2=1, P3=1 sent
+2023.26.06 14:36:12.531331; AzdkServerCommands; DEVICE_CMD [id=7], P0=7, P1=1, P2=1, P3=1, A0=7, A1='' answered
+2023.26.06 14:36:12.534972; AzdkServerCommands; request time: 0.11724540003342554
+2023.26.06 14:36:12.542426; AzdkServerCommands; DEVICE_CMD [id=8], P0=7, P1=0, P2=214748364, P3=1 sent
+2023.26.06 14:36:12.626669; AzdkServerCommands; DEVICE_CMD [id=8], P0=7, P1=0, P2=214748364, P3=1, A0=7, A1='' answered
+2023.26.06 14:36:12.630645; AzdkServerCommands; request time: 0.09535650000907481
+2023.26.06 14:36:12.651056; AzdkServerCommands; DEVICE_CMD [id=9], P0=48 sent
+2023.26.06 14:36:12.865384; AzdkServerCommands; request time: 0.23423689999617636
+2023.26.06 14:36:12.885273; AzdkServerCommands; DEVICE_CMD [id=10], P0=18 sent
+2023.26.06 14:36:17.874039; Критическая команда не дала ответ, тест остановлен
+2023.26.06 14:36:17.883060; PDSServerCommands; socket was closed
+2023.26.06 14:36:17.897890; AzdkServerCommands; socket was closed
+2023.26.06 14:36:17.897890; Конец испытаний.

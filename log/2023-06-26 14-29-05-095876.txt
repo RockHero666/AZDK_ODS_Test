@@ -1,0 +1,25 @@
+2023.26.06 14:29:05.101860; Старт испытаний.
+2023.26.06 14:29:05.106923; AzdkServerCommands; open socket [<enum 'AzdkServerCommands'>]
+2023.26.06 14:29:05.247328; AzdkServerCommands; SET_CONN_NAME [id=4], P0=AzdkOdsTestApp sent
+2023.26.06 14:29:05.406957; AzdkServerCommands; SET_CONN_NAME [id=4], P0=AzdkOdsTestApp answered
+2023.26.06 14:29:05.434246; PDSServerCommands; open socket [<enum 'PDSServerCommands'>]
+2023.26.06 14:29:05.540620; PDSServerCommands; SET_CONN_NAME [id=5], P0=AzdkOdsTestApp sent
+2023.26.06 14:29:05.767156; PDSServerCommands; SET_CONN_NAME [id=5], P0=AzdkOdsTestApp answered
+2023.26.06 14:29:05.791621; AzdkServerCommands; n1 [id=1], P0=azdk2309.test1, P1=7 sent
+2023.26.06 14:29:05.965231; AzdkServerCommands; n1 [id=1], P0=azdk2309.test1, P1=7 answered
+2023.26.06 14:29:13.246404; PDSServerCommands; angle [id=2], P0={  1.000000,   0.000000,   0.000000} sent
+2023.26.06 14:29:13.332421; PDSServerCommands; angle [id=2], P0={  1.000000,   0.000000,   0.000000}, Texec=2023-06-26 14:29:14.521000 answered
+2023.26.06 14:29:13.387145; PDSServerCommands; n3 [id=3], P0={ 0.500000,  0.500000,  0.500000,  0.500000} sent
+2023.26.06 14:29:13.481433; PDSServerCommands; n3 [id=3], P0={ 0.500000,  0.500000,  0.500000,  0.500000}, Texec=2023-06-26 14:29:14.673000 answered
+2023.26.06 14:29:13.540139; AzdkServerCommands; DEVICE_CMD [id=6], P0=49 sent
+2023.26.06 14:29:13.706923; AzdkServerCommands; request time: 0.18097330001182854
+2023.26.06 14:29:13.712904; AzdkServerCommands; DEVICE_CMD [id=7], P0=7, P1=1, P2=1, P3=1 sent
+2023.26.06 14:29:13.801908; AzdkServerCommands; DEVICE_CMD [id=7], P0=7, P1=1, P2=1, P3=1, A0=7, A1='' answered
+2023.26.06 14:29:13.803898; AzdkServerCommands; request time: 0.09612279996508732
+2023.26.06 14:29:13.820011; AzdkServerCommands; DEVICE_CMD [id=8], P0=7, P1=0, P2=214748364, P3=1 sent
+2023.26.06 14:29:14.036302; AzdkServerCommands; request time: 0.2319808999891393
+2023.26.06 14:29:14.054227; AzdkServerCommands; DEVICE_CMD [id=9], P0=48 sent
+2023.26.06 14:29:19.040144; Критическая команда не дала ответ, тест остановлен
+2023.26.06 14:29:19.053100; PDSServerCommands; socket was closed
+2023.26.06 14:29:19.068215; AzdkServerCommands; socket was closed
+2023.26.06 14:29:19.068215; Конец испытаний.

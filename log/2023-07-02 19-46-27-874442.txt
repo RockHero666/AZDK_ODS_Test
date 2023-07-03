@@ -1,0 +1,22 @@
+2023.02.07 19:46:27.879402; Старт испытаний.
+2023.02.07 19:46:27.888819; AzdkServerCommands; open socket [<enum 'AzdkServerCommands'>]
+2023.02.07 19:46:28.053063; AzdkServerCommands; Поименовать соединение [id=4], P0=AzdkOdsTestApp sent
+2023.02.07 19:46:28.215428; AzdkServerCommands; Поименовать соединение [id=4], P0=AzdkOdsTestApp answered
+2023.02.07 19:46:28.241781; PDSServerCommands; open socket [<enum 'PDSServerCommands'>]
+2023.02.07 19:46:28.411920; PDSServerCommands; Поименовать соединение [id=5], P0=AzdkOdsTestApp sent
+2023.02.07 19:46:28.573213; PDSServerCommands; Поименовать соединение [id=5], P0=AzdkOdsTestApp answered
+2023.02.07 19:46:28.612406; AzdkServerCommands; n1 [id=1], P0=azdk2309.test1, P1=7 sent
+2023.02.07 19:46:28.702681; AzdkServerCommands; n1 [id=1], P0=azdk2309.test1, P1=7 answered
+2023.02.07 19:46:28.751582; PDSServerCommands; angle [id=2], P0={  1.000000,   0.000000,   0.000000} sent
+2023.02.07 19:46:28.840404; PDSServerCommands; angle [id=2], P0={  1.000000,   0.000000,   0.000000}, Texec=2023-07-02 19:46:27.734000 answered
+2023.02.07 19:46:28.908207; PDSServerCommands; n3 [id=3], P0={ 1.000000,  0.500000,  0.500000,  0.500000} sent
+2023.02.07 19:46:28.999884; PDSServerCommands; n3 [id=3], P0={ 1.000000,  0.500000,  0.500000,  0.500000}, Texec=2023-07-02 19:46:27.893000 answered
+2023.02.07 19:46:29.062803; AzdkServerCommands; Отправка команды АЗДК-1 [id=6], P0=7, P1=0, P2=0, P3=107374182 sent
+2023.02.07 19:46:29.167603; AzdkServerCommands; Отправка команды АЗДК-1 [id=6], P0=7, P1=0, P2=0, P3=107374182, A0=7, A1='' answered
+2023.02.07 19:46:29.178299; AzdkServerCommands; request time: 0.12722050002776086
+2023.02.07 19:46:29.185274; AzdkServerCommands; Отправка команды АЗДК-1 [id=7], P0=18 sent
+2023.02.07 19:46:29.279948; AzdkServerCommands; Отправка команды АЗДК-1 [id=7], P0=18, A0=18, A1='00 00 00 00 00 00 00 00 00 00 66 66 a0 fd da 03 b6 00 e7 07' answered
+2023.02.07 19:46:29.288016; AzdkServerCommands; request time: 0.10775619995547459
+2023.02.07 19:46:29.296026; PDSServerCommands; socket was closed
+2023.02.07 19:46:29.310987; AzdkServerCommands; socket was closed
+2023.02.07 19:46:29.310987; Конец испытаний.

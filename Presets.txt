@@ -13,5 +13,14 @@ pdscmd orient SET_ORIENT 1:0:0:1
 pdscmd angle SET_ANGVEL 0.5:0.5:0.5 0.1
 azdkcmd aspeed ANGL_SPEED 1:1:1 0.1 non_crit
 azdkcmd aspeed ANGL_SPEED 0:0.444:0 0.1
-azdkcmd by STEND_BY_MODE
-azdkcmd raspeed REED_ANGLE_SPEED
+azdkcmd by STANDBY_MODE
+azdkcmd raspeed GET_ANGLE_SPEED
+
+
+azs_set_log_template({azdk2333.test1,7}, timeout=3.1)
+azdk_set_auto_mode({}, timeout=3.1)
+pds_set_orient({1,0,0,1}, timeout=3.1)
+pds_set_angvel({0.5,1,1}, timeout=3.1, critical=False)
+azdk_set_angvel({1,1,1}, timeout=3.1, critical=False)
+azdk_set_idle_mode({}, timeout=3.1)
+azdk_get_angvel({}, timeout=3.1)

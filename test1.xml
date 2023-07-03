@@ -9,24 +9,20 @@
 		</azdkservercmd>
     <pressetcmd type="0" duration_cycle="300" count_cycle="10">
     </pressetcmd>
-		<azdkcmd descr="n2" code="49" timeout="0.1"/>
-		<pdscmd descr="angle" code="10" timeout="0.1">
-			<par type="130">1.0, 0.0, 0.0</par>
+		
+		<pdscmd descr="Установить ориентацию (GCRS)" code="6" timeout="3.1" critical="true">
+			<par>1, 0.5, 0, 1</par>
 		</pdscmd>
-		<pdscmd descr="n3" code="6" timeout="0.1">
-			<par type="129">0.5, 0.5, 0.5, 0.5</par>
+		<pdscmd descr="Установить угловую скорость (GCRS)" code="10" timeout="3.1" critical="false">
+			<par>0.5, 1, 1</par>
 		</pdscmd>
-		<azdkcmd descr="n4" code="7" timeout="0.1" non_critical="true">
-			<par >1</par>
-      		<par >1</par>
-			<par >1</par>
+		<azdkcmd descr="n4" code="7" timeout="0.1" critical="true">
+			<par >0</par>
+      		<par >0</par>
+			<par >0.1</par>
     </azdkcmd>
-    <azdkcmd descr="n4" code="7" timeout="0.1">
-      <par >0</par>
-      <par >0.2</par>
-      <par >1</par>
-    </azdkcmd>
-    <azdkcmd descr="n5" code="48" timeout="0.1"/>
+   
+    
     <azdkcmd descr="n6" code="18" timeout="0.1"/>
 	</scenario>
   
