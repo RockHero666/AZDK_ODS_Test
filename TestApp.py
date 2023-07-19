@@ -7,6 +7,7 @@ from PyQt5.QtGui import QIcon, QColor
 from win32api import GetSystemMetrics
 from Text_browser import Text_browser
 import os
+from pdfcreator import PDF_azdk_ods_test
 
 
 class TestApp(QMainWindow):
@@ -25,6 +26,8 @@ class TestApp(QMainWindow):
         self.setCentralWidget( self.mdi)
         self.text_browser = Text_browser()
         self.connect_widget = Connector()
+        self.pdf_creator = PDF_azdk_ods_test()
+        self.stop = False
 
         add = QAction(QIcon(directory+'/resource/add.png'), 'Добавить скрипт', self)
         add.setShortcut('Ctrl+A')
@@ -90,12 +93,21 @@ class TestApp(QMainWindow):
         sub_window.show()
 
     def end_test(self):
-        self.text_browser.to_html()
+        if not self.stop:
+            self.pdf_creator = PDF_azdk_ods_test()
+            
+            self.text_browser.to_html()
+            str = self.text_browser.to_str()
+            header = "Отчет о тестировании АЗДК и ОДС"
+            paragraph = ["Место проведения - Красная пресня", "Цель теста - тестирование программного обеспечения"]
+            self.pdf_creator.create_pdf(str, header, paragraph)
+
 
     def connect_show(self):
         self.connect_widget.show()
 
     def stop_active_script(self):
+       # self.stop = True
         active_window = self.mdi.currentSubWindow()
         if active_window is not None:
             widget = active_window.widget()

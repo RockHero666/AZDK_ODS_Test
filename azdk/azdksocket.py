@@ -17,14 +17,20 @@ class Bitfield:
         if isinstance(p, int):
             self.bytes = bytearray((p + 7) // 8)
 
-    def __getitem__(self, idx):
-        return self.bytes[idx // 8] >> (idx % 8) & 1
+    def __getitem__(self, idx) -> bool:
+        return ((self.bytes[idx // 8] >> (idx % 8)) & 1) == 1
 
     def __setitem__(self, idx, on: bool):
         mask = 1 << (idx % 8)
         if on: self.bytes[idx // 8] |= mask
         else: self.bytes[idx // 8] &= ~mask
-
+ 
+    def __str__(self):
+        s = ''
+        for b in self.bytes[::-1]:
+            s+= f" {b:08b}"
+        return s
+    
 class ServerCmd:
     _idcounter = 0
 
@@ -198,7 +204,12 @@ class ServerCmd:
                 s += f', A{k}=' + sp
         if self.time_ex is not None:
             s += ', Texec=' + str(self.time_ex)
+        s+= f", Flags = {self.flags}"
         return s
+
+    @property
+    def isError(self):
+        return self.flags[0]
 
 class PDSServerCommands(Enum):
     GET_VERSION = (0 , 'Получить версию приложения')
@@ -488,6 +499,7 @@ class AzdkSocket(AzdkThread):
                     self._mutex.acquire()
                     self.cmdsent.answer = cmd.answer
                     self.cmdsent.time_ex = cmd.time_ex
+                    self.cmdsent.flags = cmd.flags
                     self.cmdsent, cmd = None, self.cmdsent
                     self.cmdready.append(cmd)
                     self._mutex.release()
@@ -548,9 +560,11 @@ def call_azdk_cmd(s : AzdkSocket, cmd : AzdkCmd, timeout=np.inf, clearNotif=True
     while True:
         time.sleep(0.01)
         dt = time.perf_counter() - tStart
-        if dt > timeout: return False
+        if dt > timeout:return False 
         if s.isCmdReady(scmd):
             cmd.answer = scmd.answer[1]
+            if scmd.isError:
+                cmd.error = scmd.answer[2]
             if s.verbose: s.log(f'request time: {dt}')
             return True
         if len(s.notifications) == 0: continue
@@ -559,6 +573,8 @@ def call_azdk_cmd(s : AzdkSocket, cmd : AzdkCmd, timeout=np.inf, clearNotif=True
         if acmd is None: continue
         cmd.answer = acmd.answer[1]
         if s.verbose: s.log(f'request time: {dt}')
+        if acmd.isError:
+            cmd.error = acmd.answer[2]
         return True
 
 def pdssocket_test():

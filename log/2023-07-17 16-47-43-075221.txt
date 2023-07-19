@@ -1,0 +1,20 @@
+2023.17.07 16:47:43.080209; Старт испытаний.
+2023.17.07 16:47:43.084170; AzdkServerCommands; open socket [<enum 'AzdkServerCommands'>]
+2023.17.07 16:47:43.187043; AzdkServerCommands; Поименовать соединение [id=4], P0=AzdkOdsTestApp sent
+2023.17.07 16:47:43.361105; AzdkServerCommands; Поименовать соединение [id=4], P0=AzdkOdsTestApp answered
+2023.17.07 16:47:43.386034; PDSServerCommands; open socket [<enum 'PDSServerCommands'>]
+2023.17.07 16:47:43.497034; PDSServerCommands; Поименовать соединение [id=5], P0=AzdkOdsTestApp sent
+2023.17.07 16:47:43.708472; PDSServerCommands; Поименовать соединение [id=5], P0=AzdkOdsTestApp answered
+2023.17.07 16:47:43.746081; AzdkServerCommands; n1 [id=1], P0=azdk2309.test1, P1=7 sent
+2023.17.07 16:47:43.833579; AzdkServerCommands; n1 [id=1], P0=azdk2309.test1, P1=7 answered
+2023.17.07 16:47:43.901179; PDSServerCommands; Установить ориентацию (GCRS) [id=2], P0={ 1.000000,  0.500000,  0.000000,  1.000000} sent
+2023.17.07 16:47:43.990637; PDSServerCommands; Установить ориентацию (GCRS) [id=2], P0={ 1.000000,  0.500000,  0.000000,  1.000000}, Texec=2023-07-17 16:47:44.905000 answered
+2023.17.07 16:47:44.042495; PDSServerCommands; Установить угловую скорость (GCRS) [id=3], P0={  0.500000,   1.000000,   1.000000} sent
+2023.17.07 16:47:44.274879; PDSServerCommands; Установить угловую скорость (GCRS) [id=3], P0={  0.500000,   1.000000,   1.000000}, Texec=2023-07-17 16:47:45.047000 answered
+2023.17.07 16:47:44.306885; AzdkServerCommands; Отправка команды АЗДК-1 [id=6], P0=7, P1=0, P2=0, P3=107374182 sent
+2023.17.07 16:47:44.708304; AzdkServerCommands; request time: 0.41322099999524653
+2023.17.07 16:47:44.712286; AzdkServerCommands; Отправка команды АЗДК-1 [id=7], P0=18 sent
+2023.17.07 16:47:44.991619; AzdkServerCommands; request time: 0.28274019999662414
+2023.17.07 16:47:44.992613; PDSServerCommands; socket was closed
+2023.17.07 16:47:45.007536; AzdkServerCommands; socket was closed
+2023.17.07 16:47:45.007536; Конец испытаний.

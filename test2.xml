@@ -29,12 +29,13 @@
 		<azdkcmd code="10" descr="10" timeout="0.1"/>
 		<azdkcmd code="11" descr="11" timeout="0.1"/>
 		<azdkcmd code="13" descr="13" timeout="0.1"/>
-		<azdkcmd code="15" descr="15" timeout="0.1"/>
+		
 		<azdkcmd code="16" descr="16" timeout="0.1"/>
 		<azdkcmd code="17" descr="17" timeout="0.1"/>
 		<azdkcmd code="18" descr="18" timeout="0.1"/>
 		<azdkcmd code="19" descr="19" timeout="0.1"/>
 		<!--
+		<azdkcmd code="15" descr="15" timeout="0.1"/>
 		<azdkcmd code="20" descr="20" timeout="0.1"/>
 		<azdkcmd code="21" descr="21" timeout="0.1"/>
 		<azdkcmd code="22" descr="22" timeout="0.1"/>
@@ -55,11 +56,12 @@
 		<azdkcmd code="48" descr="48" timeout="0.1"/>
 		
 		<azdkcmd code="49" descr="49" timeout="0.1"/>
-		-->
+		
 		<azdkcmd code="51" descr="51" timeout="0.1"/>
 		<azdkcmd code="52" descr="52" timeout="0.1"/>
 		<azdkcmd code="53" descr="53" timeout="0.1"/>
 		<azdkcmd code="57" descr="57" timeout="0.1"/>
+		-->
 		<!--
 		<azdkcmd code="64" descr="64" timeout="0.1"/>
 		<azdkcmd code="67" descr="67" timeout="0.1"/>
@@ -80,6 +82,8 @@
 		<azdkcmd code="117" descr="117" timeout="0.1"/>
 		<azdkcmd code="118" descr="118" timeout="0.1"/>
 		-->
+		<azdkcmd code="70" descr="70" timeout="0.1"/>
+		
 		
 		
 	</scenario>

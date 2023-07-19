@@ -1,10 +1,10 @@
-from getopt import getopt
+import os
 import io
-import sys
 import re
 import time
 from threading import Thread, Lock
-from datetime import datetime, date, timedelta
+import datetime as dt
+from pandas import read_csv
 import numpy as np
 try: from tqdm import tqdm
 except ImportError: tqdm = None
@@ -17,27 +17,31 @@ class RegExp:
     reDateAlt = re.compile(r'(\d{4,4})[-.](\d{2,2})[-.](\d{2,2})')
     reQuat = re.compile(r'\{\s*' + reDbl + r',\s*' + reDbl + r',\s*' + reDbl + r',\s*' + reDbl + r'\s*\}')
     reVec = re.compile(r'\{\s*' + reDbl + r',\s*' + reDbl + r',\s*' + reDbl + r'\}')
+    reDbls = re.compile(reDbl)
     reHex1 = re.compile(r'0[xX]([0-9a-fA-F]+)')
     reHex2 = re.compile(r'([\0-9a-fA-F]+)h')
     rePhc = re.compile(reDbl + r'[^0-9.]+' + reDbl + r'[^0-9.]+' + reDbl + r'\D+(\d+)')
+    reSupSub = re.compile(r'([^^_]*)(([\^_])([^^_]))?')
 
 class AzdkLogger:
-    def __init__(self, filepath : str):
+    def __init__(self, filepath : str = None, timestamp_fl=True):
+        self.timestamp_fl = timestamp_fl
         if isinstance(filepath, str):
             self.fl = open(filepath, 'at', encoding='utf-8')
         elif isinstance(filepath, io.TextIOWrapper):
             self.fl = filepath
         else:
-            raise ValueError('Wrong type: filepath')
+            self.fl = None
+            #raise ValueError('Wrong type: filepath')
 
     def log(self, txt : str):
-        _timestamp = datetime.now().strftime(r'%Y.%d.%m %H:%M:%S.%f')
-        txt = _timestamp + txt + '\n'
-        self.fl.write(txt)
+        _timestamp = dt.datetime.now().strftime(r'%Y.%d.%m %H:%M:%S.%f') if self.timestamp_fl else ''
+        #self.fl.write(_timestamp + txt + '\n')
+        print(_timestamp + txt, file=self.fl)
 
 class AzdkThread(Thread):
     def __init__(self, name : str = None, verbose=False, logger : AzdkLogger = None):
-        super().__init__(name=name)
+        super().__init__(name=name or self.__class__.__name__)
         self._mutex = Lock()
         self.running = False
         self.verbose = verbose
@@ -52,10 +56,10 @@ class AzdkThread(Thread):
         if sync: self.join()
 
     def __enter__(self):
-        if self.verbose: self.log(f'Starting {self.name}')
+        if self.verbose:
+            self.log(f'Starting {self.name}')
         self.start()
-        if not self.waitStarted():
-            self.stop()
+        self.waitStarted()
         return self
 
     def __exit__(self, exc_type, exc_value, exc_traceback):
@@ -70,16 +74,67 @@ class AzdkThread(Thread):
         if toconsole: print(txt)
 
     def waitStarted(self, timeout=1.0):
-        time.sleep(0.1)
         ts = time.perf_counter()
         while not self.is_alive() or not self.running:
-            if time.perf_counter() > ts + timeout:
+            time.sleep(0.01)
+            if timeout > 0 and time.perf_counter() > ts + timeout:
                 return False
         return True
 
     def waitUntilStart(self, timeout=1.0):
         self.start()
         return self.waitStarted(timeout)
+
+def getLogFileDate(datafile : str, search_until_end=False):
+    date = dt.datetime.fromtimestamp(os.path.getmtime(datafile)).date()
+    size = os.path.getsize(datafile)
+    with open(datafile, 'rt', encoding='UTF-8') as fl:
+        for ln in fl:
+            ln = ln.strip()
+            if len(ln) < 0: continue
+            if ln.startswith('---==='):
+                m_date = RegExp.reDate.search(ln)
+                if m_date:
+                    date = dt.date(int(m_date.group(3)), int(m_date.group(2)), int(m_date.group(1)))
+                    break
+            if not search_until_end: break
+    return date, size
+
+def readLogFileData(datafile : str, colnames=None, timecol=0, datacol=-1, dataconv=None, nrows=None):
+    try:
+        dtable = read_csv(datafile, header=None, skiprows=2, sep=';', names=colnames, nrows=nrows)
+    except FileNotFoundError as e:
+        print(e)
+        return None
+    date, _ = getLogFileDate(datafile)
+    dtable = dtable[dtable.iloc[:,timecol].notna()]
+    t0 = get_datetime(dtable.iloc[0, timecol], date, convert=False)
+    dtable.iloc[:,timecol] = dtable.iloc[:, timecol].apply(lambda x: get_datetime(x, date, t0))
+    if datacol >= 0 and dataconv:
+        dtable.iloc[:, datacol] = dtable.iloc[:, datacol].apply(dataconv)
+    return dtable
+
+def to_hm_str(duration : float | dt.timedelta):
+    if isinstance(duration, dt.timedelta):
+        duration = duration.total_seconds()
+    else:
+        duration = float(duration)
+
+    h = int(duration // 3600)
+    m = int((duration + 30) // 60 - h*60)
+    if m > 0:
+        mm = m % 10 if m < 10 or m > 20 else 0
+        match mm:
+            case 1:     m = f' {m} минуту'
+            case 2|3|4: m = f' {m} минуты'
+            case _:     m = f' {m} минут'
+    else: m =''
+    if h > 0:
+        match h % 10 if h < 10 or h > 20 else 0:
+            case 1: m = f'{h} час{m}'
+            case 2|3|4: m = f'{h} часа{m}'
+            case _: m = f'{h} часов{m}'
+    return m
 
 def getdatetime(timestamp: str,  _default = None, returnLastIdx=False, omitDateRe=False):
     if omitDateRe: m_date = None
@@ -88,11 +143,11 @@ def getdatetime(timestamp: str,  _default = None, returnLastIdx=False, omitDateR
         if m_date is None:
             m_date = RegExp.reDateAlt.search(timestamp)
     if m_date is None:
-        if isinstance(_default, date):
+        if isinstance(_default, dt.date):
             d = _default
-        elif isinstance(_default, datetime):
+        elif isinstance(_default, dt.datetime):
             d = _default.date()
-        else: d = date.today()
+        else: d = dt.date.today()
         d = [d.year, d.month, d.day]
     else:
         d = m_date.groups()
@@ -112,7 +167,7 @@ def getdatetime(timestamp: str,  _default = None, returnLastIdx=False, omitDateR
         t = [int(x) for x in t[:3]]
     d = [int(x) for x in d]
     if d[2] > 1000: d = (d[2], d[1], d[0])
-    d = datetime(d[0], d[1], d[2], t[0], t[1], t[2], mcs)
+    d = dt.datetime(d[0], d[1], d[2], t[0], t[1], t[2], mcs)
     if returnLastIdx: return d, m_time.end() + 1
     else: return d
 
@@ -137,7 +192,7 @@ def gettimeofday(timestamp: str):
 
 def setup_ticks(axes, vmin: float, vmax: float, dmajor: float = None, dminor: float = None, *,
                 majcount=None, mincount=None, isyaxis=True, isrelative=True, issymmetric=False):
-    if isinstance(vmin, datetime) and isinstance(vmax, datetime):
+    if isinstance(vmin, dt.datetime) and isinstance(vmax, dt.datetime):
         vmax = vmax.timestamp()
         vmin = vmin.timestamp()
         if vmax < vmin:
@@ -152,10 +207,10 @@ def setup_ticks(axes, vmin: float, vmax: float, dmajor: float = None, dminor: fl
                 dmajor *= 2
                 dminor *= 2
         tdelta = vmax - vmin
-        vmin = datetime.fromtimestamp(np.floor(vmin / dmajor) * dmajor)
-        vmax = datetime.fromtimestamp(np.ceil(vmax / dmajor) * dmajor)
-        vmajorticks = [vmin + timedelta(0, x) for x in np.arange(0, tdelta, dmajor)]
-        vminorticks = [vmin + timedelta(0, x) for x in np.arange(0, tdelta, dminor)]
+        vmin = dt.datetime.fromtimestamp(np.floor(vmin / dmajor) * dmajor)
+        vmax = dt.datetime.fromtimestamp(np.ceil(vmax / dmajor) * dmajor)
+        vmajorticks = [vmin + dt.timedelta(0, x) for x in np.arange(0, tdelta, dmajor)]
+        vminorticks = [vmin + dt.timedelta(0, x) for x in np.arange(0, tdelta, dminor)]
         if dmajor % 60 == 0:
             xlabels = [x.strftime('%H:%M') for x in vmajorticks]
         else:
@@ -274,13 +329,18 @@ def heapsort(arr, *, verbose=False):
     if pbar: pbar.close()
     return indices
 
-if __name__ == "__main__":
-    opts, args = getopt(sys.argv[1:], "t:u", ["task=", "config="])
+def get_datetime(t_str : str, date : dt.date = None, check_dt : dt.datetime = None, convert=True):
+    m_time = RegExp.reTime.search(t_str)
+    t = None
+    if m_time:
+        g = m_time.groups()
+        t = dt.time(int(g[0]), int(g[1]), int(g[2]), int(1e6*float(g[3])))
+        if isinstance(date, dt.date):
+            t = dt.datetime.combine(date, t)
+            if isinstance(check_dt, dt.datetime) and t < check_dt:
+                t += dt.timedelta(days=1)
+            if convert: t = t.timestamp()
+    return t
 
-    task = None
-    configPath = None
-    for o, t in opts:
-        if o in ('-t', '--task'):
-            task = t
-        elif o == '--config':
-            configPath = t
+if __name__ == "__main__":
+    pass

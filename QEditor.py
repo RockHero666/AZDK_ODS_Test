@@ -74,7 +74,14 @@ class T_hread(Thread,QWidget):
          self.presset_switcher.stop()
          print("Script is stoped")
          self.logger.log("Script is stoped")
-         self.send_text.emit(["","","","Тест был остановлен"],Color.Red)
+
+         current_time = datetime.datetime.now()   
+         mic_s =current_time.microsecond
+         current_time = current_time.strftime("%H:%M:%S")
+         mil_s = mic_s // 1000
+         current_time += f".{mil_s:03}"
+         
+         self.send_text.emit([current_time,"","Тест был остановлен","","",None],Color.Red)
 
 
     def rus(self,answer):
@@ -83,8 +90,8 @@ class T_hread(Thread,QWidget):
     def run(self) -> None:
         
         psevdocode = self.code_editor.toPlainText()
-        xml_file = self.directory +"/test1.xml"
-        global_timeout = 5
+        xml_file = self.directory +"/test2.xml"
+        global_timeout = 500
 
         self.logger.log("Старт испытаний.",True)
 
@@ -106,12 +113,12 @@ class T_hread(Thread,QWidget):
             mil_s = mic_s // 1000
             current_time += f".{mil_s:03}"
 
-            self.send_text.emit([current_time,"","","","Начало тестирования"],Color.Green)
+            self.send_text.emit([current_time,"","Начало тестирования","","",None],Color.Green)
 
             azs = AzdkSocket(self.connect_AZDK[0], self.connect_AZDK[1], AzdkServerCommands,
                                                     True, "AzdkServerCommands", self.logger)
             if not azs.waitUntilStart():
-                self.send_text.emit([current_time,"","","","Ошибка подключения AzdkServer"],Color.Red)
+                self.send_text.emit([current_time,"","Ошибка подключения AzdkServer","","",None],Color.Red)
                 self.logger.log("Ошибка подключения AzdkServer",True)
                 print("Ошибка подключения AzdkServer")
                 return
@@ -120,7 +127,7 @@ class T_hread(Thread,QWidget):
             pds = AzdkSocket(self.connect_ODS[0], self.connect_ODS[1], PDSServerCommands,
                                                   True, "PDSServerCommands", self.logger)
             if not pds.waitUntilStart():
-                self.send_text.emit([current_time,"","","","Ошибка подключения PDSServer"],Color.Red)
+                self.send_text.emit([current_time,"","Ошибка подключения PDSServer","","",None],Color.Red)
                 self.logger.log("Ошибка подключения PDSServer",True)
                 print("Ошибка подключения PDSServer")
                 return
@@ -129,6 +136,9 @@ class T_hread(Thread,QWidget):
             
 
             for command, critical in commands:
+
+                if not self.running: # drop point
+                    return
 
                 current_time = datetime.datetime.now()   
                 mic_s =current_time.microsecond
@@ -140,30 +150,43 @@ class T_hread(Thread,QWidget):
                     azs.enqueue(command)
                     time.sleep(0.1)
                     answer = azs.waitforanswer(command)
+                    error = command.answer[1:3] if command.isError else None
                     self.send_text.emit( [current_time,
                                           str(command.code),
                                          AzdkServerCommands.getdescr(command.code),
                                          "ASC",
-                                         self.rus(answer) ],
+                                         self.rus(answer) ,
+                                         error],
                                          Color.Black )
 
                 if isinstance(command,PDSServerCmd) and self.running:
                     pds.enqueue(command)
                     time.sleep(0.1)
                     answer = pds.waitforanswer(command)
+                    error = command.answer[1:3] if command.isError else None
                     self.send_text.emit( [current_time,
                                           str(command.code),
                                          PDSServerCommands.getdescr(command.code),
                                          "PSC",
-                                         self.rus(answer) ],
+                                         self.rus(answer) ,
+                                         error],
                                          Color.Black )
 
                 if isinstance(command,AzdkCmd) and self.running:
+
+                    if not self.running: # drop point
+                        return
                 
                     if critical:
                         if not call_azdk_cmd(azs, command,timeout=global_timeout):
+                            error  = (command.answer,command.error) if command.error else None
                             self.logger.log("Критическая команда не дала ответ, тест остановлен",True)
-                            self.send_text.emit([current_time,"","","","Критическая команда не дала ответ, тест остановлен"],Color.Red)
+                            self.send_text.emit([current_time,
+                                                  command.code,
+                                                  "Критическая команда не дала ответ, тест остановлен",
+                                                  "",
+                                                  "",
+                                                  error],Color.Red)
                             print("Критическая команда не дала ответ, тест остановлен")
                             pds.stop()
                             azs.stop()
@@ -174,7 +197,7 @@ class T_hread(Thread,QWidget):
                                 command.answer = "Ответ от устройства получен"
                     else:
                         if not call_azdk_cmd(azs, command,timeout=global_timeout):
-                            command.answer = "Критическая команда не дала ответ, тест продолжается"
+                            command.answer += ", Критическая команда не дала ответ, тест продолжается"
                             print("Критическая команда не дала ответ, тест продолжается")
                         else:
                             if command.answer == b"":
@@ -184,12 +207,14 @@ class T_hread(Thread,QWidget):
                         time.sleep(1)
 
                     
+                    error  = (command.answer,command.error) if command.error else None
 
                     self.send_text.emit( [current_time,
                                           str(command.code),
                                          self.db.cmd(command.code)['name'],
                                          "AC",
-                                         self.db.answer_str(command) ],
+                                         self.db.answer_str(command),
+                                          error ],
                                          Color.Black)
                     
 
@@ -200,7 +225,7 @@ class T_hread(Thread,QWidget):
             pds.stop()
             azs.stop()
             self.logger.log("Конец испытаний.",True)
-            self.send_text.emit([current_time,"","","","Конец тестирования"],Color.Green)
+            self.send_text.emit([current_time,"","Конец тестирования","","",None],Color.Green)
             self.end_test.emit()
             if self.logger:
                 self.logger.close()

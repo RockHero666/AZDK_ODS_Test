@@ -1,0 +1,21 @@
+2023.13.07 19:15:59.032906; Старт испытаний.
+2023.13.07 19:15:59.035897; AzdkServerCommands; open socket [<enum 'AzdkServerCommands'>]
+2023.13.07 19:15:59.158595; AzdkServerCommands; Поименовать соединение [id=4], P0=AzdkOdsTestApp sent
+2023.13.07 19:15:59.329656; AzdkServerCommands; Поименовать соединение [id=4], P0=AzdkOdsTestApp answered
+2023.13.07 19:15:59.355646; PDSServerCommands; open socket [<enum 'PDSServerCommands'>]
+2023.13.07 19:15:59.453368; PDSServerCommands; Поименовать соединение [id=5], P0=AzdkOdsTestApp sent
+2023.13.07 19:15:59.662080; PDSServerCommands; Поименовать соединение [id=5], P0=AzdkOdsTestApp answered
+2023.13.07 19:15:59.717948; AzdkServerCommands; n1 [id=1], P0=azdk2309.test1, P1=7 sent
+2023.13.07 19:15:59.816055; AzdkServerCommands; n1 [id=1], P0=azdk2309.test1, P1=7 answered
+2023.13.07 19:15:59.858041; PDSServerCommands; Установить ориентацию (GCRS) [id=2], P0={ 1.000000,  0.500000,  0.000000,  1.000000} sent
+2023.13.07 19:15:59.945726; PDSServerCommands; Установить ориентацию (GCRS) [id=2], P0={ 1.000000,  0.500000,  0.000000,  1.000000}, Texec=2023-07-13 19:16:01.038000 answered
+2023.13.07 19:16:00.012867; PDSServerCommands; Установить угловую скорость (GCRS) [id=3], P0={  0.500000,   1.000000,   1.000000} sent
+2023.13.07 19:16:00.221906; PDSServerCommands; Установить угловую скорость (GCRS) [id=3], P0={  0.500000,   1.000000,   1.000000}, Texec=2023-07-13 19:16:01.193000 answered
+2023.13.07 19:16:00.260664; AzdkServerCommands; Отправка команды АЗДК-1 [id=6], P0=7, P1=0, P2=0, P3=107374182 sent
+2023.13.07 19:16:00.367904; AzdkServerCommands; Отправка команды АЗДК-1 [id=6], P0=7, P1=0, P2=0, P3=107374182, A0=7, A1='' answered
+2023.13.07 19:16:00.373073; AzdkServerCommands; request time: 0.11613160002161749
+2023.13.07 19:16:00.386041; AzdkServerCommands; Отправка команды АЗДК-1 [id=7], P0=18 sent
+2023.13.07 19:16:00.499111; AzdkServerCommands; request time: 0.12582290000864305
+2023.13.07 19:16:00.509749; PDSServerCommands; socket was closed
+2023.13.07 19:16:00.525767; AzdkServerCommands; socket was closed
+2023.13.07 19:16:00.525767; Конец испытаний.
