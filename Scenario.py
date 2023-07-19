@@ -28,7 +28,6 @@ class Scenario(QThread):
      all_commands = []
      commands = []
      
-
      def parse(self,xml_file=None):
         try:
             fl = open(xml_file, 'rt', encoding='UTF-8')
@@ -44,7 +43,6 @@ class Scenario(QThread):
         directory = os.path.dirname(current_file)
         db = AzdkDB(directory+'/AZDKHost.xml')
         branch_array = []
-        
 
         for root in tree.iterfind("scenario"):
              
@@ -114,8 +112,7 @@ class Scenario(QThread):
                         critical_cmd = True
                         if branch.get("critical") == "false" or branch.get("critical") == "False":
                             critical_cmd = False
-                        
-
+                    
                         code = int(branch.get("code"))
 
                         for leaf in branch.iterfind("par"):
@@ -142,19 +139,7 @@ class Scenario(QThread):
 
                         self.commands.append([cmd, critical_cmd])
              
-             
-                 
-
-             
-
-             
-
-           
-                 
-             
              self.all_commands.append(self.commands)
              self.commands = []
-
-        
 
         return True

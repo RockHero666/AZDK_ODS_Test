@@ -9,7 +9,6 @@ from Text_browser import Text_browser
 import os
 from pdfcreator import PDF_azdk_ods_test
 
-
 class TestApp(QMainWindow):
 
     def __init__(self):
@@ -65,12 +64,9 @@ class TestApp(QMainWindow):
         toolbar.addAction(stop_button)
         toolbar.addAction(log_button)
 
-        
-
         self.setGeometry(int(GetSystemMetrics(0)/2-650/2), int(GetSystemMetrics(1)/2-550/2), 650, 550)
         self.setWindowTitle('Исполнитель сценариев АЗДК и МЗД')
         self.show()
-
 
     def reconnect_widget(self): #привязка каждого нового сценария к логеру (из за потоков_)
         active_window = self.mdi.currentSubWindow()
@@ -103,6 +99,11 @@ class TestApp(QMainWindow):
             paragraph = ["Место проведения - Красная пресня", "Цель теста - тестирование программного обеспечения"]
             self.pdf_creator.create_pdf(str, header, paragraph)
 
+            active_window = self.mdi.currentSubWindow()
+            if active_window is not None:
+                widget = active_window.widget()
+                if isinstance(widget, Editor):
+                    widget.thread.logger.close()
 
     def connect_show(self):
         self.connect_widget.show()
@@ -127,14 +128,6 @@ class TestApp(QMainWindow):
 
     def closeEvent(self, event):
         QCoreApplication.quit()
-
-
-    
-
-              
-
-
-            
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

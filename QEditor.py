@@ -10,7 +10,6 @@ from PyQt5.QtGui import  QColor
 from File_logger import logger
 from azdk.pds_utils import Test
 from Text_browser import  Color
-from AzdkCommands import AzdkCommands
 from xml_creator import str_to_xml
 import datetime
 import time
@@ -68,6 +67,9 @@ class T_hread(Thread,QWidget):
         self.code_editor = code_editor
         self.scenario = scenario
         self.db = AzdkDB(self.directory + '/AZDKHost.xml')
+        self.azdk_name = "AZDK"
+        self.azdk_server_name = "AZDKServer"
+        self.pds_server_name = "PDSServer"
 
     def stop(self):
          self.running = False
@@ -82,10 +84,6 @@ class T_hread(Thread,QWidget):
          current_time += f".{mil_s:03}"
          
          self.send_text.emit([current_time,"","Тест был остановлен","","",None],Color.Red)
-
-
-    def rus(self,answer):
-        return str(answer)
 
     def run(self) -> None:
         
@@ -154,8 +152,8 @@ class T_hread(Thread,QWidget):
                     self.send_text.emit( [current_time,
                                           str(command.code),
                                          AzdkServerCommands.getdescr(command.code),
-                                         "ASC",
-                                         self.rus(answer) ,
+                                         self.azdk_server_name,
+                                         str(answer) ,
                                          error],
                                          Color.Black )
 
@@ -167,8 +165,8 @@ class T_hread(Thread,QWidget):
                     self.send_text.emit( [current_time,
                                           str(command.code),
                                          PDSServerCommands.getdescr(command.code),
-                                         "PSC",
-                                         self.rus(answer) ,
+                                         self.pds_server_name,
+                                         str(answer) ,
                                          error],
                                          Color.Black )
 
@@ -197,8 +195,8 @@ class T_hread(Thread,QWidget):
                                 command.answer = "Ответ от устройства получен"
                     else:
                         if not call_azdk_cmd(azs, command,timeout=global_timeout):
-                            command.answer += ", Критическая команда не дала ответ, тест продолжается"
-                            print("Критическая команда не дала ответ, тест продолжается")
+                            command.answer += ", Команда не дала ответ, тест продолжается"
+                            print("Команда не дала ответ, тест продолжается")
                         else:
                             if command.answer == b"":
                                 command.answer = "Ответ от устройства получен"
@@ -212,7 +210,7 @@ class T_hread(Thread,QWidget):
                     self.send_text.emit( [current_time,
                                           str(command.code),
                                          self.db.cmd(command.code)['name'],
-                                         "AC",
+                                         self.azdk_name,
                                          self.db.answer_str(command),
                                           error ],
                                          Color.Black)
@@ -227,7 +225,7 @@ class T_hread(Thread,QWidget):
             self.logger.log("Конец испытаний.",True)
             self.send_text.emit([current_time,"","Конец тестирования","","",None],Color.Green)
             self.end_test.emit()
-            if self.logger:
-                self.logger.close()
+            #if self.logger:
+            #   self.logger.close()
             self.scenario.all_commands.clear()
             self.running = True

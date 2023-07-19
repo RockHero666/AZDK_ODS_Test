@@ -777,6 +777,7 @@ class PDF_azdk_ods_test():
             self.font_size_header = 16
             self.cell_h = 10
             self.page_count = 1
+            self.filter = ["Начало тестирования","Конец тестирования"]
 
     def table_azdk_ods_test(self, data):
 
@@ -790,10 +791,12 @@ class PDF_azdk_ods_test():
         #for it, ln in enumerate(data):
         #   error.append(ln[5].split(" * "))
         #   data[it][5] = str(error[it][0])
+        find = []
         
+        data = [d for d, ok in zip(data, [any([x in self.filter for x in ln]) for ln in data]) if not ok]
 
-        
-        table_data = [['Время', 'Код', 'Команда', 'Устройство',"Результат"]]
+
+        table_data = [['Время', 'Код', 'Команда', 'Цель',"Результат"]]
        
         
         for parts in data:
@@ -814,7 +817,7 @@ class PDF_azdk_ods_test():
         for it, row in enumerate(data):
             self.pdf.set_x(self.pdf.l_margin + x_adjust)
             y = self.pdf.get_y() 
-            if y+10 >= 280 and self.page_count == self.pdf.page:
+            if y + self.cell_h >= 280 and self.page_count == self.pdf.page:
                 data.insert(it+1, data[0])
                 row = data[it]
                 self.page_count +=1

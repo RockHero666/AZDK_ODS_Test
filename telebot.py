@@ -19,14 +19,13 @@ class TeleBot:
         async with self.bot:
             await self.bot.send_message(text=msg, chat_id=chatid)
 
-    async def _sendfile(self, msg : str, chatid : int, filelog : str ):
+    async def _sendfile(self, msg : str, chatid : int, filelog : str, filename : str = 'logfile.txt'):
        async with self.bot:
-           await self.bot.send_document(chat_id=chatid, caption=msg, document=open(filelog, 'rb'), filename='logfile.txt')
+           await self.bot.send_document(chat_id=chatid, caption=msg, document=open(filelog, 'rb'), filename=filename)
 
-
-    def send_file(self,filelog,msg = None):
+    def send_file(self,filelog,msg = None,filename : str = None):
        for chat in self.chats:
-            asyncio.run(self._sendfile(msg, chat,filelog))
+            asyncio.run(self._sendfile(msg, chat, filelog, filename))
 
     def message(self, msg : str):
         if self.timestamp:

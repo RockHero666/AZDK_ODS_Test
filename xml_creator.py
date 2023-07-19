@@ -1,8 +1,7 @@
 
 import re
 import xml.etree.ElementTree as ET
-from azdk.azdksocket import PDSServerCommands, AzdkServerCommands
-from AzdkCommands import AzdkCommands , get_scenario_dict
+from AzdkCommands import  get_scenario_dict
 import xml.dom.minidom
 
 def parse_command_string(command_string):
@@ -13,7 +12,6 @@ def parse_command_string(command_string):
     
     # Извлекаем данные внутри фигурных скобок
     pattern = r"\{([^}]*)\}"  
-    
     
     matches = re.search(pattern, command_string)
     

@@ -3,7 +3,6 @@ from PyQt5.QtWidgets import QWidget,QTableWidgetItem
 from PyQt5.QtGui import QColor
 from PyQt5.QtCore import Qt
 import os
-import sys
 
 class Color():
 
@@ -22,29 +21,16 @@ class Text_browser(QWidget):
         uic.loadUi(directory + "/ui/Text_browser.ui", self)
 
         self.setWindowTitle('Log')
-        titles = ['Время', 'Код', 'Команда', "Устройство", "Ответ","Результат"]
+        titles = ['Время', 'Код', 'Команда', "Цель", "Ответ","Результат"]
         
         self.table.setRowCount(0)
         self.table.setColumnCount(len(titles))  
         self.table.setHorizontalHeaderLabels(titles) 
+        self.table.setColumnHidden(5,True)
         self.file = None
 
     def add_text(self, texts, color):
-        """
-        row_count = self.table.rowCount()
-        for row in range(row_count):
-            for col in range(6):  
-                item = self.table.item(row, col)
-                if item is None:
-                    for i in range(6): 
-                        item = QTableWidgetItem(texts[i]) 
-                        if i == 0 or i == 1:  
-                            item.setTextAlignment(Qt.AlignVCenter | Qt.AlignRight)  
-                        self.table.setItem(row, i, item) 
-                        self.table.item(row, i).setForeground(color)
-                        self.table.resizeColumnsToContents()
-                    return
-        """       
+        
         row_count = self.table.rowCount()
         self.table.insertRow(row_count)
         for i in range(self.table.columnCount()): 
@@ -60,6 +46,7 @@ class Text_browser(QWidget):
                     color = Color.Red 
 
             item = QTableWidgetItem(txt_temp) 
+            
             item.setToolTip(tool_tip)
             if i == 0 or i == 1:  
                 item.setTextAlignment(Qt.AlignVCenter | Qt.AlignRight) 
@@ -105,6 +92,3 @@ class Text_browser(QWidget):
                     row_items.append('')
             rows.append(row_items)
         return rows
-
-    
-       

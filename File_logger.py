@@ -7,6 +7,7 @@ class logger:
 
         self.telebot = TeleBot("5811298447:AAF0--61uBVvKgFvMeYs76fB1QjmhaihU-Y", -822387173)
         self.new_file = False
+        self.pdf_file = "test.pdf"
 
         if not filename:
             self.filename_update()
@@ -24,7 +25,7 @@ class logger:
     def close(self):
         self.new_file = True
         self.file.close()
-        #self.telebot.send_file(self.filename)
+        #self.telebot.send_file(self.pdf_file,filename= "report.pdf")
 
     def log(self, log, toBot = False):
 
