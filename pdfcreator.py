@@ -83,7 +83,7 @@ class Pdf(FPDF, HTMLMixin):
         self.print_timestamp = False
         self.logger = None
         self.organization = None
-        self.title = None
+        #self.title = None
 
     def _log(self, txt : str):
         if not self.verbose: return
@@ -773,73 +773,82 @@ class PDF_azdk_ods_test():
             self.pdf.add_font('FreeSerif', '', 'fonts/FreeSerif.ttf')
             self.pdf.add_font('FreeSerif', 'B', 'fonts/FreeSerifBold.ttf')
             self.db = AzdkDB("AZDKHost.xml")
+            self.font_size = 12
+            self.font_size_header = 16
+            self.cell_h = 10
+            self.page_count = 1
 
     def table_azdk_ods_test(self, data):
 
         self.pdf.ln(15)
-        self.pdf.set_font('FreeSerif', '', 12)
+        self.pdf.set_font('FreeSerif', '', self.font_size)
 
-        error = []
-        for it, ln in enumerate(data):
-           error.append(ln[5].split(" * "))
-           data[it][5] = str(error[it][0])
+        
+        #data.insert(0,table_data)
+        
+        #error = []
+        #for it, ln in enumerate(data):
+        #   error.append(ln[5].split(" * "))
+        #   data[it][5] = str(error[it][0])
         
 
         
-
         table_data = [['Время', 'Код', 'Команда', 'Устройство',"Результат"]]
+       
+        
         for parts in data:
             if len(parts) == 6:
                 table_data.append([self.pdf.normalize_text(part) for part in parts[0:4] + [parts[5]]])
         data = table_data
-
-        
-
 
         a=np.array([([self.pdf.get_string_width(str(x)) for x in ln]) for ln in table_data])
         col_widths = a.max(axis = 0) + 3
         
         x_adjust = (self.pdf.epw - sum(col_widths)) / 2
 
-
-        
-        self.pdf.set_x(self.pdf.l_margin + x_adjust)
-       
         #self.pdf.ink_annotation([(10, 20), (20, 10), (30, 20), (20, 30), (10, 20)],
                    #title="Lucas", contents="Hello world!")
+
+
         
         for it, row in enumerate(data):
             self.pdf.set_x(self.pdf.l_margin + x_adjust)
             y = self.pdf.get_y() 
+            if y+10 >= 280 and self.page_count == self.pdf.page:
+                data.insert(it+1, data[0])
+                row = data[it]
+                self.page_count +=1
+                #error.insert(it-1 , '')
+
             for i in range(len(row)):
  
                 
 
                 if i == 1 and it != 0:
-                    self.pdf.cell(col_widths[i], 10, str(row[i]), border=1,align="R")
-                elif i != 4 or it == 0:
-                    self.pdf.cell(col_widths[i], 10, str(row[i]), border=1)
+                    self.pdf.cell(col_widths[i], self.cell_h, str(row[i]), border=1,align="R")
                 else:
-                    if error[it-1][0] == "OK":
-                        self.pdf.cell(col_widths[i], 10, str(error[it-1][0]), border=1)
-                    else:
-                        self.pdf.cell(col_widths[i], 10, "Err = " + str(error[it-1][0]), border=1)
+                    self.pdf.cell(col_widths[i], self.cell_h, str(row[i]), border=1)
+                #else:
+                    #if error[it-1][0] == "OK" or error[it-1][0] == '' :
+                        #self.pdf.cell(col_widths[i], 10, str(error[it-1][0]), border=1)
+                    #else:
+                        #self.pdf.cell(col_widths[i], 10, "Err = " + str(error[it-1][0]), border=1)
 
-
+                '''
                 if row[4] != "OK" and it != 0 and i == 0:
                      
                      x = self.pdf.l_margin + x_adjust
                      x += sum(col_widths) - col_widths[4]
                      self.pdf.ink_annotation([ (x,y), (x+col_widths[4],y), (x+col_widths[4],y+10), (x,y+10), (x,y) ],
                                 title="Error",contents=f"{error[it-1][1]}",color=(0,0,0),border_width=0)
-
+                '''
 
 
             self.pdf.ln()
 
     def add_header(self, text):
-        self.pdf.set_font('FreeSerif', 'B', 16)
-        self.pdf.cell(0, 10, text, 0, align= 'C')
+        self.pdf.set_font('FreeSerif', 'B', self.font_size_header)
+        self.pdf.cell(0, self.cell_h, text, 0, align= 'C')
         self.pdf.ln(20)
 
     def create_pdf(self, data, header_text='', paragraph = ""):
@@ -853,6 +862,10 @@ class PDF_azdk_ods_test():
 
 if __name__ == "__main__":
    
+
+    s = FPDF()
+    s.set_t
+
     pdf = PDF_azdk_ods_test()
 
     text = [

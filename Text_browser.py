@@ -56,7 +56,7 @@ class Text_browser(QWidget):
                     color = Color.Green
                 else:
                     tool_tip =  txt_temp[0]
-                    txt_temp = str(txt_temp[1]) +" * "+ str(txt_temp[0])
+                    txt_temp = str(txt_temp[1]) 
                     color = Color.Red 
 
             item = QTableWidgetItem(txt_temp) 

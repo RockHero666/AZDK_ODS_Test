@@ -1,0 +1,58 @@
+2023.19.07 16:48:47.835892; Старт испытаний.
+2023.19.07 16:48:47.844179; AzdkServerCommands; open socket [<enum 'AzdkServerCommands'>]
+2023.19.07 16:48:47.961643; AzdkServerCommands; Поименовать соединение [id=46], P0=AzdkOdsTestApp, Flags =  00000000 00000000 sent
+2023.19.07 16:48:48.134962; AzdkServerCommands; Поименовать соединение [id=46], P0=AzdkOdsTestApp, Flags =  00000000 00001000 answered
+2023.19.07 16:48:48.157930; PDSServerCommands; open socket [<enum 'PDSServerCommands'>]
+2023.19.07 16:48:48.273453; PDSServerCommands; Поименовать соединение [id=47], P0=AzdkOdsTestApp, Flags =  00000000 00000000 sent
+2023.19.07 16:48:48.467601; PDSServerCommands; Поименовать соединение [id=47], P0=AzdkOdsTestApp, Flags =  00000000 00001000 answered
+2023.19.07 16:48:48.522585; AzdkServerCommands; n1 [id=43], P0=azdk2309.test1, P1=7, Flags =  00000000 00000000 sent
+2023.19.07 16:48:48.613779; AzdkServerCommands; n1 [id=43], P0=azdk2309.test1, P1=7, Flags =  00000000 00000000 answered
+2023.19.07 16:48:48.677602; PDSServerCommands; angle [id=44], P0={  0.000000,   0.000000,   0.000000}, Flags =  00000000 00000000 sent
+2023.19.07 16:48:48.765821; PDSServerCommands; angle [id=44], P0={  0.000000,   0.000000,   0.000000}, Texec=2023-07-19 16:48:48.370000, Flags =  00000000 00001000 answered
+2023.19.07 16:48:48.819323; PDSServerCommands; n3 [id=45], P0={ 0.500000,  0.500000,  0.500000,  0.500000}, Flags =  00000000 00000000 sent
+2023.19.07 16:48:48.908140; PDSServerCommands; n3 [id=45], P0={ 0.500000,  0.500000,  0.500000,  0.500000}, Texec=2023-07-19 16:48:48.512000, Flags =  00000000 00001000 answered
+2023.19.07 16:48:48.972169; AzdkServerCommands; Отправка команды АЗДК-1 [id=48], P0=3, P1=0, P2=0, P3=0, Flags =  00000000 00000000 sent
+2023.19.07 16:48:49.068075; AzdkServerCommands; Отправка команды АЗДК-1 [id=48], P0=3, P1=0, P2=0, P3=0, A0=3, A1='', Flags =  00000000 00000000 answered
+2023.19.07 16:48:49.071837; AzdkServerCommands; request time: 0.10445120000804309
+2023.19.07 16:48:49.080824; AzdkServerCommands; Отправка команды АЗДК-1 [id=49], P0=4, P1=0, P2=0, Flags =  00000000 00000000 sent
+2023.19.07 16:48:49.179692; AzdkServerCommands; Отправка команды АЗДК-1 [id=49], P0=4, P1=0, P2=0, A0=4, A1=неверный номер регистра, A2=248, Flags =  00000000 00000001 answered
+2023.19.07 16:48:49.188652; AzdkServerCommands; request time: 0.11628380000183824
+2023.19.07 16:48:49.203333; AzdkServerCommands; Отправка команды АЗДК-1 [id=50], P0=5, P1=0, P2=0, Flags =  00000000 00000000 sent
+2023.19.07 16:48:49.440586; AzdkServerCommands; request time: 0.2513545999972848
+2023.19.07 16:48:49.452014; AzdkServerCommands; Отправка команды АЗДК-1 [id=51], P0=32, P1=0, P2=0, P3=0, P4=0, Flags =  00000000 00000000 sent
+2023.19.07 16:48:49.544764; AzdkServerCommands; Отправка команды АЗДК-1 [id=51], P0=32, P1=0, P2=0, P3=0, P4=0, A0=32, A1='00 00', Flags =  00000000 00000000 answered
+2023.19.07 16:48:49.547754; AzdkServerCommands; request time: 0.10665919999883045
+2023.19.07 16:48:49.559722; AzdkServerCommands; Отправка команды АЗДК-1 [id=52], P0=6, P1=0, P2=0, P3=0, Flags =  00000000 00000000 sent
+2023.19.07 16:48:49.657116; AzdkServerCommands; Отправка команды АЗДК-1 [id=52], P0=6, P1=0, P2=0, P3=0, A0=6, A1='', Flags =  00000000 00000000 answered
+2023.19.07 16:48:49.665630; AzdkServerCommands; request time: 0.11741540000366513
+2023.19.07 16:48:49.674602; AzdkServerCommands; Отправка команды АЗДК-1 [id=53], P0=7, P1=0, P2=0, P3=0, Flags =  00000000 00000000 sent
+2023.19.07 16:48:49.897836; AzdkServerCommands; request time: 0.23078530000930186
+2023.19.07 16:48:49.915922; AzdkServerCommands; Отправка команды АЗДК-1 [id=54], P0=8, P1=0, Flags =  00000000 00000000 sent
+2023.19.07 16:48:50.006333; AzdkServerCommands; Отправка команды АЗДК-1 [id=54], P0=8, P1=0, A0=8, A1='', Flags =  00000000 00000000 answered
+2023.19.07 16:48:50.007296; AzdkServerCommands; request time: 0.10782030000700615
+2023.19.07 16:48:50.024525; AzdkServerCommands; Отправка команды АЗДК-1 [id=55], P0=9, P1=0, P2=0, P3=0, P4=0, Flags =  00000000 00000000 sent
+2023.19.07 16:48:50.143279; AzdkServerCommands; request time: 0.13565319999179337
+2023.19.07 16:48:50.150340; AzdkServerCommands; Отправка команды АЗДК-1 [id=56], P0=10, P1=0, Flags =  00000000 00000000 sent
+2023.19.07 16:48:50.383371; AzdkServerCommands; request time: 0.23959300000569783
+2023.19.07 16:48:50.396703; AzdkServerCommands; Отправка команды АЗДК-1 [id=57], P0=11, P1=0, P2=0, P3=0, P4=0, P5=0, P6=0, P7=0, P8=0, P9=0, P10=0, P11=0, P12=0, P13=0, P14=0, P15=0, P16=0, Flags =  00000000 00000000 sent
+2023.19.07 16:48:50.501843; AzdkServerCommands; Отправка команды АЗДК-1 [id=57], P0=11, P1=0, P2=0, P3=0, P4=0, P5=0, P6=0, P7=0, P8=0, P9=0, P10=0, P11=0, P12=0, P13=0, P14=0, P15=0, P16=0, A0=11, A1='', Flags =  00000000 00000000 answered
+2023.19.07 16:48:50.510658; AzdkServerCommands; request time: 0.12673889999859966
+2023.19.07 16:48:50.521645; AzdkServerCommands; Отправка команды АЗДК-1 [id=58], P0=13, P1=0, P2=0, P3=0, P4=0, Flags =  00000000 00000000 sent
+2023.19.07 16:48:50.612772; AzdkServerCommands; Отправка команды АЗДК-1 [id=58], P0=13, P1=0, P2=0, P3=0, P4=0, A0=13, A1='', Flags =  00000000 00000000 answered
+2023.19.07 16:48:50.616767; AzdkServerCommands; request time: 0.10566780000226572
+2023.19.07 16:48:50.629862; AzdkServerCommands; Отправка команды АЗДК-1 [id=59], P0=16, Flags =  00000000 00000000 sent
+2023.19.07 16:48:50.726384; AzdkServerCommands; Отправка команды АЗДК-1 [id=59], P0=16, A0=16, A1='14 00 00 00 0d 88 00 c1 03 00 00 00 a4 0e 4f 01', Flags =  00000000 00000000 answered
+2023.19.07 16:48:50.734383; AzdkServerCommands; request time: 0.11715079999703448
+2023.19.07 16:48:50.740498; AzdkServerCommands; Отправка команды АЗДК-1 [id=60], P0=17, P1=0, Flags =  00000000 00000000 sent
+2023.19.07 16:48:50.967830; AzdkServerCommands; request time: 0.23216519999550655
+2023.19.07 16:48:50.988931; AzdkServerCommands; Отправка команды АЗДК-1 [id=61], P0=18, Flags =  00000000 00000000 sent
+2023.19.07 16:48:51.096833; AzdkServerCommands; Отправка команды АЗДК-1 [id=61], P0=18, A0=18, A1='00 00 00 00 00 00 00 00 00 00 00 00 14 76 6c 03 c7 00 e7 07', Flags =  00000000 00000000 answered
+2023.19.07 16:48:51.106211; AzdkServerCommands; request time: 0.1365947000012966
+2023.19.07 16:48:51.115241; AzdkServerCommands; Отправка команды АЗДК-1 [id=62], P0=19, Flags =  00000000 00000000 sent
+2023.19.07 16:48:51.219392; AzdkServerCommands; Отправка команды АЗДК-1 [id=62], P0=19, A0=19, A1='00 00 00 00 00 00 00 00 00 00 00 00 93 ea 10 2a c7 00 e7 07', Flags =  00000000 00000000 answered
+2023.19.07 16:48:51.224423; AzdkServerCommands; request time: 0.11777620000066236
+2023.19.07 16:48:51.238893; AzdkServerCommands; Отправка команды АЗДК-1 [id=63], P0=70, Flags =  00000000 00000000 sent
+2023.19.07 16:48:51.467679; AzdkServerCommands; request time: 0.24184679999598302
+2023.19.07 16:48:51.475620; PDSServerCommands; socket was closed
+2023.19.07 16:48:51.489528; AzdkServerCommands; socket was closed
+2023.19.07 16:48:51.490523; Конец испытаний.

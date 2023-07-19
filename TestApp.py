@@ -97,6 +97,7 @@ class TestApp(QMainWindow):
             self.pdf_creator = PDF_azdk_ods_test()
             
             self.text_browser.to_html()
+            self.pdf_creator.pdf.set_title("")
             str = self.text_browser.to_str()
             header = "Отчет о тестировании АЗДК и ОДС"
             paragraph = ["Место проведения - Красная пресня", "Цель теста - тестирование программного обеспечения"]
