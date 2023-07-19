@@ -783,22 +783,11 @@ class PDF_azdk_ods_test():
 
         self.pdf.ln(15)
         self.pdf.set_font('FreeSerif', '', self.font_size)
-
-        
-        #data.insert(0,table_data)
-        
-        #error = []
-        #for it, ln in enumerate(data):
-        #   error.append(ln[5].split(" * "))
-        #   data[it][5] = str(error[it][0])
-        find = []
         
         data = [d for d, ok in zip(data, [any([x in self.filter for x in ln]) for ln in data]) if not ok]
 
-
         table_data = [['Время', 'Код', 'Команда', 'Цель',"Результат"]]
        
-        
         for parts in data:
             if len(parts) == 6:
                 table_data.append([self.pdf.normalize_text(part) for part in parts[0:4] + [parts[5]]])
@@ -809,11 +798,6 @@ class PDF_azdk_ods_test():
         
         x_adjust = (self.pdf.epw - sum(col_widths)) / 2
 
-        #self.pdf.ink_annotation([(10, 20), (20, 10), (30, 20), (20, 30), (10, 20)],
-                   #title="Lucas", contents="Hello world!")
-
-
-        
         for it, row in enumerate(data):
             self.pdf.set_x(self.pdf.l_margin + x_adjust)
             y = self.pdf.get_y() 
@@ -821,12 +805,9 @@ class PDF_azdk_ods_test():
                 data.insert(it+1, data[0])
                 row = data[it]
                 self.page_count +=1
-                #error.insert(it-1 , '')
 
             for i in range(len(row)):
  
-                
-
                 if i == 1 and it != 0:
                     self.pdf.cell(col_widths[i], self.cell_h, str(row[i]), border=1,align="R")
                 else:
@@ -834,19 +815,7 @@ class PDF_azdk_ods_test():
                 #else:
                     #if error[it-1][0] == "OK" or error[it-1][0] == '' :
                         #self.pdf.cell(col_widths[i], 10, str(error[it-1][0]), border=1)
-                    #else:
-                        #self.pdf.cell(col_widths[i], 10, "Err = " + str(error[it-1][0]), border=1)
-
-                '''
-                if row[4] != "OK" and it != 0 and i == 0:
-                     
-                     x = self.pdf.l_margin + x_adjust
-                     x += sum(col_widths) - col_widths[4]
-                     self.pdf.ink_annotation([ (x,y), (x+col_widths[4],y), (x+col_widths[4],y+10), (x,y+10), (x,y) ],
-                                title="Error",contents=f"{error[it-1][1]}",color=(0,0,0),border_width=0)
-                '''
-
-
+                    
             self.pdf.ln()
 
     def add_header(self, text):
@@ -862,12 +831,9 @@ class PDF_azdk_ods_test():
         self.table_azdk_ods_test(data)
         self.pdf.output('test.pdf')
 
-
 if __name__ == "__main__":
    
-
     s = FPDF()
-    s.set_t
 
     pdf = PDF_azdk_ods_test()
 
@@ -892,6 +858,5 @@ if __name__ == "__main__":
     ['15:59:14', '18', 'Чтение угл.скор.', 'AC', ''],
     ['15:59:14', ' ','Конец тестирования',  '', ''],
 ]
-
 
     pdf.create_pdf(text,"Отчет о тестировании АЗДК и ОДС","БЛАБЛАБАЛАБАЛАБАЛАБАЛАБАЛАБАЛАБАЛАБАЛАБАЛАБАЛАБАЛАБАЛАБАЛАБАЛ")

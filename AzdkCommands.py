@@ -1,4 +1,3 @@
-import os
 from enum import Enum
 from azdk.azdksocket import AzdkServerCommands, PDSServerCommands
 from azdk.azdkdb import AzdkDB

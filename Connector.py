@@ -29,7 +29,6 @@ class Connector(QWidget):
         self.port_ods.setValue(int(self.settings.value('Port_ods')))
         self.indicator.setPixmap(QPixmap("resource/indicator_def.png"))
 
-
      def connect_to_server(self):
 
         azs = AzdkSocket(self.ip_azdk.text(), int(self.port_azdk.text()), AzdkServerCommands)

@@ -1,4 +1,0 @@
-2023.29.06 13:49:14.185381; Старт испытаний.
-2023.29.06 13:49:14.190384; AzdkServerCommands; open socket [<enum 'AzdkServerCommands'>]
-2023.29.06 13:49:15.211414; AzdkServerCommands; Error: cannot connect to server ('25.21.118.38', 56001)
-2023.29.06 13:49:15.291201; Ошибка подключения AzdkServer
