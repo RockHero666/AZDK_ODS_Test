@@ -1,28 +1,7 @@
 <?xml version="1.0" ?>
 <scenariofile>
 	<scenario>
-		<azdkservercmd descr="Изменение шаблона имени файла журнала" code="22" timeout="3.1" critical="true">
-			<par>azdk2333.test1</par>
-			<par>7</par>
-		</azdkservercmd>
-		<azdkcmd descr="Режим автономной работы" code="49" timeout="3.1" critical="true">
-			<none>none</none>
-		</azdkcmd>
-		<pdscmd descr="Установить ориентацию (GCRS)" code="6" timeout="3.1" critical="true">
-			<par>1, 0, 0, 1</par>
-		</pdscmd>
-		<pdscmd descr="Установить угловую скорость (GCRS)" code="10" timeout="3.1" critical="false">
-			<par>0.5, 1, 1</par>
-		</pdscmd>
-		<azdkcmd descr="Установка угл.скор." code="7" timeout="3.1" critical="false">
-			<par>1</par>
-			<par>1</par>
-			<par>1</par>
-		</azdkcmd>
-		<azdkcmd descr="Режим ожидания" code="48" timeout="3.1" critical="true">
-			<none>none</none>
-		</azdkcmd>
-		<azdkcmd descr="Чтение угл.скор." code="18" timeout="3.1" critical="true">
+		<azdkcmd descr="Рестарт процессора" code="1" timeout="3.1" critical="true">
 			<none>none</none>
 		</azdkcmd>
 	</scenario>

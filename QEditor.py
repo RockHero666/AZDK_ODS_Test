@@ -29,9 +29,6 @@ class Editor(QWidget):
         self.setWindowTitle('Редактор сценария')
         self.thread = None
 
-     def update_scenario(self):
-         pass # код для работы с псевдокодом в виджете и проброса в ран
-
      def start(self):
         self.thread = T_hread(self.scenario, self.connect_AZDK, self.connect_ODS,self.code_editor)
         self.thread.setName("Scenario")
@@ -89,7 +86,7 @@ class T_hread(Thread,QWidget):
         
         psevdocode = self.code_editor.toPlainText()
         xml_file = self.directory +"/test2.xml"
-        global_timeout = 500
+        global_timeout = 5
 
         self.logger.log("Старт испытаний.",True)
 
